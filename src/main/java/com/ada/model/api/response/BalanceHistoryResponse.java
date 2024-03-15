@@ -1,0 +1,1 @@
+package com.ada.model.api.response;import com.ada.web.service.chonsoApi.ChonsoApiBaseResponse;public class BalanceHistoryResponse extends ChonsoApiBaseResponse {    private BalanceHisRes data;    public BalanceHisRes getData() {        return data;    }    public void setData(BalanceHisRes data) {        this.data = data;    }}

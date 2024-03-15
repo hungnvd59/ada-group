@@ -1,0 +1,1 @@
+package com.ada.model.view;import java.util.Date;public class AffPartnerRequestUpdate {    private Long id;    private String partnerNane;    private Long identityType;    private String idNumber;    private Date identityDate;    private String identityPlace;    private String address;}
