@@ -1,5 +1,6 @@
 package com.ada.model;
 
+import lombok.Getter;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
@@ -22,36 +23,46 @@ public class User implements Serializable, UserDetails {
     @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "ADM_USERS_SEQ")
     @Column(name = "ID", unique = true, nullable = false)
     private Long id;
-
-//    @NotNull
-//    @NotEmpty
-    @Column(name = "USER_NAME", nullable = false, unique = true)
+    @Column(name = "USERNAME", nullable = false, unique = true)
     private String username;
-
-//    @NotNull
-//    @NotEmpty
     @Column(name = "PASSWORD", nullable = false, length = 100)
     private String password;
-
-//    @NotNull
-//    @NotEmpty
-    @Column(name = "FULL_NAME", nullable = false, length = 100)
+    @Column(name = "FULLNAME", nullable = false, length = 100)
     private String fullName;
-
+    @Getter
+    @Column(name = "PHONE", nullable = false, length = 10)
+    private String phone;
+    @Getter
+    @Column(name = "EMAIL", nullable = false, length = 100)
+    private String email;
     @Column(name = "DESCRIPTION", length = 200)
     private String description;
-
+    @Getter
+    @Column(name = "ID_WARD")
+    private Long idWard;
+    @Getter
+    @Column(name = "ID_DISTRICT")
+    private Long idDistrict;
+    @Getter
+    @Column(name = "ID_PROVINCE")
+    private Long idProvince;
     @Column(name = "LAST_ACCESS_TIME")
     private Date lastAccessTime;
-
+    @Getter
+    @Column(name = "ADDRESS")
+    private String address;
     @Column(name = "STATUS")
     private int status;
-
     @Column(name = "GEN_DATE")
     private Date genDate;
-
     @Column(name = "LAST_UPDATED")
     private Date lastUpdated;
+    @Getter
+    @Column(name = "TYPE")
+    private Long type;
+    @Getter
+    @Column(name = "LAST_PWD_CHANGE_DATE")
+    private Date lastPwdChange;
 
     private transient List<GrantedAuthority> grantedAuths;
 
@@ -162,4 +173,35 @@ public class User implements Serializable, UserDetails {
         this.lastUpdated = lastUpdated;
     }
 
+    public void setPhone(String phone) {
+        this.phone = phone;
+    }
+
+    public void setEmail(String email) {
+        this.email = email;
+    }
+
+    public void setIdWard(Long idWard) {
+        this.idWard = idWard;
+    }
+
+    public void setIdDistrict(Long idDistrict) {
+        this.idDistrict = idDistrict;
+    }
+
+    public void setIdProvince(Long idProvince) {
+        this.idProvince = idProvince;
+    }
+
+    public void setAddress(String address) {
+        this.address = address;
+    }
+
+    public void setType(Long type) {
+        this.type = type;
+    }
+
+    public void setLastPwdChange(Date lastPwdChange) {
+        this.lastPwdChange = lastPwdChange;
+    }
 }
