@@ -4,252 +4,204 @@
 <%@ taglib uri="http://tiles.apache.org/tags-tiles" prefix="tiles" %>
 <%@ taglib prefix="sec" uri="http://www.springframework.org/security/tags" %>
 <%@ taglib prefix="spring" uri="http://www.springframework.org/tags" %>
-<%--<script  type="text/javascript">--%>
-<%--$("#response-status").show();--%>
-<%--setTimeout(function() { $("#response-status").hide(); }, 3000);--%>
-<%--</script>--%>
-<script src="<%=request.getContextPath()%>/assets/js/bootstrap-filestyle.min.js"></script>
+
+<script src="<%=request.getContextPath()%>/assets/js/bootstra1p-filestyle.min.js"></script>
 <script src="<%=request.getContextPath()%>/assets/js/moment-with-locales.js"></script>
-<script src="<%=request.getContextPath()%>/assets/project/parameter/list.js"></script>
+<script src="<%=request.getContextPath()%>/assets/project/system/parameter/index.js"></script>
+<link rel="stylesheet" href="<%=request.getContextPath()%>/assets/note/css/common.css" type="text/css"/>
 <style>
-    .btn-secondary {
-        background-color: gray;
-        color: white;
+    .error {
+        color: red;
+        padding-top: 5px;
+        font-size: 12px;
+        display: none;
     }
 </style>
 
-<section style="color: #1F2937;" id="content" ng-app="FrameworkBase" ng-controller="frameworkCtrl">
+<section style="color: #1F2937;" id="content" ng-app="ADAGROUP" ng-controller="systemParametersCtrl">
     <section class="vbox">
-        <section class="scrollable padder" style="background: white">
-            <ul class="bg-white breadcrumb no-border no-radius b-b b-light pull-in">
-                <li><a href="<%=request.getContextPath()%>/"><i class="fa fa-home"></i>&nbsp;<spring:message
-                        code="label.system.home"/></a></li>
-                <li><a href="#"><spring:message code="label.system"/></a></li>
-                <li><a href="javascript:void(0)"><spring:message code="label.system.parameter"/></a></li>
+        <section class="scrollable padder" style="background: #f4f4f4">
+            <ul class="bg-white breadcrumb no-border no-radius b-b b-light pull-in breadcrumb-common">
+                <li>Quản trị hệ thống</li>
+                <li>Tham số hệ thống</li>
+
             </ul>
-            <div class="m-b-md">
-                <h3 class="m-b-none" id="response-status" style="color: #009900">
-                    <c:if test="${success.length()>0}"><span style="color:red"><spring:message code="${success}"/>
-                </c:if>
-                    <c:if test="${messageError.length()>0}"><span style="color:red"><spring:message
-                            code="${messageError}"/></span></c:if>
-                </h3>
-            </div>
-
-            <section class="panel panel-default" style="border-radius: 20px;">
+            <section class="panel panel-default" style="border-radius: 16px;">
                 <div class="panel-body">
-                    <form cssClass="form-inline padder" action="list" role="form" theme="simple">
-
-                        <div class="form-group">
-                            <div class="col-md-6">
-                                <div class="col-sm-8">
-                                    <input style="border-radius: 10px;" name="paramKey" ng-model="paramKey"
-                                           my-enter="search()"
-                                           placeholder="<spring:message code='label.system.parameter.key'/>"
-                                           maxlength="50" class="form-control"/>
-                                </div>
-                                <div class="col-sm-4"><a style="border-radius: 10px;" ng-click="search()"
-                                                         class="btn btn-secondary"><i class="fa fa-search"></i>
-                                    <spring:message code="label.button.search"/></a></div>
+                    <form Class="form-horizontal" role="form" theme="simple">
+                        <div class="row" style="margin-top: 0px;margin-right: 10%;">
+                            <div class="col-md-4 text-right">
+                                <label style="font-weight: bold;" class="control-label color-label left-search">Mã tham
+                                    số</label>
+                            </div>
+                            <div class="col-md-4">
+                                <input style="border-radius: 10px" name="paramKey" ng-model="paramKey"
+                                       maxlength="100"
+                                       my-enter="search()"
+                                       placeholder="Mã tham số" maxlength="100" class="form-control"/>
+                            </div>
+                            <div class="col-md-4">
+                                <button ng-click="clean()" class="btn btn-info btn-clear-common">Xóa điều kiện
+                                </button>
+                                <button ng-click="search()" class="btn btn-info btn-search-common">Tìm kiếm</button>
                             </div>
                         </div>
-                        <div class="line line-dashed line-lg pull-in" style="clear:both ;border-top:0px"></div>
-
                     </form>
                 </div>
             </section>
-            <div class="row">
-                <div class="col-sm-12 no-padder" style="padding-bottom: 10px !important;margin-left: 20px;">
-                    <button style="border-radius: 10px; color: #0c63e4; border-color: #0c63e4;" type="button"
-                            class="btn custom-width" data-toggle="modal" data-target="#updateParamModal"
-                            ng-click="onAddParam();"><i class="fa fa-plus"></i> <spring:message code="label.button.add"/>
-                    </button>
-                </div>
-            </div>
-
             <section class="panel panel-default" style="border-radius: 20px;">
-                <div class="table-responsive table-overflow-x-fix">
-                    <table id="tblGroup" class="table table-striped table-bordered m-b-none b-light">
-                    <thead>
-                    <tr>
-                        <th style="border-top-left-radius: 20px" class="box-shadow-inner small_col text-center">#</th>
-                        <th class="box-shadow-inner small_col text-center"><spring:message
-                                code="label.system.parameter.key"/></th>
-                        <th class="box-shadow-inner small_col text-center"><spring:message
-                                code="label.system.parameter.value"/></th>
-                        <th class="box-shadow-inner small_col text-center"><spring:message
-                                code="label.system.parameter.description"/></th>
-                        <th class="box-shadow-inner small_col text-center"><spring:message
-                                code="label.system.parameter.timeCreate"/></th>
-                        <th class="box-shadow-inner small_col text-center"><spring:message
-                                code="label.system.parameter.timeModify"/></th>
-                        <sec:authorize access="hasRole('ROLE_SYSTEM_PARAMETER_UPDATE')">
-                            <th style="border-top-right-radius: 20px" colspan="2" class="box-shadow-inner small_col text-center">Thao tác</th>
-                        </sec:authorize>
-                    </tr>
-                    </thead>
-                    <tbody>
-                    <tr ng-repeat="item in listData.items track by $index">
-                        <td class="align-center">{{(listData.pageNumber - 1) * listData.numberPerPage + $index + 1}}</td>
-                        <td class="align-center">{{item[1]}}</td>
-                        <td class="align-center">{{item[2]}}</td>
-                        <td class="align-center"> {{item[3]}}</td>
-                        <td class="align-center">{{item[4] | date:'dd/MM/yyyy HH:mm:ss'}}</td>
-                        <td class="align-center">{{item[5] | date:'dd/MM/yyyy HH:mm:ss'}}</td>
-                        <sec:authorize access="hasRole('ROLE_SYSTEM_PARAMETER_UPDATE')">
-                            <td>
-                                <button style="border-radius: 10px; color: #0c63e4; border-color: #0c63e4;"
-                                        type="button" data-toggle="modal" data-target="#updateParamModal" class="btn"
-                                        ng-click="onEditParam(item);"><i class="fa fa-edit"></i> <spring:message
-                                        code="label.button.edit"/></button>
+                <div class="table-responsive table-overflow-x-fix" style="overflow-x: scroll;">
+                    <table class="table b-t b-light table-bordered table-hover" style="margin-bottom: 0px;">
+                        <thead class="bg-gray">
+                        <tr style="background-color: #172B4D">
+                            <th class="text-center v-inherit text-white"
+                                style="vertical-align: middle;">STT
+                            </th>
+                            <sec:authorize access="hasAnyRole('ROLE_SYSTEM_PARAMETERS_EDIT')">
+                                <th class="text-center v-inherit text-white"
+                                    style="vertical-align: middle;min-width: 130px;">Thao tác
+                                </th>
+                            </sec:authorize>
+                            <th class="v-inherit text-white" style="vertical-align: middle;">
+                                Mã tham số
+                            </th>
+                            <th class="v-inherit text-white" style="vertical-align: middle;">
+                                Giá trị mặc định
+                            </th>
+                            <th class="v-inherit text-white" style="vertical-align: middle;">
+                                Giá trị
+                            </th>
+                            <th class="v-inherit text-white" style="vertical-align: middle;">Mô tả
+                            </th>
+                            <th class="v-inherit text-white"
+                                style="vertical-align: middle;">
+                                Ngày cập nhật
+                            </th>
+                        </tr>
+                        </thead>
+                        <tbody>
+                        <tr ng-repeat="item in listData.items track by $index">
+                            <td style="vertical-align: middle;" class="text-center v-inherit">
+                                {{(listData.pageNumber - 1) * listData.numberPerPage + $index + 1}}
                             </td>
-                            <td>
-                                <button style="border-radius: 10px; color: #282424; border-color: #282424;"
-                                        type="button" class="btn" data-toggle="modal" data-target="#deleteParamModal"
-                                        ng-click="onDeleteParam(item[0]);"><i class="fa fa-times"></i> <spring:message
-                                        code="label.button.delete"/></button>
+                            <sec:authorize access="hasAnyRole('ROLE_SYSTEM_PARAMETERS_EDIT')">
+                                <td style="vertical-align: middle;text-align: center" class="text-left v-inherit">
+                                    <img ng-click="showDetail(item)" title="Sửa"
+                                         src="<%=request.getContextPath()%>/assets/image/icon/brush.png"
+                                         style="cursor: pointer;">
+                                </td>
+                            </sec:authorize>
+                            <td style="vertical-align: middle;" class="text-left v-inherit">{{item.key}}</td>
+                            <td style="vertical-align: middle;" class="text-left v-inherit">{{item.defaultValue}}</td>
+                            <td style="vertical-align: middle;" class="text-left v-inherit">{{item.value}}</td>
+                            <td style="vertical-align: middle;" class="text-left v-inherit">{{item.description}}</td>
+                            <td style="vertical-align: middle;" class="text-left v-inherit">
+                                {{item.lastUpdate == null ? '-' : item.lastUpdate | date:'dd/MM/yyyy HH:mm:ss'}}
                             </td>
-                        </sec:authorize>
-                    </tr>
-                    <tr>
-                        <td colspan="12" ng-if="listData.rowCount==0" class="text-center">Không có dữ liệu</td>
-                    </tr>
-
-                    </tbody>
-                </table>
-            </div>
-            </section>
-            <footer class="panel-footer">
-                <div class="row">
-                    <div class="col-sm-12 text-right text-center-xs">
-                        <div class="col-sm-6 text-left">
-                            <span>Tổng số <code>{{listData.rowCount | currency:"":0}}</code> bản ghi</span>
-                            <label class="input-sm"><span>Hiển thị: </span></label>
-                            <select class="input-sm form-control input-s-sm inline" style="width: 60px;"
-                                    ng-model="numberPerPage" ng-change="setNumberPerPage(numberPerPage);"
-                                    ng-init="numberPerPage = '15'">
-                                <option value="5">5</option>
-                                <option value="15">15</option>
-                                <option value="25">25</option>
-                            </select>
-                        </div>
-                        <div class="col-sm-6">
-                            <ul class="pagination pagination-sm m-t-none m-b-none">
-                                <li ng-if="listData.pageNumber > 1"><a href="javascript:void(0)"
-                                                                       ng-click="loadPage(1)">«</a>
-                                </li>
-                                <li ng-repeat="item in listData.pageList">
-                                    <a href="javascript:void(0)" ng-if="item == listData.pageNumber"
-                                       style="color:mediumvioletred;"> {{item}}</a>
-                                    <a href="javascript:void(0)" ng-if="item != listData.pageNumber"
-                                       ng-click="loadPage(item)"> {{item}}</a>
-                                </li>
-                                <li ng-if="listData.pageNumber < listData.pageCount"><a
-                                        href="javascript:void(0)"
-                                        ng-click="loadPage(listData.pageCount)">»</a>
-                                </li>
-                            </ul>
+                        </tr>
+                        <tr ng-show="listData.rowCount == 0">
+                            <td colspan="10"
+                                style="height: 100%;background-color: #ececec; line-height: 3.429;text-align: center; font-style: italic;">
+                                Không có dữ liệu
+                            </td>
+                        </tr>
+                        </tbody>
+                    </table>
+                </div>
+                <footer class="panel-footer">
+                    <div class="row">
+                        <div class="p-r-0 col-sm-12 text-right text-center-xs">
+                            <div class="col-sm-6 text-left">
+                                <span style="color: black">Tổng số {{listData.rowCount}} dữ liệu</span>
+                            </div>
+                            <div class="col-sm-6">
+                                <ul class="pagination pagination-sm m-t-none m-b-none">
+                                    <li ng-if="listData.pageNumber > 1"><a href="javascript:void(0)"
+                                                                           ng-click="loadPageData(1)">«</a></li>
+                                    <li ng-repeat="item in listData.pageList">
+                                        <a href="javascript:void(0)" ng-if="item == listData.pageNumber"
+                                           style="color:mediumvioletred;"> {{item}}</a>
+                                        <a href="javascript:void(0)" ng-if="item != listData.pageNumber"
+                                           ng-click="loadPageData(item)"> {{item}}</a>
+                                    </li>
+                                    <li ng-if="listData.pageNumber < listData.pageCount"><a
+                                            href="javascript:void(0)"
+                                            ng-click="loadPageData(listData.pageCount)">»</a></li>
+                                </ul>
+                            </div>
                         </div>
                     </div>
-                </div>
-            </footer>
-
+                </footer>
+            </section>
         </section>
     </section>
-    <a href="#" class="hide nav-off-screen-block" data-toggle="class:nav-off-screen" data-target="#nav"></a>
-
-    <div class="modal fade" id="updateParamModal" tabindex="-1" role="dialog" aria-labelledby="updateParamModalLabel"
-         aria-hidden="true">
-        <div class="modal-dialog" role="document">
+    <div class="modal fade" id="mdDetailParameters" role="dialog" aria-hidden="true" data-keyboard="false"
+         data-backdrop="static" style="text-align: center">
+        <div class="modal-dialog" style="width: 40%;bottom: 0%">
             <div class="modal-content">
-                <div class="modal-header alert-info">
-                    <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span
-                            aria-hidden="true">&times;</span></button>
-                    <h4 class="modal-title font-weight-bold" id="exampleModalLabel" ng-if="labelTitle == 'Add'">
-                        <spring:message code="label.modal.parameter.add"/></h4>
-                    <h4 class="modal-title font-weight-bold" id="exampleModalLabel" ng-if="labelTitle == 'Edit'">
-                        <spring:message code="label.modal.parameter.edit"/></h4>
-                </div>
-                <div class="modal-body">
-                    <!--<form enctype="multipart/form-data" class="form-horizontal" data-validate="parsley">-->
-                    <div class="form-group">
-                        <label for="recipient-name" class="col-form-label font-weight-bold"><spring:message
-                                code="label.system.parameter.key"/></label>
-                        <input type="hidden" ng-model="paramItem.id"/>
-                        <div>
-                            <input style="border-radius: 10px;" ng-if="labelTitle == 'Add'" ng-model="paramItem.key" id="paramKeyUpdate"
-                                   name="paramKeyUpdate" class="form-control"
-                                   placeholder="Mã tham số hệ thống"
-                                   maxlength="20"
-                            />
-                            <input style="border-radius: 10px;" ng-if="labelTitle == 'Edit'" ng-model="paramItem.key" id="paramKeyUpdate"
-                                   name="paramKeyUpdate" class="form-control" disabled
-                                   placeholder="Mã tham số hệ thống"
-                                   maxlength="20"
-                            />
-                        </div>
-                        <span class="text-danger">{{paramKey_valid}}</span>
-                    </div>
-                    <div class="form-group">
-                        <label for="message-text" class="col-form-label font-weight-bold"><spring:message
-                                code="label.system.parameter.value"/></label>
-                        <div>
-                            <input style="border-radius: 10px;" ng-model="paramItem.value" class="form-control" id="paramValueUpdate"
-                                   name="paramValueUpdate"
-                                   placeholder="Giá trị tham số"
-                                   maxlength="100"
-                            />
-                        </div>
-                        <span class="text-danger">{{paramValue_valid}}</span>
-                    </div>
-
-                    <div class="form-group">
-                        <label for="message-text" class="col-form-label font-weight-bold"><spring:message
-                                code="label.system.parameter.description"/></label>
-                        <div>
-                            <textarea  style="border-radius: 10px;" ng-model="paramItem.description" id="paramDescriptionUpdate"
-                                      name="paramDescriptionUpdate" class="form-control" placeholder="Mô tả" rows="5"
-                                      maxlength="100"/></textarea>
-                        </div>
-                        <span class="text-danger">{{paramDescription_valid}}</span>
-                    </div>
-                    <!--</form>-->
-                </div>
-                <div class="modal-footer">
-                    <button style="border-radius: 10px; color: #0c63e4; border-color: #0c63e4" type="button" class="btn" ng-click="addOrUpdateParam()"
-                            ng-if="labelTitle == 'Add'"><i class="fa fa-save"></i> <spring:message
-                            code="label.button.save"/></button>
-                    <button style="border-radius: 10px; color: #0c63e4; border-color: #0c63e4" type="button" class="btn" ng-click="addOrUpdateParam()"
-                            ng-if="labelTitle == 'Edit'"><i class="fa fa-save"></i> <spring:message
-                            code="label.button.update"/></button>
-                    <button style="border-radius: 10px; color: #282424; border-color: #282424" type="button" class="btn" data-dismiss="modal"><i class="fa fa-times"></i>
-                        <spring:message code="label.button.close"/></button>
-                </div>
-            </div>
-        </div>
-    </div>
-    <div class="modal fade" id="deleteParamModal" tabindex="-1" role="dialog"
-         aria-labelledby="deleteParamModal" aria-hidden="true" aria-label="Close">
-        <div class="modal-dialog">
-            <div class="modal-content">
-                <div class="modal-header alert-info">
-                    <button type="button" class="close" class="btn btn-default" data-dismiss="modal" aria-hidden="true">
-                        &times;
+                <div class="modal-header alert text-left"
+                     style="padding: 7px; background: #0747A6;border-radius: 0;">
+                    <button style="color: #FFFFFF; opacity: 1;margin-top: .7rem;margin-right: 1rem" type="button"
+                            class="close"
+                            data-dismiss="modal"
+                            aria-hidden="true" ng-click="clearError()">&times;
                     </button>
-                    <h4 class="modal-title"><spring:message code="label.modal.parameter.delete"/></h4>
+                    <h5 class="modal-title"
+                        style="font-weight: 700;font-size: 14pt;color: White;margin-top: .7rem;margin-left: 1.5rem">Mã Tham Số <{{detailObj.key}}></h5>
                 </div>
                 <div class="modal-body">
-                    <label><spring:message code="message.modal.parameter.delete"/></label>
+                    <form class="form-horizontal" id="detailForm" name="detailForm">
+                        <div class="row">
+                            <div class="col-sm-12" style="line-height: 19px;width: 94%;padding-left: 40px;padding-bottom: 30px;">
+                                <div class="row" style="margin-left: 0">
+                                    <div class="col-sm-12">
+                                        <label class="col-sm-6 control-label left" style="padding-left: 0">Mã tham số</label>
+                                        <input disabled
+                                               style=" border-radius: 8px;"
+                                               ng-model="detailObj.key"
+                                               placeholder="Mã tham số" class="form-control"/>
+                                    </div>
+                                </div>
+                                <br>
+                                <div class="row" style="margin-left: 0">
+                                    <div class="col-sm-12">
+                                        <label class="col-sm-6 control-label left" style="padding-left: 0">Giá trị<a
+                                                style="color: red;">*</a></label>
+                                        <input id="detailObjValue" style=";border-radius: 8px;"
+                                               ng-model="detailObj.value"
+                                               maxlength="100"
+                                               ng-change="changeInput('detailParametersValueErr')"
+                                               placeholder="Giá trị" class="form-control"/>
+                                        <span class="error" id="detailParametersValueErr">Giá trị không được bỏ trống!</span>
+                                    </div>
+                                </div>
+                                <br>
+                                <div class="row" style="margin-left: 0">
+                                    <div class="col-sm-12">
+                                        <label class="col-sm-6 control-label left" style="padding-left: 0">Mô tả</label>
+                                        <textarea type="text" style="border-radius: 8px;"
+                                                  ng-model="detailObj.description"
+                                                  maxlength="200"
+                                                  placeholder="Mô tả" class="form-control">
+                                        </textarea>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </form>
                 </div>
                 <div class="modal-footer">
-                    <button style="border-radius: 10px; color: #0c63e4; border-color: #0c63e4;" type="button" class="btn" data-dismiss="modal" ng-click="deleteParam()"
-                            style="text-transform: none;"><i class="fa fa-check"></i> <spring:message
-                            code="label.button.ok"/></button>
-                    <button style="border-radius: 10px; color: #282424; border-color: #282424;" type="button" class="btn" data-dismiss="modal"><i class="fa fa-times"></i>
-                        <spring:message code="label.button.close"/></button>
+                    <div class="row" style="text-align: center">
+                        <a class="btn btn-info btn-clear-common"
+                           ng-click="clearError()"
+                           data-dismiss="modal">Hủy bỏ
+                        </a>
+                        <a class="btn btn-add-common"
+                           ng-click="updateParameters()">Lưu
+                        </a>
+                    </div>
                 </div>
             </div>
         </div>
     </div>
-
 </section>

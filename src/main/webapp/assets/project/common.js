@@ -1,7 +1,7 @@
 /**
  * Created by Admin on 12/21/2017.
  */
-var app = angular.module('FrameworkBase', ["ngSanitize","autocomplete"]);
+var app = angular.module('ADAGROUP', ["ngSanitize","autocomplete"]);
 
 //Bat ky tu
 var digitsOnly = /[1234567890]/g;

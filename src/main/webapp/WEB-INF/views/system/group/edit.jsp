@@ -6,78 +6,97 @@
 
 <script src="<%=request.getContextPath()%>/assets/js/checkbox.js"></script>
 <script src="<%=request.getContextPath()%>/assets/note/js/nestable/jquery.nestable.js"></script>
-<link rel="stylesheet" href="<%=request.getContextPath()%>/assets/note/js/nestable/nestable.css" type="text/css" />
+<link rel="stylesheet" href="<%=request.getContextPath()%>/assets/note/js/nestable/nestable.css" type="text/css"/>
+<link rel="stylesheet" href="<%=request.getContextPath()%>/assets/note/css/common.css" type="text/css"/>
+
 <section style="color: #1F2937;" id="content">
     <section class="vbox">
-        <section class="scrollable padder" style="background: white;">
-            <ul class="bg-white breadcrumb no-border no-radius b-b b-light pull-in">
-               <li><a href="<%=request.getContextPath()%>/"><i class="fa fa-home"></i>&nbsp;<spring:message code="label.system.home"/></a></li>
-                <li><a href="<%=request.getContextPath()%>/system/group/list"><spring:message code="label.group"/></a></li>
-                <li><a href="javascript:void(0)"></a><spring:message code="label.edit.group.info"/></li>
+        <section class="scrollable padder" style="background: #f4f4f4">
+            <ul style="font-weight: 700;color: #172B4D"
+                class="bg-white breadcrumb no-border no-radius b-b b-light pull-in breadcrumb-common">
+                <li>Quản trị hệ thống</li>
+                <li>Thông tin nhóm quyền</li>
             </ul>
-                <c:if test="${!empty messageError }">
-                    <div class="m-b-md">
-                        <span style="color:red"><spring:message code="${messageError}"/></span>
-                    </div>
-                </c:if>
-
+            <c:if test="${!empty messageError }">
+                <div class="m-b-md">
+                    <span style="color:red"><spring:message code="${messageError}"/></span>
+                </div>
+            </c:if>
             <section class="panel panel-default" style="border-radius: 20px;">
-                <header class="panel-heading" style="border-top-right-radius: 20px;border-top-left-radius: 20px;"><h4><i class="fa fa-edit"></i> <spring:message code="label.edit.group.info"/></h4></header>
                 <div class="panel-body" style="min-height: 600px;">
-                    <form method="post" action="<%=request.getContextPath()%>/system/group/edit" theme="simple"  enctype="multipart/form-data" class="form-horizontal" cssStyle="" validate="true"
+                    <form method="post" action="<%=request.getContextPath()%>/system/group/edit/" theme="simple"
+                          enctype="multipart/form-data" class="form-horizontal" cssStyle="" validate="true"
                           name="myForm" onsubmit="return validateForm()" required>
-                        <div class="col-sm-12">
+                        <div class="col-sm-12" style="padding: 30px">
                             <div class="form-group col-sm-6">
-                                <label class="col-sm-4 control-label" style="line-height: 30px; font-weight: bold;"><spring:message code="label.group.name"/> (<span style="color: red">*</span>)</label>
-                                <div class="col-sm-8">
-                                    <div class="input-group m-b">
-                                        <span class="input-group-addon">
-                                            <i class="fa fa-user" aria-hidden="true"></i>
-                                        </span>
-                                        <input style="border-top-right-radius: 10px; border-bottom-right-radius: 10px" type="text" class="form-control input" value="${item.groupName}" name="groupName" id="groupName"/>
+                                <label class="col-sm-2" style="line-height: 30px;font-weight: bold;padding: 0"><spring:message
+                                        code="label.group.name"/><span style="color: red">*</span></label>
+                                <div class="col-sm-10">
+                                    <div class="input-group m-b" style="width: 88%">
+                                        <input style="border-radius: 10px;"
+                                               maxlength="100"
+                                               type="text" class="form-control input" value="${item.groupName}"
+                                               name="groupName" id="groupName"/>
                                         <input type="hidden" class="form-control input" value="${item.id}" name="id"/>
                                     </div>
-                                    <form:errors cssStyle="color: red" path="groupView.groupName" />
+                                    <form:errors cssStyle="color: red" path="groupView.groupName"/>
                                 </div>
                             </div>
                             <div class="form-group col-sm-6">
-                                <label class="col-sm-4 control-label" style="line-height: 30px; font-weight: bold;"><spring:message code="label.system.parameter.description"/></label>
-
-                                <div class="col-sm-8">
-                                    <div class="input-group m-b">
-                                        <span class="input-group-addon">
-                                            <i class="fa fa-list" aria-hidden="true"></i>
-                                        </span>
-                                        <textarea style="border-top-right-radius: 10px; border-bottom-right-radius: 10px" name="description"  path="" class="form-control input" rows="1">${item.description}</textarea>
+                                <label class="col-sm-3" style="line-height: 30px; font-weight: bold;"><spring:message
+                                        code="label.infor.description"></spring:message> </label>
+                                <div class="col-sm-9">
+                                    <div class="input-group m-b" style="width: 100%">
+                                        <input
+                                                style="border-radius: 10px"
+                                                maxlength="100"
+                                                name="description" path="" class="form-control input"
+                                                value="${item.description}"
+                                                rows="1">
                                     </div>
 
                                 </div>
                             </div>
                         </div>
-                                        <h4 class="m-t-none"><spring:message code="label.systme.tree.funtion"/>
+                        <h4 style="font-weight: 700;margin-left: 10%" class="m-t-none">Phân quyền
                         </h4>
                         <div class="col-sm-12 no-padder">
-                            <div class="col-sm-4 no-padder"><span><input type="checkbox" id="grantCheckAll" name="checkAll" /> &nbsp;<label class="font-bold"><spring:message code="label.role.all"/></label></span></div>
-                            <div class="col-sm-8" style="padding-left: 10px"> <button id="nestable-menu" class="btn btn-xs btn-default active" data-toggle="class:show">
-                                    <i class="fa fa-plus text-active"></i>
-                                    <span class="text-active">Expand All</span>
-                                    <i class="fa fa-minus text"></i>
-                                    <span class="text">Collapse All</span>
-                                </button>
+                            <div class="col-sm-4 no-padder" style="margin-left:10%;margin-right:10%"><span><input
+                                    type="checkbox" id="grantCheckAll"
+                                    name="checkAll"/> &nbsp;<label
+                                    class="font-bold"><spring:message code="label.role.all"/></label></span></div>
+                            <div class="col-sm-8" style="padding-left: 10px">
+                                <%--                                <a type="button" id="nestable-menu" class="btn btn-xs btn-default active"--%>
+                                <%--                                        data-toggle="class:show">--%>
+                                <%--                                    <i class="fa fa-plus text-active"></i>--%>
+                                <%--                                    <span class="text-active">Đóng tất cả</span>--%>
+                                <%--                                    <i class="fa fa-minus text"></i>--%>
+                                <%--                                    <span class="text">Mở tất cả</span>--%>
+                                <%--                                </a>--%>
                             </div>
                         </div>
 
-                        <div class="row m-b">
+                        <div class="row m-b" style="margin-left:10%;margin-right:10%">
                             <div class="dd" id="nestableGroup">
                                 <ol class="dd-list">
                                     <c:forEach var="group" items="${groups}" varStatus="stat">
-                                        <div class="col-sm-4">
+                                        <div class="col-sm-6">
                                             <li class="dd-item" data-id="${group.parent.id}">
-                                                <div class="dd-handle"><input type="checkbox"  name="listAuthority" value="${group.parent.id}"   onchange="checkAllInRow(this)" /> ${group.parent.description}</div>
+                                                <div class="dd-handle"><input type="checkbox" name="listAuthority"
+                                                                              value="${group.parent.id}"
+                                                                              onchange="checkAllInRow(this)"/> ${group.parent.description}
+                                                </div>
                                                 <ol class="dd-list">
                                                     <c:forEach var="children" items="${group.childrens}">
-                                                        <li class="dd-item" data-id="${children.id}"><div class="dd-handle"><input type="checkbox" name ="listAuthority" onchange="checkChildren(this)" value="${children.id}" alt="chk"  /> ${children.description}</div></li>
-                                                            </c:forEach>
+                                                        <li class="dd-item" data-id="${children.id}">
+                                                            <div class="dd-handle"><input type="checkbox"
+                                                                                          name="listAuthority"
+                                                                                          onchange="checkChildren(this)"
+                                                                                          value="${children.id}"
+                                                                                          alt="chk"/> ${children.description}
+                                                            </div>
+                                                        </li>
+                                                    </c:forEach>
                                                 </ol>
                                             </li>
                                         </div>
@@ -89,8 +108,12 @@
                         <div class="line line-dashed line-lg pull-in" style="clear:both ;margin-bottom: 30px"></div>
                         <div class="form-group">
                             <div class="col-sm-4 col-sm-offset-5">
-                                <a style="border-radius: 10px; color: #282424; border-color: #282424" href="<%=request.getContextPath()%>/system/group/list" class="btn"><i class="fa fa-times"></i> <spring:message code="message.modal.cancel"/></a>
-                                <button style="border-radius: 10px; color: #0c63e4; border-color: #0c63e4" type="submit" class="btn"><i class="fa fa-save"></i> <spring:message code="label.button.save"/></button>
+                                <a href="<%=request.getContextPath()%>/system/group/quan-ly-nhom-quyen.html"
+                                   class="btn btn-cancel btn-clear-common"><spring:message
+                                        code="message.modal.cancel"/></a>
+                                <button type="submit"
+                                        class="btn btn-search-common"></i> Lưu
+                                </button>
                             </div>
                         </div>
                     </form>
@@ -108,17 +131,18 @@
 <script>
     function validateForm() {
         var x = document.forms["myForm"]["groupName"].value;
-        if (x == "") {
+        if (x == null || x.trim() == "") {
             toastr.error('Chưa nhập tên nhóm người dùng');
             document.getElementById("groupName").focus();
             return false;
         }
         var checkboxes = $('input:checkbox:checked').length;
-        if (checkboxes==0) {
+        if (checkboxes == 0) {
             toastr.error('Vui lòng chọn chức năng của hệ thống!');
             return false;
         }
     }
+
     $(document).ready(function () {
         /*Quy uoc cha con cho checkbox*/
         $('#grantCheckAll').checkboxes({
@@ -140,7 +164,7 @@
         function checkAllCheck() {
             var result = true;
             $("input[name='listAuthority']").each(function () {
-				
+
                 if (!$(this).is(':checked')) {
                     result = false;
                     return result;
@@ -149,18 +173,17 @@
             });
             return result;
         }
+
         var checkAllCheck = checkAllCheck();
         if (checkAllCheck) {
             $('#grantCheckAll').prop('checked', true);
         }
 
         // activate Nestable for class #nestableGroup
-        $('#nestableGroup').nestable({
-        });
+        $('#nestableGroup').nestable({});
 
         var $expandAll = false;
-        $('#nestable-menu').on('click', function (e)
-        {
+        $('#nestable-menu').on('click', function (e) {
             if ($expandAll) {
                 $expandAll = false;
                 $('.dd').nestable('expandAll');

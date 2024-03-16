@@ -60,9 +60,6 @@ public class User implements Serializable, UserDetails {
     @Getter
     @Column(name = "TYPE")
     private Long type;
-    @Getter
-    @Column(name = "LAST_PWD_CHANGE_DATE")
-    private Date lastPwdChange;
 
     private transient List<GrantedAuthority> grantedAuths;
 
@@ -201,7 +198,31 @@ public class User implements Serializable, UserDetails {
         this.type = type;
     }
 
-    public void setLastPwdChange(Date lastPwdChange) {
-        this.lastPwdChange = lastPwdChange;
+    public String getPhone() {
+        return phone;
+    }
+
+    public String getEmail() {
+        return email;
+    }
+
+    public Long getIdWard() {
+        return idWard;
+    }
+
+    public Long getIdDistrict() {
+        return idDistrict;
+    }
+
+    public Long getIdProvince() {
+        return idProvince;
+    }
+
+    public String getAddress() {
+        return address;
+    }
+
+    public Long getType() {
+        return type;
     }
 }

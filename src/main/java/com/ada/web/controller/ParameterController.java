@@ -4,6 +4,7 @@ import com.ada.common.ConstantAuthor;
 import com.ada.common.PagingResult;
 import com.ada.common.Utils;
 import com.ada.model.Parameter;
+import com.ada.model.User;
 import com.ada.web.dao.LogAccessDAO;
 import com.ada.web.dao.UserDAO;
 import com.ada.web.service.ParameterService;
@@ -17,6 +18,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.annotation.Secured;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -28,7 +30,7 @@ import org.springframework.web.bind.annotation.RequestParam;
  * Created by Admin on 1/9/2018.
  */
 @Controller
-@RequestMapping("/system/parameter")
+@RequestMapping("/system/parameters")
 public class ParameterController {
 
     private Logger logger = LogManager.getLogger(ParameterController.class);
@@ -41,26 +43,24 @@ public class ParameterController {
 
     SimpleDateFormat dateFormat = new SimpleDateFormat("yyyyMMddHHmmss");
 
-    @GetMapping("/list")
-    @Secured(ConstantAuthor.Parameter.view)
-    public String list() {
-        return "parameter.list";
+    @GetMapping("/quan-ly-tham-so-he-thong.html")
+//    @Secured(ConstantAuthor.PARAMETERS.viewList)
+    public String getParameters() {
+        return "parameters.list";
     }
 
     @GetMapping("/search")
-    @Secured(ConstantAuthor.Parameter.view)
-    public ResponseEntity<PagingResult> parameterList(@RequestParam(value = "p", required = false, defaultValue = "1") int pageNumber,
-                                                      @RequestParam(value = "numberPerPage", required = false, defaultValue = "15") int numberPerPage,
-                                                      String paramKey) {
+//    @Secured(ConstantAuthor.PARAMETERS.viewList)
+    public ResponseEntity<?> search(@RequestParam(value = "p", required = false, defaultValue = "1") int pageNumber,
+                                    @RequestParam(value = "numberPerPage", required = false, defaultValue = "20") int numberPerPage,
+                                    @RequestParam(value = "paramKey", required = false, defaultValue = "") String paramKey) {
+        User userLogin = (User) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+        logger.info(userLogin.getUsername() + "------------- GET /system/parameters/search");
         PagingResult page = new PagingResult();
         page.setPageNumber(pageNumber);
         page.setNumberPerPage(numberPerPage);
-        try {
-            page = parameterService.page(page, Utils.trim(paramKey)).orElse(new PagingResult());
-        } catch (Exception e) {
-
-        }
-        return new ResponseEntity<PagingResult>(page, HttpStatus.OK);
+        page = parameterService.page(page, paramKey).orElse(new PagingResult());
+        return new ResponseEntity<>(page, HttpStatus.OK);
     }
 
     @PostMapping(value = "/add")

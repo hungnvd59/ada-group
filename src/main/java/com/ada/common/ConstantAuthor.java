@@ -18,9 +18,10 @@ public class ConstantAuthor {
         public static final String delete = "ROLE_SYSTEM_USER_DELETE";
     }
 
-    public class Group { // nhom quyen
+    public class Group {
 
-        public static final String view = "ROLE_SYSTEM_GROUP_VIEW";
+        public static final String viewList = "ROLE_SYSTEM_GROUP_LIST";
+        public static final String viewDetail = "ROLE_SYSTEM_GROUP_DETAIL";
         public static final String add = "ROLE_SYSTEM_GROUP_ADD";
         public static final String edit = "ROLE_SYSTEM_GROUP_EDIT";
         public static final String delete = "ROLE_SYSTEM_GROUP_DELETE";

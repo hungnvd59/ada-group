@@ -51,11 +51,13 @@
 </section>
 <a href="#" class="hide nav-off-screen-block" data-toggle="class:nav-off-screen" data-target="#nav"></a>
 </section>-->
+<link rel="stylesheet" href="<%=request.getContextPath()%>/assets/note/css/common.css" type="text/css"/>
 <section style="color: #1F2937;" id="content">
     <section class="vbox">
         <section class="scrollable padder" style="background: white">
-            <ul class="bg-white breadcrumb no-border no-radius b-b b-light pull-in">
-                <li><a href="<%=request.getContextPath()%>/"><i class="fa fa-home"></i>&nbsp;Home</a></li>
+            <ul style="font-weight: 700;color: #FFF"
+                class="bg-white breadcrumb no-border no-radius b-b b-light pull-in breadcrumb-common">
+                <li>Trang chủ</li>
             </ul>
             <div class="row">
                 <div class="wrapper-lg">
@@ -68,7 +70,7 @@
 
                 </div>
                 <div class="col-lg-8">
-                    <img style="width: 100%" class="center-pill" src="<%=request.getContextPath()%>/assets/images/HomeOSP.png">
+                    <img style="width: 100%" class="center-pill" src="<%=request.getContextPath()%>/assets/images/image-background-cms.png">
                 </div>
                 <div class="col-lg-2">
 

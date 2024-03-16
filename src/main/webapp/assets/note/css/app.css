@@ -1031,7 +1031,7 @@ body.container {
     width: 44px;
     float: left;
     margin-right: 10px;
-    font-size: 14px;
+    font-size: 12px;
     border-right: 1px solid rgba(255, 255, 255, 0.05);
     text-align: center;
     position: relative;
@@ -1058,7 +1058,7 @@ body.container {
     padding: 11px 15px;
     position: relative;
     font-weight: bold;
-    font-size: 14px;
+    font-size: 12px;
     border-top: 1px solid transparent;
     border-color: rgba(255, 255, 255, 0.05);
     transition: color .3s ease-in-out 0s;
@@ -3325,11 +3325,11 @@ fieldset[disabled] .btn-gplus.active {
 }
 
 .bg-white a {
-    color: #2e3e4e;
+    color: #FFF;
 }
 
 .bg-white a:hover {
-    color: #1b252e;
+    color: #FFF;
 }
 
 .bg-white .text-muted {

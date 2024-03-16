@@ -1,6 +1,6 @@
 <%@ page isELIgnored="false" pageEncoding="UTF-8" contentType="text/html; charset=UTF-8" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
-<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt"%>
+<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 <%@ taglib uri="http://tiles.apache.org/tags-tiles" prefix="tiles" %>
 <%@ taglib prefix="sec" uri="http://www.springframework.org/security/tags" %>
 <%@ taglib prefix="spring" uri="http://www.springframework.org/tags" %>
@@ -8,330 +8,162 @@
 <script src="<%=request.getContextPath()%>/assets/js/bootstrap-filestyle.min.js"></script>
 <script src="<%=request.getContextPath()%>/assets/js/moment-with-locales.js"></script>
 <script src="<%=request.getContextPath()%>/assets/project/system/group/index.js"></script>
-<style>
-    .btn-secondary {
-        background-color: gray;
-        color: white;
-    }
-
-    .btn-add {
-        border-radius: 10px;
-        color: #0c63e4;
-        border-color: #0c63e4;
-        margin: 0.5px;
-    }
-
-    .btn-cancel {
-        border-radius: 10px;
-        color: #282424;
-        border-color: #282424;
-    }
-    .btn-cancel:hover {
-        background-color: #eae6e6;
-    }
-
-</style>
-<section style="color: #1F2937;" id="content" ng-app="FrameworkBase" ng-controller="contentCtrl">
+<link rel="stylesheet" href="<%=request.getContextPath()%>/assets/note/css/common.css" type="text/css"/>
+<title><spring:message code="label.list.user"/></title>
+<section style="color: #1F2937;" id="content" ng-app="ADAGROUP" ng-controller="groupListCtrl">
     <section class="vbox">
-        <section class="scrollable padder" style="background: white">
-            <ul class="bg-white breadcrumb no-border no-radius b-b b-light pull-in">
-                <li><a href="<%=request.getContextPath()%>/"><i class="fa fa-home"></i>&nbsp;<spring:message code="label.system.home"/></a></li>
-                <li><a href="<%=request.getContextPath()%>/system/group/list"><spring:message code="label.group"/></a></li>
-                <li><a href="javascript:void(0)">Danh sách nhóm quyền</a></li>
+        <section class="scrollable padder" style="background: #f4f4f4">
+            <ul style="font-weight: 700;color: #172B4D"
+                class="bg-white breadcrumb no-border no-radius b-b b-light pull-in breadcrumb-common">
+                <li>Quản trị hệ thống</li>
+                <li>Danh sách nhóm quyền</li>
             </ul>
-            <div class="m-b-md" id="sansim-status"><h3 class="m-b-none" style="color: #009900"><c:if test="${!empty success}"><spring:message code="${success}"/></c:if></h3>
-                <h3 class="m-b-none" style="color: red"><c:if test="${!empty messageError}"><spring:message code="${messageError}"/></c:if></h3>
-            </div>
-
+            <div class="m-b-md"><h3 class="m-b-none" id="adagroup-status" style="color: #009900"><c:if
+                    test="${success.length()>0}"><spring:message code="${success}"/></c:if></h3></div>
             <section class="panel panel-default" style="border-radius: 20px;">
                 <div class="panel-body">
-                    <form cssClass="form-inline padder" action="list" id="formItem" role="form" theme="simple" >
-                        <div class="form-group">
+                    <form Class="form-horizontal" role="form" theme="simple">
+                        <div class="row">
                             <div class="col-md-6">
-                                <div class="col-sm-8">
-                                    <input style="border-radius: 10px;" name="filterName"  placeholder="Tên nhóm" maxlength="50" value="${filterName}" class="input form-control"/>
+                                <div class="col-sm-8" style="padding-left: 0">
+                                    <input style="border-radius: 10px;" name="filterName"
+                                           placeholder="Tìm kiếm nhóm quyền"
+                                           maxlength="50" ng-model="filterName" class="input form-control"/>
                                 </div>
-                                <div class="col-sm-4"><button style="border-radius: 10px;" type="submit" class="btn btn-secondary"><i class="fa fa-search"></i> <spring:message code="label.button.search"/></button></div>
+                                <div class="col-sm-4">
+                                    <button ng-click="search()" class="btn btn-info btn-search-common"><spring:message
+                                            code="label.button.search"/></button>
+                                </div>
                             </div>
-                            <!--                            <div class="col-md-6">
-                                <a class="btn btn-primary pull-right"
-                                   href="<%=request.getContextPath()%>/system/group/add"><i class="fa fa-plus"></i> Thêm mới</a>
-                            </div>-->
                         </div>
                         <div class="line line-dashed line-lg pull-in" style="clear:both ;border-top:0px"></div>
                     </form>
                 </div>
             </section>
+            <div class="row">
+                <div class="col-md-6">
+                </div>
+                <div class="col-md-6">
+                    <%--                                <sec:authorize access="hasRole('ROLE_SYSTEM_USER_ADD')">--%>
+                    <a class="btn btn-add btn-search-common"
+                       style="float:right !important;"
+                       href="<%=request.getContextPath()%>/system/group/them-moi-nhom-quyen.html">Thêm mới</a>
+                    <%--                                </sec:authorize>--%>
+                </div>
+            </div>
+            <br>
             <section class="panel panel-default" style="border-radius: 20px;">
-            <div class="table-responsive table-overflow-x-fix">
-                <table id="tblGroup" class="table table-striped table-bordered m-b-none b-light">
-                    <thead>
-                    <tr>
-                        <th style="border-top-left-radius: 20px" class="text-center" style="width: 2%">STT</th>
-                        <th class="text-center" style="width: 1%"><input type="checkbox" name="chkAll" id="chkAll" onclick="checkAllGroup('chkAll', 'chk');" /></th>
-                        <th class="text-center">Tên nhóm</th>
-                        <th class="text-center">Mô tả</th>
-                        <sec:authorize access="hasAnyRole('ROLE_SYSTEM_GROUP_EDIT','ROLE_SYSTEM_GROUP_DELETE')">
-                            <th style="border-top-right-radius: 20px" colspan="2" class="text-center">Thao tác</th>
-                        </sec:authorize>
-                    </tr>
-                    </thead>
-                    <tbody>
-                    <c:forEach items="${page.items}" var="item" varStatus="stat">
-                        <tr>
-                            <td class="align-center">${stat.count+((page.pageNumber-1)*page.numberPerPage)}</td>
-                            <td class="align-center"><input type="checkbox" value="${item.id}" class="selected_item" alt="chk" onclick="chooseGroup();"></td>
-                            <td class="align-center">${item.groupName}</td>
-                            <td class="align-center">${item.description}</td>
-                            <sec:authorize access="hasAnyRole('ROLE_SYSTEM_GROUP_EDIT','ROLE_SYSTEM_GROUP_DELETE')">
-                                <td>
-                                    <center>
-                                        <sec:authorize access="hasAnyRole('ROLE_SYSTEM_GROUP_EDIT')">
-                                            <a class="btn btn-add" href="<%=request.getContextPath()%>/system/group/edit/${item.id}"><i class="fa fa-edit"></i> <spring:message code="label.button.edit"/></a>
-                                        </sec:authorize>
-                                    </center>
-                                </td>
-                                <td>
-                                    <center>
-                                        <sec:authorize access="hasAnyRole('ROLE_SYSTEM_GROUP_DELETE')">
-                                            <a class="btn btn-cancel deleteItem"
-                                               data-toggle="modal" data-target="#deleteItem"
-                                               data-id="${item.id}"
-                                               data-name="${item.groupName}"><i class="fa fa-times"></i> <spring:message code="label.button.delete"/></a>
-                                        </sec:authorize>
-                                    </center>
-                                </td>
-                            </sec:authorize>
+                <div class="table-responsive table-overflow-x-fix" style="overflow-x: scroll;">
+                    <table class="table b-t b-light table-bordered table-hover" style="margin-bottom: 0px;">
+                        <thead class="bg-gray">
+                        <tr style="background-color: #172B4D">
+                            <th class="text-center v-inherit text-white"
+                                style="width: 1%;vertical-align: middle;">STT
+                            </th>
+                            <th class="text-center v-inherit text-white"
+                                style="width: 1%;vertical-align: middle;">Thao tác
+                            </th>
+                            <th class="text-center v-inherit text-white" style="width: 7%;vertical-align: middle;">Tên
+                                nhóm quyền
+                            </th>
+                            <th class="text-center v-inherit text-white" style="vertical-align: middle;width: 13%">Mô
+                                tả
+                            </th>
+                            <th class="text-center v-inherit text-white" style="vertical-align: middle;width: 7%">Người
+                                tạo
+                            </th>
+                            <th class="text-center v-inherit text-white" style="vertical-align: middle;width: 7%">Ngày
+                                tạo
+                            </th>
                         </tr>
-
-                    </c:forEach>
-                    <c:if test="${page.rowCount ==0}">
-                        <tr>
-                            <td colspan="12" class="text-center">Không có dữ liệu</td>
+                        </thead>
+                        <tbody>
+                        <tr ng-repeat="item in listData.items track by $index">
+                            <td style="vertical-align: middle;" class="text-center v-inherit">
+                                {{(listData.pageNumber - 1) * listData.numberPerPage + $index + 1}}
+                            </td>
+                            <td style="vertical-align: middle;text-align: center" class="text-left v-inherit">
+<%--                                <sec:authorize access="hasRole('ROLE_SYSTEM_GROUP_EDIT')">--%>
+                                    <img ng-click="redirectDetail(item.id)" title="Sửa" src="<%=request.getContextPath()%>/assets/images/icon/brush.png" style="cursor: pointer;">
+<%--                                </sec:authorize>--%>
+                            </td>
+                            <td style="vertical-align: middle;" class="text-left v-inherit">{{item.groupName}}</td>
+                            <td style="vertical-align: middle;" class="text-left v-in herit">{{item.description}}</td>
+                            <td style="vertical-align: middle;text-align: center" class="text-left v-inherit">
+                                {{item.createBy}}
+                            </td>
+                            <td style="vertical-align: middle;text-align: center" class="text-left v-inherit">
+                                {{item.genDate | date: 'dd/MM/yyyy | HH:mm:ss'}}
+                            </td>
                         </tr>
-                    </c:if>
-                    </tbody>
-                </table>
-            </div>
-            </section>
-            <footer class="panel-footer">
-                <div class="row">
-                    <div class="col-sm-12 text-left">
-                        <div class="col-sm-8 text-left">
-                            <sec:authorize access="hasRole('ROLE_SYSTEM_GROUP_ADD')">
-                                <a class="btn btn-add" style="margin-top: 5px;"
-                                   href="<%=request.getContextPath()%>/system/group/add"><i class="fa fa-plus"></i> <spring:message code="button.add.group"/></a>
-                            </sec:authorize>
-                            <%--<sec:authorize access="hasRole('ROLE_SYSTEM_GROUP_DELETE')">--%>
-                            <!--                                <a class="btn btn-danger pull-left" style="margin-left: 10px;"
-                                   href="<%=request.getContextPath()%>/system/group/add"><i class="fa fa-minus-square"></i> Xóa nhóm</a>-->
-                            <%--</sec:authorize>--%>
-                            <sec:authorize access="hasRole('ROLE_SYSTEM_GROUP_VIEW')">
-                                <a class="btn btn-add" style="margin-left: 10px;" href="javascript:void(0);" onclick="search_result_authority_by_group();"><i class="fa fa-list"></i> <spring:message code="button.function.group"/></a>
-                            </sec:authorize>
-                            <sec:authorize access="hasRole('ROLE_SYSTEM_GROUP_VIEW')">
-                                <a class="btn btn-add" style="margin-left: 10px;" href="javascript:void(0);" onclick="search_result_user_by_group();"><i class="fa fa-list"></i> <spring:message code="button.user.group"/></a>
-                            </sec:authorize>
+                        <tr ng-show="listData.rowCount == 0">
+                            <td colspan="13"
+                                style="height: 100%;background-color: #ececec; line-height: 3.429;text-align: center; font-style: italic;">
+                                Không có dữ liệu
+                            </td>
+                        </tr>
+                        </tbody>
+                    </table>
+                </div>
+                <footer class="panel-footer">
+                    <div class="row">
+                        <div class="p-r-0 col-sm-12 text-right text-center-xs">
+                            <div class="col-sm-6 text-left">
+                                <span style="color: black">Tổng số {{listData.rowCount}} dữ liệu</span>
+                            </div>
+                            <div class="col-sm-6">
+                                <ul class="pagination pagination-sm m-t-none m-b-none">
+                                    <li ng-if="listData.pageNumber > 1"><a href="javascript:void(0)"
+                                                                           ng-click="loadPageData(1)">«</a></li>
+                                    <li ng-repeat="item in listData.pageList">
+                                        <a href="javascript:void(0)" ng-if="item == listData.pageNumber"
+                                           style="color:mediumvioletred;"> {{item}}</a>
+                                        <a href="javascript:void(0)" ng-if="item != listData.pageNumber"
+                                           ng-click="loadPageData(item)"> {{item}}</a>
+                                    </li>
+                                    <li ng-if="listData.pageNumber < listData.pageCount"><a
+                                            href="javascript:void(0)"
+                                            ng-click="loadPageData(listData.pageCount)">»</a></li>
+                                </ul>
+                            </div>
                         </div>
-
                     </div>
-                </div>
-                <div class="row">
-                    <div class="col-sm-12 text-right text-center-xs">
-                        <div class="col-sm-6 text-left">
-                        <span>Tổng số <code>${page.rowCount}</code> bản ghi</span>
-                        <label class="input-sm"><span>Hiển thị: </span></label>
-                        <select class="input-sm form-control input-s-sm inline" style="width: 60px;"
-                                onchange="location = this.value;" ng-model="numberPerPage">
-                            <c:choose>
-                                <c:when test="${numberPerPage==15}">
-                                    <option value="<%=request.getContextPath()%>/system/group/list.html?p=1&numberPerPage=5&filterUsername=${filterUsername}">5</option>
-                                    <option selected value="<%=request.getContextPath()%>/system/group/list.html?p=1&numberPerPage=15&filterUsername=${filterUsername}">15</option>
-                                    <option value="<%=request.getContextPath()%>/system/group/list.html?p=1&numberPerPage=25&filterUsername=${filterUsername}">25</option>
-                                </c:when>
-                                <c:otherwise>
-                                    <c:if test="${numberPerPage == 5}">
-                                        <option selected value="<%=request.getContextPath()%>/system/group/list.html?p=1&numberPerPage=5&filterUsername=${filterUsername}">5</option>
-                                        <option value="<%=request.getContextPath()%>/system/group/list.html?p=1&numberPerPage=15&filterUsername=${filterUsername}">15</option>
-                                        <option value="<%=request.getContextPath()%>/system/group/list.html?p=1&numberPerPage=25&filterUsername=${filterUsername}">25</option>
-                                    </c:if>
-                                    <c:if test="${numberPerPage == 25}">
-                                        <option value="<%=request.getContextPath()%>/system/group/list.html?p=1&numberPerPage=5&filterUsername=${filterUsername}">5</option>
-                                        <option value="<%=request.getContextPath()%>/system/group/list.html?p=1&numberPerPage=15&filterUsername=${filterUsername}">15</option>
-                                        <option selected value="<%=request.getContextPath()%>/system/group/list.html?p=1&numberPerPage=25&filterUsername=${filterUsername}">25</option>
-                                    </c:if>
-                                </c:otherwise>
-                            </c:choose>
-                        </select>
-                    </div>
-
-                    <div class="col-sm-6">
-                        <ul class="pagination pagination-sm m-t-none m-b-none">
-                            <c:if test="${page.pageNumber > 1}">
-                                <li>
-                                    <a href="<%=request.getContextPath()%>/system/group/list.html?p=1&numberPerPage=${numberPerPage}&filterUsername=${filterUsername}">«</a>
-                                </li>
-                            </c:if>
-                            <c:forEach items="${page.pageList}" var="item" varStatus="stat">
-                                <c:choose>
-                                    <c:when test="${page.pageNumber==item}">
-                                        <li><a style="color: #aa1111" href="<%=request.getContextPath()%>/system/group/list.html?p=${item}&numberPerPage=${numberPerPage}&filterUsername=${filterUsername}">${item}</a></li>
-                                    </c:when>
-                                    <c:otherwise>
-                                        <li><a  href="<%=request.getContextPath()%>/system/group/list.html?p=${item}&numberPerPage=${numberPerPage}&filterUsername=${filterUsername}">${item}</a></li>
-                                    </c:otherwise>
-                                </c:choose>
-
-                            </c:forEach>
-                            <c:if test="${page.pageNumber < page.getPageCount()}">
-                                <li>
-                                    <a href="<%=request.getContextPath()%>/system/group/list.html?p=${page.getPageCount()}&numberPerPage=${numberPerPage}&filterUsername=${filterUsername}">»</a>
-                                </li>
-                            </c:if>
-                        </ul>
-                    </div>
-                    </div>
-                </div>
-            </footer>
-            <div class="col-sm-12 no-padder">
-                <div id="searchResultAuthorityByGroup"></div>
-            </div>
-            <div class="col-sm-12 no-padder">
-                <div id="searchResultUserByGroup"></div>
-            </div>
+                </footer>
+            </section>
         </section>
     </section>
-    <a href="#" class="hide nav-off-screen-block" data-toggle="class:nav-off-screen" data-target="#nav"></a>
-    <input type="hidden" value="" name="ids" id="ids" >
-    <div class="modal fade"  id="deleteItem"  role="dialog" aria-labelledby="myModalLabel1" aria-hidden="true">
-        <div class="modal-dialog" style="max-width: 500px;">
-            <div class="modal-content"style="max-width: 500px;">
-                <div class="modal-header" style="padding: 7px;">
-                    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
-                    <h5 class="modal-title" id="myModalLable"><spring:message code="label.group.delete.role"/></h5>
+    <div class="modal fade" id="mdDelete" role="dialog" aria-hidden="true" data-keyboard="false"
+         data-backdrop="static" style="text-align: center">
+        <div class="modal-dialog" id="c">
+            <div class="modal-content" style="text-align: center;">
+                <div class="modal-header alert text-center" style="padding: 7px; background: #172B4D;border-radius: 0">
+                    <button style="color: #FFFFFF; opacity: 1;font-size: 24px;font-weight: 100;" type="button"
+                            class="close" data-dismiss="modal"
+                            aria-hidden="true" ng-click="clearFormAdd()">&times;
+                    </button>
+                    <h5 class="modal-title" style="font-size: 14pt;color: White;">XÁC NHẬN</h5>
                 </div>
-                <form id="filter" method="POST"  action="<%=request.getContextPath()%>/system/group/delete" theme="simple" enctype="multipart/form-data" cssClass="form-horizontal" cssStyle="" validate="false">
-                    <div class="modal-body"  style="padding: 10px;">
-                        <div class="form-group">
-                            <label class="control-label"><spring:message code="message.modal.question.remove"/></label>
-                            <input name="id"  type="hidden" class="form-control info_id" />
-                        </div>
-
+                <div>
+                    <div class="modal-body">
+                        <label>Bạn có chắc chắn muốn xóa nhóm quyền </label>
+                        <span style="font-weight: bold">{{deleteObj.groupName}}</span>
+                        <label>hay không?</label>
                     </div>
-                    <div class="modal-footer" style="padding: 10px;" >
-                        <button type="button" class="btn btn-cancel" data-dismiss="modal"><spring:message code="message.modal.cancel"/></button>
-                        <button type="submit" class="btn btn-add"> <spring:message code="label.button.delete"/></button>
+                    <div class="modal-footer" style="border: none;text-align: center">
+                        <a class="btn btn-light"
+                           type="button"
+                           style="width:136px; border: 1px solid #172B4D;color: #172B4D; border-radius: 8px"
+                           data-dismiss="modal">Hủy
+                        </a>
+                        <a class="btn btn-secondary"
+                           style="width: 136px;background: #172B4D;border-radius: 8px;color: #FFFFFF;border: none"
+                           type="button"
+                           ng-click="deleteGroup(deleteObj)">Đồng ý
+                        </a>
                     </div>
-                </form>
+                </div>
             </div>
         </div>
     </div>
+
 </section>
-<script>
-    window.onload = function() {
-        setTimeout(clearChecked, 10);
-    }
-    function clearChecked() {
-        var w = document.getElementsByTagName('input');
-        for(var i = 0; i < w.length; i++){
-            if(w[i].type=='checkbox'){
-                w[i].checked = false;
-            }
-        }
-    }
-    $(document).on("click", ".deleteItem", function () {
-        // $(".deleteItem").click(function () {
-        var id = $(this).data('id');
-        console.log("id ==========="+ id);
-        var name = $(this).data('name');
-
-        $(".info_id").val(id);
-        $(".modal-title").text('Xóa nhóm quyền "' + name + '"');
-    });
-    $(document).ready(function () {
-
-        $('#tblUser').dataTable({
-            "bFilter": false,
-            "bPaginate": false,
-            "bAutoWidth": false,
-            "sPaginationType": "full_numbers"
-        });
-
-        $("input").keypress(function (event) {
-            if (event.which == 13) {
-                event.preventDefault();
-                $("#formItem").submit();
-            }
-        });
-    });
-
-    function search_result_authority_by_group() {
-        if ($("#ids").val() === '' || $("#ids").val() === null) {
-            CommonFunction.showPopUpMsg("<spring:message code="message"/>", "<spring:message code="message.selected.arecord"/>", "error");
-        } else if($("#ids").val().indexOf(",") > -1 ){
-            CommonFunction.showPopUpMsg("<spring:message code="message"/>", "<spring:message code="message.view.arecord"/>", "error");
-        }else{
-            var id = $("#ids").val();
-            $("#searchResultAuthorityByGroup").show();
-            $("#searchResultUserByGroup").hide();
-            $("#searchResultAuthorityByGroup").html('<div class="text-center"><img src="<%=request.getContextPath()%>/assets/images/loading.gif" /> Đang tải dữ liệu...</div>');
-            $("#searchResultAuthorityByGroup").load("<%=request.getContextPath()%>/system/group/search-authority-by-group-" + id);
-        }
-        return false;
-    };
-    function search_result_user_by_group() {
-        if ($("#ids").val() === '' || $("#ids").val() === null) {
-            CommonFunction.showPopUpMsg("<spring:message code="message"/>", "<spring:message code="message.selected.arecord"/>", "error");
-        } else if($("#ids").val().indexOf(",") > -1 ){
-            CommonFunction.showPopUpMsg("<spring:message code="message"/>", "<spring:message code="message.view.arecord"/>", "error");
-        }else{
-            var id = $("#ids").val();
-            $("#searchResultUserByGroup").show();
-            $("#searchResultAuthorityByGroup").hide();
-            $("#searchResultUserByGroup").html('<div class="text-center"><img src="<%=request.getContextPath()%>/assets/images/loading.gif" /> Đang tải dữ liệu...</div>');
-            $("#searchResultUserByGroup").load("<%=request.getContextPath()%>/system/group/search-user-by-group-" + id);
-        }
-        return false;
-    };
-
-    function chooseGroup() {
-        var selected_val = "";
-        var chkAll = true;
-        $('.selected_item').each(function () {
-            if (this.checked) {
-                if(selected_val === ""){
-                    selected_val = $(this).val();
-                }else{
-                    selected_val = selected_val + "," + $(this).val();
-                }
-            }else{
-                chkAll = false;
-                $("#chkAll").prop("checked", false);
-            }
-        });
-        if(chkAll){
-            $("#chkAll").prop("checked", true);
-        }
-
-        $("#ids").val(selected_val);
-    }
-    function checkAllGroup(selector_fire, alt_name) {
-        $('input[alt=' + alt_name + ']').prop('checked', $('#' + selector_fire).is(':checked'));
-        var selected_val = "";
-        $('.selected_item').each(function () {
-            if (this.checked) {
-                if(selected_val === ""){
-                    selected_val = $(this).val();
-                }else{
-                    selected_val = selected_val + "," + $(this).val();
-                }
-            }
-        });
-        $("#ids").val(selected_val);
-    }
-
-    function beforeDelete(id){
-        $("#id").val(id);
-    }
-
-</script>

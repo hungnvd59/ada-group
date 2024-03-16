@@ -6,8 +6,8 @@
 <head>
     <meta charset="utf-8"/>
     <title><tiles:insertAttribute name="title"/></title>
-    <link rel="shortcut icon" type="image/x-icon" href="<%=request.getContextPath()%>/assets/images/osp.ico" />
-    <meta name="description" content="san sim"/>
+    <link rel="shortcut icon" type="image/x-icon" href="<%=request.getContextPath()%>/assets/images/favion/favicon.ico" />
+    <meta name="description" content="ada-group"/>
     <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
 

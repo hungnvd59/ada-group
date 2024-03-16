@@ -1,0 +1,114 @@
+.btn-search-common {
+    width: 111px !important;
+    background: #0065FF !important;
+    border-radius: 8px !important;
+    color: #FFFFFF !important;
+    border: none !important;
+}
+
+.btn-clear-common {
+    width: 111px !important;
+    background: #FF5630 !important;
+    border-radius: 8px !important;
+    color: #FFFFFF !important;
+    border: none !important;
+}
+
+.btn-export-common {
+    width: 111px !important;
+    background: #36B37E !important;
+    border-radius: 8px !important;
+    color: #FFFFFF !important;
+    border: none !important;
+}
+
+.btn-import-common {
+    width: 111px !important;
+    background: #0065FF !important;
+    border-radius: 8px !important;
+    color: #FFFFFF !important;
+    border: none !important;
+}
+
+.status-active {
+    background-color: #DBEAFE;
+    color: #2563EB;
+    border-radius: 4px;
+    pointer-events: none;
+}
+
+.status-lock {
+    background-color: #FFE4E6;
+    color: #E11D48;
+    border-radius: 4px;
+    pointer-events: none;
+}
+
+
+.breadcrumb-common {
+    font-weight: 700 !important;
+    color: #FFFFFF !important;
+    background-color: #36B37E !important;
+}
+
+.btn-add-common {
+    width: 111px !important;
+    background: #0065FF !important;
+    border-radius: 8px !important;
+    color: #FFFFFF !important;
+    border: none !important;
+}
+
+.left {
+    font-weight: 700 !important;
+}
+
+.right {
+    text-align: right !important;
+    font-weight: 600 !important
+
+}
+.left {
+    text-align: left !important;
+}
+.right-text {
+    text-align: right !important;
+}
+
+.loader {
+    border: 3px solid #f3f3f3;
+    border-top: 3px solid #3498db;
+    border-radius: 50%;
+    width: 3rem;
+    height: 3rem;
+    animation: spin 2s linear infinite;
+    float: left;
+    position: relative;
+    left: 49%;
+}
+
+.loader-btn {
+    border: 3px solid #f3f3f3;
+    border-top: 3px solid #3498db;
+    border-radius: 50%;
+    width: 20px;
+    height: 20px;
+    animation: spin 2s linear infinite;
+    float: left;
+    position: relative;
+    left: 41%;
+}
+
+.tabHeader {
+    background-color: #FFFFFF;
+    font-size: 15px;
+}
+
+.tabHeader a {
+    color: #7A869A;
+}
+
+.activec {
+    background: #0747A6 !important;
+}
+

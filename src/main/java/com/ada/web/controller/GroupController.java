@@ -5,6 +5,7 @@ import com.ada.common.PagingResult;
 import com.ada.common.Utils;
 import com.ada.model.Authority;
 import com.ada.model.Group;
+import com.ada.model.User;
 import com.ada.model.view.AuthorityView;
 import com.ada.model.view.GroupView;
 import com.ada.web.dao.GroupAuthorityDAO;
@@ -14,6 +15,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.annotation.Secured;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
@@ -36,27 +38,23 @@ public class GroupController {
     @Autowired
     GroupAuthorityDAO groupService;
 
-    @GetMapping("/list")
-    @Secured(ConstantAuthor.Group.view)
-    public String list(Model model, @RequestParam(value = "p", required = false, defaultValue = "1") int pageNumber,
-                       @RequestParam(value = "numberPerPage", required = false, defaultValue = "15") int numberPerPage,
-                       @RequestParam(value = "filterName", required = false, defaultValue = "") String filterName) {
-        PagingResult page = new PagingResult();
-        page.setPageNumber(pageNumber);
-        page.setNumberPerPage(numberPerPage);
-        page = groupService.page(Utils.trim(filterName), page).orElse(new PagingResult());
-        model.addAttribute("page", page);
-        model.addAttribute("numberPerPage", numberPerPage);
-        model.addAttribute("filterName", filterName);
-        return "group.list";
+    @GetMapping("/quan-ly-nhom-quyen.html")
+//    @Secured(ConstantAuthor.GROUP.viewList)
+    public String list() {
+//        if (!ConstantAuthor.contain(ConstantAuthor.GROUP.viewList)) {
+//            return "403";
+//        }
+        return "listGroup.index";
     }
 
     @GetMapping("/search")
-    @Secured(ConstantAuthor.Group.view)
-    public ResponseEntity<?> search( @RequestParam(value = "p", required = false, defaultValue = "1") int pageNumber,
-                       @RequestParam(value = "numberPerPage", required = false, defaultValue = "15") int numberPerPage,
-                       @RequestParam(value = "filterName", required = false, defaultValue = "") String filterName) {
+//    @Secured(ConstantAuthor.Group.view)
+    public ResponseEntity<?> search(@RequestParam(value = "p", required = false, defaultValue = "1") int pageNumber,
+                                    @RequestParam(value = "numberPerPage", required = false, defaultValue = "15") int numberPerPage,
+                                    @RequestParam(value = "filterName", required = false, defaultValue = "") String filterName) {
         PagingResult page = new PagingResult();
+        User userLogin = (User) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+        logger.info(userLogin.getUsername() + "------------- GET /system/group/search");
         page.setPageNumber(pageNumber);
         page.setNumberPerPage(numberPerPage);
         page = groupService.page(Utils.trim(filterName), page).orElse(new PagingResult());
@@ -64,7 +62,7 @@ public class GroupController {
     }
 
     public String getList(Model model, @RequestParam(value = "p", required = false, defaultValue = "1") int pageNumber,
-                       @RequestParam(value = "filterName", required = false, defaultValue = "") String filterName) {
+                          @RequestParam(value = "filterName", required = false, defaultValue = "") String filterName) {
         PagingResult page = new PagingResult();
         page.setPageNumber(pageNumber);
         page = groupService.page(Utils.trim(filterName), page).orElse(new PagingResult());
@@ -73,8 +71,8 @@ public class GroupController {
         return "group.list";
     }
 
-    @GetMapping("/add")
-    @Secured(ConstantAuthor.Group.add)
+    @GetMapping("/them-moi-nhom-quyen.html")
+//    @Secured(ConstantAuthor.GROUP.add)
     public String groupAdd(Model model) {
         List<Authority> items = groupService.loadAllAuthority().orElse(new ArrayList<>());
         if (items == null && items.size() == 0) {
@@ -110,7 +108,7 @@ public class GroupController {
     }
 
     @PostMapping("/add")
-    @Secured(ConstantAuthor.Group.add)
+//    @Secured(ConstantAuthor.Group.add)
     public String groupAddSave(Model model, @Valid GroupView item, BindingResult result, RedirectAttributes attributes, HttpServletRequest request) {
         if (item.getGroupName() == null || item.getGroupName().isEmpty()) {
             model.addAttribute("messageError", "");
@@ -143,7 +141,7 @@ public class GroupController {
     }
 
     @GetMapping("/edit/{id}")
-    @Secured(ConstantAuthor.Group.edit)
+//    @Secured(ConstantAuthor.Group.edit)
     public String groupEdit(Model model, @PathVariable("id") Long id) {
         if (id == null || id.intValue() == 0) {
             return "404";
@@ -162,7 +160,7 @@ public class GroupController {
         return "group.edit";
     }
 
-    @Secured(ConstantAuthor.Group.edit)
+    //    @Secured(ConstantAuthor.Group.edit)
     @PostMapping("/edit")
     public String groupEditSave(Model model, @Valid GroupView item, BindingResult result, RedirectAttributes attributes, HttpServletRequest request) {
         if (item.getId() == null || item.getId().intValue() == 0) {
@@ -192,7 +190,7 @@ public class GroupController {
     }
 
     @PostMapping("/delete")
-    @Secured(ConstantAuthor.Group.delete)
+//    @Secured(ConstantAuthor.Group.delete)
     public String GroupDelete(Long id, RedirectAttributes attributes, HttpServletRequest request) {
         long check = 0L;
         try {
@@ -201,7 +199,7 @@ public class GroupController {
         } catch (Exception e) {
             logger.error("have an error UserDelete:" + e.getMessage());
         }
-        switch (Integer.parseInt(check +"")) {
+        switch (Integer.parseInt(check + "")) {
             case 0:
                 attributes.addFlashAttribute("messageError", "message.have.error");
                 return "redirect:/system/group/list";
@@ -219,9 +217,9 @@ public class GroupController {
     }
 
     @GetMapping("/search-user-by-group-{groupId}")
-    @Secured(ConstantAuthor.Group.view)
+//    @Secured(ConstantAuthor.Group.view)
     public String ViewUserByGroup(Model model, @RequestParam(value = "p", required = false, defaultValue = "1") int pageNumber,
-            @PathVariable long groupId) {
+                                  @PathVariable long groupId) {
         PagingResult page = new PagingResult();
         page.setPageNumber(pageNumber);
         page.setNumberPerPage(10);
@@ -244,9 +242,9 @@ public class GroupController {
     }
 
     @GetMapping("/search-authority-by-group-{groupId}")
-    @Secured(ConstantAuthor.Group.view)
+//    @Secured(ConstantAuthor.Group.view)
     public String ViewAuthorityGroup(Model model, @RequestParam(value = "p", required = false, defaultValue = "1") int pageNumber,
-            @PathVariable long groupId) {
+                                     @PathVariable long groupId) {
         PagingResult page = new PagingResult();
         page.setPageNumber(pageNumber);
         page.setNumberPerPage(10);
@@ -262,9 +260,9 @@ public class GroupController {
     }
 
     @GetMapping("/list-group")
-    @Secured(ConstantAuthor.Group.view)
+//    @Secured(ConstantAuthor.Group.view)
     public ResponseEntity<List<Group>> getListGroup() {
-        List<Group> list  = groupService.getAllGroup();
+        List<Group> list = groupService.getAllGroup();
         return new ResponseEntity<>(list, HttpStatus.OK);
     }
 
