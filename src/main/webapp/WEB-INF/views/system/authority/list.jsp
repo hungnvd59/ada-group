@@ -10,12 +10,14 @@
 <%--</script>--%>
 <script src="<%=request.getContextPath()%>/assets/js/bootstrap-filestyle.min.js"></script>
 <script src="<%=request.getContextPath()%>/assets/js/moment-with-locales.js"></script>
-<script src="<%=request.getContextPath()%>/assets/project/authority/list.js"></script>
+<script src="<%=request.getContextPath()%>/assets/project/system/authority/list.js"></script>
+<link rel="stylesheet" href="<%=request.getContextPath()%>/assets/note/css/common.css" type="text/css"/>
 <style>
     .btn-secondary {
         background-color: gray;
         color: white;
     }
+
     .btn-add {
         border-radius: 10px;
         color: #0c63e4;
@@ -28,18 +30,18 @@
         color: #282424;
         border-color: #282424;
     }
+
     .btn-cancel:hover {
         background-color: #eae6e6;
     }
 </style>
-<section style="color: #1F2937;" id="content" ng-app="FrameworkBase" ng-controller="frameworkCtrl">
+<section style="color: #1F2937;" id="content" ng-app="ADAGROUP" ng-controller="authorityListCtrl">
     <section class="vbox">
-        <section class="scrollable padder" style="background: white">
-            <ul class="bg-white breadcrumb no-border no-radius b-b b-light pull-in">
-                <li><a href="<%=request.getContextPath()%>/"><i class="fa fa-home"></i>&nbsp;<spring:message
-                        code="label.system.home"/></a></li>
-                <li><a href="#"><spring:message code="label.system"/></a></li>
-                <li><a href="javascript:void(0)"><spring:message code="label.system.authority"/></a></li>
+        <section class="scrollable padder" style="background: #f4f4f4">
+            <ul style="font-weight: 700;color: #2A2C54"
+                class="bg-white breadcrumb no-border no-radius b-b b-light pull-in breadcrumb-common">
+                <li>Quản trị hệ thống</li>
+                <li>Chức năng hệ thống</li>
             </ul>
             <div class="m-b-md">
                 <h3 class="m-b-none" id="response-status" style="color: #009900">
@@ -53,92 +55,108 @@
             <section class="panel panel-default" style="border-radius: 20px;">
                 <div class="panel-body">
                     <form cssClass="form-inline padder" action="list" role="form" theme="simple">
-
-                        <div class="form-group">
+                        <div class="row">
                             <div class="col-md-6">
-                                <div class="col-sm-8">
+                                <div class="col-sm-8" style="padding-left: 0">
                                     <input style="border-radius: 10px;" name="authKey" ng-model="authKey"
                                            my-enter="search()"
                                            placeholder="<spring:message code='label.system.authority.key'/>"
                                            maxlength="100" class="form-control"/>
                                 </div>
-                                <!--                                    <div class="col-sm-8">
-                                        <select id="customerId" ng-model="fid" class="search_module1 enter search_number">
-<%--                                        <option value=""><spring:message code='label.select.all'/></option>--%>
-                                        <option ng-repeat="item in listCustomer" value="{{item.id}}">0{{item.msisdn}} - {{item.fullname}}</option>
-                                    </select>
-                            </div>-->
-                                <div class="col-sm-4"><a style="border-radius: 10px;" ng-click="search()"
-                                                         class="btn btn-secondary"><i class="fa fa-search"></i>
-                                    <spring:message code="label.button.search"/></a></div>
+                                <div class="col-sm-4">
+                                    <a type="button"
+                                       ng-click="search()" class="btn btn-info btn-search-common"><spring:message
+                                            code="label.button.search"/></a>
+                                </div>
                             </div>
-                            <div class="line line-dashed line-lg pull-in" style="clear:both ;border-top:0px"></div>
                         </div>
                     </form>
                 </div>
             </section>
             <div class="row">
-                <div class="col-sm-12 no-padder" style="padding-bottom: 10px !important;margin-left: 20px">
-                    <button style="border-radius: 10px; color: #0c63e4; border-color: #0c63e4" type="button"
-                            class="btn custom-width" data-toggle="modal" data-target="#updateAuthorityModal"
-                            ng-click="onAddAuthority();"><i class="fa fa-plus"></i> <spring:message
-                            code="label.button.add"/></button>
+                <div class="col-md-6">
+                </div>
+                <div class="col-md-6">
+<%--                    <sec:authorize access="hasRole('ROLE_SYSTEM_AUTHORITY_ADD')">--%>
+                        <a class="btn btn-add btn-search-common"
+                           style="float:right !important;"D
+                           data-toggle="modal"
+                           data-target="#updateAuthorityModal"
+                           ng-click="onAddAuthority();">Thêm mới
+                        </a>
+<%--                    </sec:authorize>--%>
                 </div>
             </div>
-
+            <br>
             <section class="panel panel-default" style="border-radius: 20px;">
-                <div class="table-responsive table-overflow-x-fix">
-                    <table id="tblGroup" class="table table-striped table-bordered m-b-none b-light">
-                        <thead>
-                        <tr>
-                            <th style="border-top-left-radius: 20px" class="box-shadow-inner small_col text-center">#</th>
-                            <th class="box-shadow-inner small_col text-center"><spring:message
-                                    code="label.system.authority.key"/></th>
-                            <th class="box-shadow-inner small_col text-center"><spring:message
+                <div class="table-responsive">
+                    <table class="table b-t b-light table-bordered table-hover" style="margin-bottom: 0px;">
+                        <thead class="bg-gray">
+                        <tr style="background-color: #222222">
+                            <th style="width: 1%;vertical-align: middle;"
+                                class="text-white small_col text-center">STT
+                            </th>
+<%--                            <sec:authorize--%>
+<%--                                    access="hasAnyRole('ROLE_SYSTEM_AUTHORITY_EDIT','ROLE_SYSTEM_AUTHORITY_DETAIL')">--%>
+                                <th style="width: 1%;vertical-align: middle;"
+                                    class="text-white small_col text-center">Thao tác
+                                </th>
+<%--                            </sec:authorize>--%>
+                            <th class="text-white small_col text-center"
+                                style="width: 1%;vertical-align: middle;"><spring:message
+                                    code="label.system.authority.key"/>
+                            </th>
+                            <th class="text-white small_col text-center"
+                                style="width: 1%;vertical-align: middle;"><spring:message
                                     code="label.system.authority.name"/></th>
-                            <th class="box-shadow-inner small_col text-center"><spring:message
+                            <th class="text-white small_col text-center"
+                                style="width: 1%;vertical-align: middle;"><spring:message
                                     code="label.system.authority.description"/></th>
-                            <th class="box-shadow-inner small_col text-center"><spring:message
+                            <th class="text-white small_col text-center"
+                                style="width: 1%;vertical-align: middle;"><spring:message
                                     code="label.system.authority.timeCreate"/></th>
-                            <th class="box-shadow-inner small_col text-center"><spring:message
+                            <th class="text-white small_col text-center"
+                                style="width: 1%;vertical-align: middle;"><spring:message
                                     code="label.system.authority.timeModify"/></th>
-                            <sec:authorize access="hasRole('ROLE_SYSTEM_AUTHORITY_EDIT')">
-                                <th style="border-top-right-radius: 20px" colspan="2" class="box-shadow-inner small_col text-center">Thao tác</th>
-                            </sec:authorize>
                         </tr>
                         </thead>
                         <tbody>
                         <tr ng-repeat="item in listData.items track by $index">
-                            <td class="align-center">{{(listData.pageNumber - 1) * listData.numberPerPage + $index + 1}}</td>
-                            <td class="align-center">{{item[1]}}</td>
-                            <td class="align-center">{{item[2]}}</td>
-                            <td class="align-center">{{item[3]}}</td>
-                            <td class="align-center">{{item[6] | date:'dd/MM/yyyy HH:mm:ss'}}</td>
-                            <td class="align-center">{{item[7] | date:'dd/MM/yyyy HH:mm:ss'}}</td>
-                            <sec:authorize access="hasAnyRole('ROLE_SYSTEM_AUTHORITY_EDIT','ROLE_SYSTEM_AUTHORITY_DELETE')">
-                                <td>
-                                    <sec:authorize access="hasAnyRole('ROLE_SYSTEM_AUTHORITY_EDIT')">
-                                        <button style="border-radius: 10px; color: #0c63e4; border-color: #0c63e4"
-                                                type="button" data-toggle="modal" data-target="#updateAuthorityModal"
-                                                class="btn" ng-click="onEditAuthority(item);"><i class="fa fa-edit"></i>
-                                            <spring:message code="label.button.edit"/></button>
-                                    </sec:authorize>
+                            <td style="vertical-align: middle;text-align: center" class="text-left v-inherit">
+                                {{(listData.pageNumber - 1) * listData.numberPerPage + $index + 1}}
+                            </td>
+<%--                            <sec:authorize--%>
+<%--                                    access="hasAnyRole('ROLE_SYSTEM_AUTHORITY_DETAIL','ROLE_SYSTEM_AUTHORITY_DELETE')">--%>
+                                <td style="vertical-align: middle;text-align: center" class="text-left v-inherit">
+                                    <div class="btn-group" style="text-align: left">
+                                        <a data-toggle="dropdown" class="dropdown-toggle" href="#"><i
+                                                class="fa fa-cog text-default"></i></a>
+                                        <ul class="dropdown-menu pull-right"
+                                            style="width: fit-content;text-align: left;">
+<%--                                            <sec:authorize access="hasAnyRole('ROLE_SYSTEM_AUTHORITY_DETAIL')">--%>
+                                                <li class="li-ct3"><a href=""
+                                                                      type="button" data-toggle="modal"
+                                                                      data-target="#updateAuthorityModal"
+                                                                      ng-click="onEditAuthority(item);"><i
+                                                        class="fa fa-eye"></i>&nbsp;Xem&nbsp;chi tiết</a></li>
+<%--                                            </sec:authorize>--%>
+                                        </ul>
+                                    </div>
                                 </td>
-                                <td>
-                                    <sec:authorize access="hasAnyRole('ROLE_SYSTEM_AUTHORITY_DELETE')">
-                                        <button style="border-radius: 10px; color: #282424; border-color: #282424"
-                                                type="button" class="btn" data-toggle="modal"
-                                                data-target="#deleteAuthorityModal" ng-click="onDeleteAuthority(item[0]);">
-                                            <i class="fa fa-times"></i> <spring:message code="label.button.delete"/>
-                                        </button>
-                                    </sec:authorize>
-                                </td>
-                            </sec:authorize>
+<%--                            </sec:authorize>--%>
+                            <td style="vertical-align: middle;" class="text-left v-inherit">{{item[1]}}</td>
+                            <td style="vertical-align: middle;" class="text-left v-inherit">{{item[2]}}</td>
+                            <td style="vertical-align: middle;" class="text-left v-inherit">{{item[3]}}</td>
+                            <td style="vertical-align: middle;text-align: center" class="text-left v-inherit">
+                                {{item[6] | date:'dd/MM/yyyy | HH:mm:ss'}}
+                            </td>
+                            <td style="vertical-align: middle;text-align: center" class="text-left v-inherit">
+                                {{item[7] | date:'dd/MM/yyyy | HH:mm:ss'}}
+                            </td>
                         </tr>
                         <tr>
                             <td colspan="12" ng-if="listData.rowCount==0" class="text-center">Không có dữ liệu</td>
                         </tr>
-
                         </tbody>
                     </table>
                 </div>
@@ -147,30 +165,22 @@
                 <div class="row">
                     <div class="col-sm-12 text-right text-center-xs">
                         <div class="col-sm-6 text-left">
-                            <span>Tổng số <code>{{listData.rowCount | currency:"":0}}</code> bản ghi</span>
-                            <label class="input-sm"><span>Hiển thị: </span></label>
-                            <select class="input-sm form-control input-s-sm inline" style="width: 60px;"
-                                    ng-model="numberPerPage" ng-change="setNumberPerPage(numberPerPage);"
-                                    ng-init="numberPerPage = '15'">
-                                <option value="5">5</option>
-                                <option value="15">15</option>
-                                <option value="25">25</option>
-                            </select>
+                            <span style="color: black">Tổng số {{listData.rowCount}} dữ liệu</span>
                         </div>
                         <div class="col-sm-6">
                             <ul class="pagination pagination-sm m-t-none m-b-none">
                                 <li ng-if="listData.pageNumber > 1"><a href="javascript:void(0)"
-                                                                       ng-click="loadPage(1)">«</a>
+                                                                       ng-click="loadPageData(1)">«</a>
                                 </li>
                                 <li ng-repeat="item in listData.pageList">
                                     <a href="javascript:void(0)" ng-if="item == listData.pageNumber"
                                        style="color:mediumvioletred;"> {{item}}</a>
                                     <a href="javascript:void(0)" ng-if="item != listData.pageNumber"
-                                       ng-click="loadPage(item)"> {{item}}</a>
+                                       ng-click="loadPageData(item)"> {{item}}</a>
                                 </li>
                                 <li ng-if="listData.pageNumber < listData.pageCount"><a
                                         href="javascript:void(0)"
-                                        ng-click="loadPage(listData.pageCount)">»</a>
+                                        ng-click="loadPageData(listData.pageCount)">»</a>
                                 </li>
                             </ul>
                         </div>
@@ -186,27 +196,31 @@
          aria-labelledby="updateAuthorityModalLabel" aria-hidden="true">
         <div class="modal-dialog" role="document" style="border-radius: 20px">
             <div class="modal-content">
-                <div class="modal-header alert-info">
-                    <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span
-                            aria-hidden="true">&times;</span></button>
-                    <h4 class="modal-title font-weight-bold" id="exampleModalLabel" ng-if="labelTitle == 'Add'">
+                <div class="modal-header alert"
+                     style="padding: 7px; background: #172B4D; text-align: center;vertical-align: center">
+                    <button style="color: #FFFFFF; opacity: 1;font-size: 24px;font-weight: 100;" type="button"
+                            class="close" data-dismiss="modal"
+                            aria-hidden="true">&times;
+                    </button>
+                    <h4 style="font-size: 14pt;color: White;" id="exampleModalLabel" ng-if="labelTitle == 'Add'">
                         <spring:message code="label.modal.authority.add"/></h4>
-                    <h4 class="modal-title font-weight-bold" id="exampleModalLabel1" ng-if="labelTitle == 'Edit'">
+                    <h4 style="font-size: 14pt;color: White;" id="exampleModalLabel1" ng-if="labelTitle == 'Edit'">
                         <spring:message code="label.modal.authority.edit"/></h4>
                 </div>
                 <div class="modal-body">
-                    <!--<form enctype="multipart/form-data" class="form-horizontal" data-validate="parsley">-->
                     <div class="form-group">
-                        <label for="recipient-name" class="col-form-label font-weight-bold"><spring:message
+                        <label for="recipient-name" class="col-form-label" style="font-weight: bold"><spring:message
                                 code="label.system.authority.key"/></label>
                         <input type="hidden" ng-model="authItem.id"/>
                         <div>
-                            <input style="border-radius: 10px;" ng-if="labelTitle == 'Add'" ng-model="authItem.authKey" id="authKeyUpdate"
+                            <input style="border-radius: 10px;" ng-if="labelTitle == 'Add'" ng-model="authItem.authKey"
+                                   id="authKeyUpdate"
                                    name="authKeyUpdate" class="form-control"
                                    placeholder="<spring:message code='label.system.authority.key'/>"
                                    maxlength="100"
                             />
-                            <input style="border-radius: 10px;" ng-if="labelTitle == 'Edit'" ng-model="authItem.authKey" id="authKeyUpdate1"
+                            <input style="border-radius: 10px;" ng-if="labelTitle == 'Edit'" ng-model="authItem.authKey"
+                                   id="authKeyUpdate1"
                                    name="authKeyUpdate" class="form-control" disabled
                                    placeholder="<spring:message code='label.system.authority.key'/>"
                                    maxlength="100"
@@ -215,10 +229,11 @@
                         <span class="text-danger">{{authKey_valid}}</span>
                     </div>
                     <div class="form-group">
-                        <label for="message-text" class="col-form-label font-weight-bold"><spring:message
+                        <label for="message-text" class="col-form-label" style="font-weight: bold"><spring:message
                                 code="label.system.authority.name"/></label>
                         <div>
-                            <input style="border-radius: 10px;" ng-model="authItem.authority" class="form-control" id="authNameUpdate"
+                            <input style="border-radius: 10px;" ng-model="authItem.authority" class="form-control"
+                                   id="authNameUpdate"
                                    name="authNameUpdate"
                                    placeholder="<spring:message code='label.system.authority.name'/>"
                                    maxlength="100"
@@ -227,14 +242,14 @@
                         <span class="text-danger">{{authName_valid}}</span>
                     </div>
                     <div class="form-group">
-                        <label for="message-text" class="col-form-label font-weight-bold"><spring:message
+                        <label for="message-text" class="col-form-label" style="font-weight: bold"><spring:message
                                 code="label.system.authority.authParrent"/></label>
                         <div>
-                            <select id="authParentUpdate" name="authParentUpdate" ng-model="authItem.fid"
+                            <select class="select2-choice" id="authParentUpdate" name="authParentUpdate" ng-model="authItem.fid"
                                     style="width: 100%">
                                 <option value="0" selected><spring:message
                                         code="label.system.authority.select.none"/></option>
-                                <option data-ng-repeat="auth in authParent" value="{{auth.id}}">{{auth.authority}}
+                                <option ng-repeat="auth in authParent" value="{{auth.id}}">{{auth.authority}}
                                 </option>
                             </select>
                         </div>
@@ -242,10 +257,11 @@
                     </div>
 
                     <div class="form-group">
-                        <label for="message-text" class="col-form-label font-weight-bold"><spring:message
+                        <label for="message-text" class="col-form-label" style="font-weight: bold"><spring:message
                                 code="label.system.authority.description"/></label>
                         <div>
-                            <textarea style="border-radius: 10px;" ng-model="authItem.description" id="authDescriptionUpdate"
+                            <textarea style="border-radius: 10px;" ng-model="authItem.description"
+                                      id="authDescriptionUpdate"
                                       name="authDescriptionUpdate" class="form-control" placeholder="Mô tả" rows="5"
                                       maxlength="100"/></textarea>
                         </div>
@@ -253,41 +269,53 @@
                     </div>
                     <!--</form>-->
                 </div>
-                <div class="modal-footer">
-                    <button style="border-radius: 10px; color: #0c63e4; border-color: #0c63e4;" type="button" class="btn" ng-click="addOrUpdateAuthority()"
-                            ng-if="labelTitle == 'Add'"><i class="fa fa-save"></i> <spring:message
-                            code="label.button.save"/></button>
-                    <button style="border-radius: 10px; color: #0c63e4; border-color: #0c63e4;" type="button" class="btn" ng-click="addOrUpdateAuthority()"
-                            ng-if="labelTitle == 'Edit'"><i class="fa fa-save"></i> <spring:message
-                            code="label.button.update"/></button>
-                    <button style="border-radius: 10px; color: #282424; border-color: #282424;" type="button" class="btn" data-dismiss="modal"><i class="fa fa-times"></i>
-                        <spring:message code="label.button.close"/></button>
+                <div class="modal-footer" style="border: none;text-align: center">
+                    <%--                    <sec:authorize access="hasAnyRole('ROLE_SYSTEM_AUTHORITY_ADD')">--%>
+                    <a style="width: 111px;background: #FFFFFF;border: 0.5px solid #172B4D;border-radius: 8px;color: #172B4D !important;"
+                       type="button"
+                       class="btn" ng-click="addOrUpdateAuthority()"
+                       ng-if="labelTitle == 'Add'"><spring:message
+                            code="label.button.save"/></a>
+                    <%--                    </sec:authorize>--%>
+                    <%--                    <sec:authorize access="hasAnyRole('ROLE_SYSTEM_AUTHORITY_EDIT')">--%>
+                    <a style="width: 111px;background: #172B4D;border-radius: 8px;color: #FFFFFF;border: none"
+                       type="button"
+                       class="btn" ng-click="addOrUpdateAuthority()"
+                       ng-if="labelTitle == 'Edit'"> <spring:message
+                            code="label.button.update"/></a>
+                    <%--                    </sec:authorize>--%>
+                    <a style="width: 111px;color: #172B4D;background: #20B4BD;border-radius: 8px;color: white"
+                       type="button"
+                       class="btn" data-dismiss="modal">
+                        <spring:message code="label.button.close"/></a>
                 </div>
             </div>
         </div>
     </div>
-    <div class="modal fade" id="deleteAuthorityModal" tabindex="-1" role="dialog"
-         aria-labelledby="deleteAuthorityModal" aria-hidden="true" aria-label="Close">
-        <div class="modal-dialog">
-            <div class="modal-content">
-                <div class="modal-header alert-info">
-                    <button type="button" class="close" class="btn btn-default" data-dismiss="modal" aria-hidden="true">
-                        &times;
+    <div class="modal fade" id="deleteAuthorityModal" role="dialog" aria-hidden="true" style="text-align: center">
+        <div class="modal-dialog" id="b">
+            <div class="modal-content" style="text-align: center;">
+                <div class="modal-header alert text-center" style="padding: 7px; background: #172B4D;border-radius: 0">
+                    <button style="color: #FFFFFF; opacity: 1;font-size: 24px;font-weight: 100;" type="button"
+                            class="close" data-dismiss="modal"
+                            aria-hidden="true">&times;
                     </button>
-                    <h4 class="modal-title"><spring:message code="label.modal.authority.delete"/></h4>
+                    <h5 class="modal-title" style="font-size: 14pt;color: White;">XÁC NHẬN</h5>
                 </div>
                 <div class="modal-body">
-                    <label><spring:message code="message.modal.authority.delete"/></label>
+                    <label style="font-size: 14px"><spring:message code="message.modal.authority.delete"/></label>
                 </div>
-                <div class="modal-footer">
-                    <button type="button" class="btn btn-add" data-dismiss="modal" ng-click="deleteAuthority()"
-                            style="text-transform: none;"><i class="fa fa-check"></i> <spring:message
-                            code="label.button.ok"/></button>
-                    <button type="button" class="btn btn-cancel" data-dismiss="modal"><i class="fa fa-times"></i>
-                        <spring:message code="label.button.close"/></button>
+                <div class="modal-footer" style="border: none;text-align: center">
+                    <a class="btn btn-light"
+                       style="width:135px; border: 1px solid #172B4D;color: #172B4D; border-radius: 8px"
+                       data-dismiss="modal">Quay lại
+                    </a>
+                    <a class="btn btn-secondary"
+                       style="width: 136px;background: #172B4D;border-radius: 8px;color: #FFFFFF;border: none"
+                       ng-click="deleteAuthority()">Xóa chức năng
+                    </a>
                 </div>
             </div>
         </div>
     </div>
-
 </section>

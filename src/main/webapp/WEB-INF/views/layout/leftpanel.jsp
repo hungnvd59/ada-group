@@ -68,21 +68,21 @@
                             <a id="<%= isActive(request.getContextPath() + "/system/user/", request)
                             || isActive(request.getContextPath() + "/system/user", request)
                         ||isActive(request.getContextPath() + "/system/user/", request) ? "active" : ""%>"
-                               href="#" class=""> <i class="fa fa-cogs icon"></i> <span
+                               href="#" class=""> <i class="fa fa-user icon"></i> <span
                                     class="pull-right"> <i class="fa fa-angle-down text"></i> <i
                                     class="fa fa-angle-up text-active"></i> </span>Quản lý người dùng</span> </a>
                             <ul class="nav lt">
                                 <%--									<sec:authorize access="hasRole('ROLE_SYSTEM_USER_WEB_LIST')">--%>
-                                <li class="<%= isActive(request.getContextPath() + "/system/user//quan-ly-nguoi-dung-w", request) ? "active" : ""%>">
+                                <li class="<%= isActive(request.getContextPath() + "/system/user/quan-ly-nguoi-dung-w", request) ? "active" : ""%>">
                                     <a href="<%=request.getContextPath()%>/system/user/quan-ly-nguoi-dung-web.html"
                                        class=""> <i
-                                            class="fa fa-angle-right"></i> <span>Người dùng WEB</span> </a></li>
+                                            class="fa fa-angle-right"></i> <span>Tài khoản CEO-Kim cương</span> </a></li>
                                 <%--									</sec:authorize>--%>
                                 <%--									<sec:authorize access="hasRole('ROLE_SYSTEM_USER_CMS_LIST')">--%>
-                                <li class="<%= isActive(request.getContextPath() + "/system/user//quan-ly-nguoi-dung-h", request) ? "active" : ""%>">
+                                <li class="<%= isActive(request.getContextPath() + "/system/user/quan-ly-nguoi-dung-h", request) ? "active" : ""%>">
                                     <a href="<%=request.getContextPath()%>/system/user/quan-ly-nguoi-dung-he-thong.html"
                                        class=""> <i
-                                            class="fa fa-angle-right"></i> <span>Người dùng CMS</span> </a></li>
+                                            class="fa fa-angle-right"></i> <span>Tài khoản đại lý </span> </a></li>
                                 <%--									</sec:authorize>--%>
                             </ul>
                         </li>
@@ -110,15 +110,6 @@
                                     <a href="<%=request.getContextPath()%>/system/group/quan-ly-nhom-quyen.html"
                                        class=""> <i
                                             class="fa fa-angle-right"></i> <span>Nhóm quyền</span> </a></li>
-                                <%--										</sec:authorize>--%>
-                                <%--										<sec:authorize--%>
-                                <%--												access="hasAnyRole('ROLE_SYSTEM_PARAMETERS_LIST')">--%>
-                                <c:if test="${pageScope.typeUser == 0}"><%--TK ADMIN OSP--%>
-                                    <li>
-                                        <a href="<%=request.getContextPath()%>/system/parameters/quan-ly-tham-so-he-thong.html"
-                                           class=""> <i
-                                                class="fa fa-angle-right"></i> <span>Tham số hệ thống</span> </a></li>
-                                </c:if>
                                 <%--										</sec:authorize>--%>
                                 <%--										<sec:authorize--%>
                                 <%--												access="hasAnyRole('ROLE_SYSTEM_AUTHORITY_LIST')">--%>

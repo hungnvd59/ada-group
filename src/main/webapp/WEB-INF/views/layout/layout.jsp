@@ -68,7 +68,7 @@
     </script>
 </head>
 <body>
-<section class="vbox">
+<section class="vbox" style="font-family: 'Be Vietnam Pro'">
     <tiles:insertAttribute name="header" />
     <section>
         <section class="hbox stretch">

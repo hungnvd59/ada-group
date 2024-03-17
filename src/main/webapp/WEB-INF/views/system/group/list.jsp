@@ -53,10 +53,10 @@
             </div>
             <br>
             <section class="panel panel-default" style="border-radius: 20px;">
-                <div class="table-responsive table-overflow-x-fix" style="overflow-x: scroll;">
+                <div class="table-responsive table-overflow-x-fix">
                     <table class="table b-t b-light table-bordered table-hover" style="margin-bottom: 0px;">
                         <thead class="bg-gray">
-                        <tr style="background-color: #172B4D">
+                        <tr style="background-color: #222222">
                             <th class="text-center v-inherit text-white"
                                 style="width: 1%;vertical-align: middle;">STT
                             </th>
@@ -84,7 +84,7 @@
                             </td>
                             <td style="vertical-align: middle;text-align: center" class="text-left v-inherit">
 <%--                                <sec:authorize access="hasRole('ROLE_SYSTEM_GROUP_EDIT')">--%>
-                                    <img ng-click="redirectDetail(item.id)" title="Sửa" src="<%=request.getContextPath()%>/assets/images/icon/brush.png" style="cursor: pointer;">
+                                    <img width="14px" height="14px" ng-click="redirectDetail(item.id)" title="Sửa" src="<%=request.getContextPath()%>/assets/images/icon/brush.png" style="cursor: pointer;">
 <%--                                </sec:authorize>--%>
                             </td>
                             <td style="vertical-align: middle;" class="text-left v-inherit">{{item.groupName}}</td>

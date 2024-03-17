@@ -123,7 +123,7 @@ public class GroupController {
         try {
             if (!result.hasErrors() && groupService.saveGroupView(item, Utils.getIpClient(request)).orElse(false)) {
                 attributes.addFlashAttribute("success", "message.group.add.success");
-                return "redirect:/system/group/list";
+                return "redirect:/system/group/quan-ly-nhom-quyen.html";
             }
         } catch (Exception e) {
             logger.error("Have error GroupController.groupAddSave: " + e.getMessage());
@@ -174,7 +174,7 @@ public class GroupController {
         try {
             if (!result.hasErrors() && groupService.editGroupView(item, Utils.getIpClient(request)).orElse(false)) {
                 attributes.addFlashAttribute("success", "message.group.edit.success");
-                return "redirect:/system/group/list";
+                return "redirect:/system/group/quan-ly-nhom-quyen.html";
             }
         } catch (Exception e) {
             logger.error("Have error GroupController.groupEditSave: " + e.getMessage());
@@ -202,16 +202,16 @@ public class GroupController {
         switch (Integer.parseInt(check + "")) {
             case 0:
                 attributes.addFlashAttribute("messageError", "message.have.error");
-                return "redirect:/system/group/list";
+                return "redirect:/system/group/quan-ly-nhom-quyen.html";
             case 2:
                 attributes.addFlashAttribute("messageError", "message.failure.group");
-                return "redirect:/system/group/list";
+                return "redirect:/system/group/quan-ly-nhom-quyen.html";
             case 1:
                 attributes.addFlashAttribute("success", "message.group.delete.success");
-                return "redirect:/system/group/list";
+                return "redirect:/system/group/quan-ly-nhom-quyen.html";
             default:
                 attributes.addFlashAttribute("messageError", "message.have.error");
-                return "redirect:/system/group/list";
+                return "redirect:/system/group/quan-ly-nhom-quyen.html";
         }
 
     }

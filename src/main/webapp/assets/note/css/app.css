@@ -1,3 +1,8 @@
+@import url('https://fonts.googleapis.com/css?family=Montserrat:400,600,700');
+@import url('https://fonts.googleapis.com/css?family=Catamaran:400,800');
+@import url('https://fonts.googleapis.com/css?family=Be+Vietnam+Pro:400,800');
+
+
 html {
     background-color: #f7f7f7;
     overflow-x: hidden;
@@ -1058,7 +1063,7 @@ body.container {
     padding: 11px 15px;
     position: relative;
     font-weight: bold;
-    font-size: 12px;
+    font-size: 13px;
     border-top: 1px solid transparent;
     border-color: rgba(255, 255, 255, 0.05);
     transition: color .3s ease-in-out 0s;
@@ -1126,7 +1131,7 @@ body.container {
 .nav-primary ul.nav > li li a {
     font-weight: normal;
     text-transform: none;
-    font-size: 13px;
+    font-size: 12px;
     background-color: #222222;
 }
 

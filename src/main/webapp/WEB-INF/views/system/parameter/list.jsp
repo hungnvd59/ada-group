@@ -57,11 +57,11 @@
                             <th class="text-center v-inherit text-white"
                                 style="vertical-align: middle;">STT
                             </th>
-                            <sec:authorize access="hasAnyRole('ROLE_SYSTEM_PARAMETERS_EDIT')">
+<%--                            <sec:authorize access="hasAnyRole('ROLE_SYSTEM_PARAMETERS_EDIT')">--%>
                                 <th class="text-center v-inherit text-white"
                                     style="vertical-align: middle;min-width: 130px;">Thao tác
                                 </th>
-                            </sec:authorize>
+<%--                            </sec:authorize>--%>
                             <th class="v-inherit text-white" style="vertical-align: middle;">
                                 Mã tham số
                             </th>
@@ -84,13 +84,13 @@
                             <td style="vertical-align: middle;" class="text-center v-inherit">
                                 {{(listData.pageNumber - 1) * listData.numberPerPage + $index + 1}}
                             </td>
-                            <sec:authorize access="hasAnyRole('ROLE_SYSTEM_PARAMETERS_EDIT')">
+<%--                            <sec:authorize access="hasAnyRole('ROLE_SYSTEM_PARAMETERS_EDIT')">--%>
                                 <td style="vertical-align: middle;text-align: center" class="text-left v-inherit">
                                     <img ng-click="showDetail(item)" title="Sửa"
                                          src="<%=request.getContextPath()%>/assets/image/icon/brush.png"
                                          style="cursor: pointer;">
                                 </td>
-                            </sec:authorize>
+<%--                            </sec:authorize>--%>
                             <td style="vertical-align: middle;" class="text-left v-inherit">{{item.key}}</td>
                             <td style="vertical-align: middle;" class="text-left v-inherit">{{item.defaultValue}}</td>
                             <td style="vertical-align: middle;" class="text-left v-inherit">{{item.value}}</td>

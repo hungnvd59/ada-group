@@ -9,10 +9,13 @@
         color: whitesmoke;
     }
     .userLG:hover{
-        color: #5c636a;
+        color: #FFFFFF;
+        cursor: pointer;
+    }
+    .nav-user > li > a:hover{
+        background-color: transparent;
     }
 </style>
-
 <header class="bg-secondary dk header navbar navbar-fixed-top-xs" style="background-color: #222222">
 
     <div class="navbar-header aside-md ">
@@ -25,8 +28,8 @@
             <i class="fa fa-cog"></i>
         </a>
     </div>
-    <ul class="nav navbar-nav navbar-right hidden-xs nav-user" style="margin-right: 15px;color: #FFFFFF">
-        <li class="dropdown"><a class="dropdown-toggle userLG" onclick="myFunction()">
+    <ul class="nav navbar-nav navbar-right hidden-xs nav-user" style="margin-top: 10px;margin-right: 15px;color: #FFFFFF">
+        <li style="border-radius: 20px;border:1px solid #FFF" class="dropdown"><a style=";padding-bottom: 5px;padding-top: 5px" class="dropdown-toggle userLG" onclick="myFunction()">
             <%=request.getRemoteUser()%> <b class="caret"></b>
         </a>
             <ul id="myDropdown" class="dropdown-menu animated fadeInRight">

@@ -4,6 +4,7 @@ import com.ada.common.ConstantAuthor;
 import com.ada.common.PagingResult;
 import com.ada.common.Utils;
 import com.ada.model.Authority;
+import com.ada.model.User;
 import com.ada.web.dao.LogAccessDAO;
 import com.ada.web.dao.UserDAO;
 import com.ada.web.service.AuthorityService;
@@ -20,6 +21,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.annotation.Secured;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -44,30 +46,32 @@ public class AuthorityController {
 
     SimpleDateFormat dateFormat = new SimpleDateFormat("yyyyMMddHHmmss");
 
-    @GetMapping("/list")
-    @Secured(ConstantAuthor.Authority.view)
-    public String list() {
+    @GetMapping("/quan-ly-chuc-nang-he-thong.html")
+//    @Secured(ConstantAuthor.AUTHORITY.viewList)
+    public String getListAuthority() {
         return "authority.list";
     }
 
     @GetMapping("/search")
-    @Secured(ConstantAuthor.Authority.view)
-    public ResponseEntity<PagingResult> authorityList(@RequestParam(value = "p", required = false, defaultValue = "1") int pageNumber,
-                                                      @RequestParam(value = "numberPerPage", required = false, defaultValue = "15") int numberPerPage,
-                                                      String authKey) {
+//    @Secured(ConstantAuthor.AUTHORITY.viewList)
+    public ResponseEntity<?> authorityList(@RequestParam(value = "p", required = false, defaultValue = "1") int pageNumber,
+                                           @RequestParam(value = "numberPerPage", required = false, defaultValue = "15") int numberPerPage,
+                                           @RequestParam(value = "authKey") String authKey) {
+        User userLogin = (User) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+        logger.info(userLogin.getUsername() + "------------- GET /system/authority/search");
         PagingResult page = new PagingResult();
         page.setPageNumber(pageNumber);
         page.setNumberPerPage(numberPerPage);
         try {
             page = authorityService.page(page, Utils.trim(authKey)).orElse(new PagingResult());
         } catch (Exception e) {
-
+            e.printStackTrace();
         }
-        return new ResponseEntity<PagingResult>(page, HttpStatus.OK);
+        return new ResponseEntity<>(page, HttpStatus.OK);
     }
 
     @GetMapping("/get-list-auth-parent")
-    @Secured(ConstantAuthor.Authority.view)
+//    @Secured(ConstantAuthor.Authority.view)
     public ResponseEntity<List<Authority>> getListAuthparent(Long authId) {
         if (authId == null) {
             authId = 0L;
@@ -82,7 +86,7 @@ public class AuthorityController {
     }
 
     @PostMapping(value = "/add")
-    @Secured(ConstantAuthor.Authority.add)
+//    @Secured(ConstantAuthor.Authority.add)
     public ResponseEntity<String> addAuthority(@RequestBody Authority authItem, HttpServletRequest request) {
         String page = "0";  // 0: no error, 1: error, 2: not required, 3 key exits
         try {
@@ -106,7 +110,7 @@ public class AuthorityController {
     }
 
     @PostMapping(value = "/edit")
-    @Secured(ConstantAuthor.Authority.edit)
+//    @Secured(ConstantAuthor.Authority.edit)
     public ResponseEntity<String> editAuthority(@RequestBody Authority authItem, HttpServletRequest request) {
         String page = "0";  // 0: no error, 1: error, 2: not required, 3 not exits, 4 had auth child
         try {
@@ -148,7 +152,7 @@ public class AuthorityController {
     }
 
     @PostMapping(value = "/delete")
-    @Secured(ConstantAuthor.Authority.delete)
+//    @Secured(ConstantAuthor.Authority.delete)
     public ResponseEntity<String> deleteAuthority(@RequestBody Authority authItem, HttpServletRequest request) {
         String page = "0";  // 0: no error, 1: error, 2: not required, 3 not exits, 4 assigned, 5 had auth child
         try {
