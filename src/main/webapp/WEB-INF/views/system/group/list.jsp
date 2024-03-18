@@ -13,10 +13,11 @@
 <section style="color: #1F2937;" id="content" ng-app="ADAGROUP" ng-controller="groupListCtrl">
     <section class="vbox">
         <section class="scrollable padder" style="background: #f4f4f4">
-            <ul style="font-weight: 700;color: #172B4D"
+            <ul style="font-weight: 700;color: #2A2C54"
                 class="bg-white breadcrumb no-border no-radius b-b b-light pull-in breadcrumb-common">
-                <li>Quản trị hệ thống</li>
-                <li>Danh sách nhóm quyền</li>
+                <li style="color: gray"><span><i class="fa fa-home"></i>&nbsp;Trang chủ</span></li>
+                <li style="color: gray"><span>Quản lý hệ thống</span></li>
+                <li><span>Danh sách nhóm quyền</span></li>
             </ul>
             <div class="m-b-md"><h3 class="m-b-none" id="adagroup-status" style="color: #009900"><c:if
                     test="${success.length()>0}"><spring:message code="${success}"/></c:if></h3></div>

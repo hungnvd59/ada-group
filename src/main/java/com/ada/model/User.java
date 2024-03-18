@@ -52,7 +52,7 @@ public class User implements Serializable, UserDetails {
     @Column(name = "ADDRESS")
     private String address;
     @Column(name = "STATUS")
-    private int status;
+    private Long status;
     @Column(name = "GEN_DATE")
     private Date genDate;
     @Column(name = "LAST_UPDATED")
@@ -167,11 +167,11 @@ public class User implements Serializable, UserDetails {
         this.lastAccessTime = lastAccessTime;
     }
 
-    public int getStatus() {
+    public Long getStatus() {
         return status;
     }
 
-    public void setStatus(int status) {
+    public void setStatus(Long status) {
         this.status = status;
     }
 

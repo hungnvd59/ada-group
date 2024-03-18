@@ -54,7 +54,7 @@ public class UserDAO extends EntityDAOImpl {
     @Transactional(value = "transactionManager")
     public Optional<Boolean> addUser(User item, String ipClient) {
         try {
-            item.setStatus(1);
+            item.setStatus(1L);
             item.setGenDate(new Date());
             item.setLastUpdated(new Date());
             item.setPassword(encoder.encode(item.getPassword()));

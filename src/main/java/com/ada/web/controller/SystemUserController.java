@@ -378,7 +378,7 @@ public class SystemUserController {
                 return "404";
             }
 
-            userEdit.setStatus(new Short(active));
+            userEdit.setStatus(Long.parseLong(active));
             useService.editUser(userEdit);
         } catch (Exception e) {
             // TODO Auto-generated catch block

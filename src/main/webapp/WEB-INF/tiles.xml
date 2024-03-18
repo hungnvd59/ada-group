@@ -62,21 +62,6 @@
         <put-attribute name="title" value="Sửa nhóm quyền"/>
         <put-attribute name="page" value="/WEB-INF/views/system/group/edit.jsp"/>
     </definition>
-    <!--log-->
-    <definition name="log.list" extends="default">
-        <put-attribute name="title" value="Lịch sử hệ thống"/>
-        <put-attribute name="page" value="/WEB-INF/views/system/log/list.jsp"/>
-    </definition>
-
-    <definition name="log.user" extends="default">
-        <put-attribute name="title" value="Lịch sử chi tiết người dùng"/>
-        <put-attribute name="page" value="/WEB-INF/views/system/log/log.user.jsp"/>
-    </definition>
-    <definition name="my.history" extends="default">
-        <put-attribute name="title" value="Lịch sử chi tiết người dùng"/>
-        <put-attribute name="page" value="/WEB-INF/views/system/log/my.history.jsp"/>
-    </definition>
-
     <!--system parameter-->
     <definition name="parameters.list" extends="default">
         <put-attribute name="title" value="Tham số hệ thống"/>
@@ -90,9 +75,10 @@
     </definition>
 
     <!--list CTV-->
-    <definition name="partner.list" extends="default">
-        <put-attribute name="title" value="Chức năng quản lý cộng tác viên"/>
-        <put-attribute name="page" value="/WEB-INF/views/partner/index.jsp"/>
+    <!--CUSTOMER-->
+    <definition name="customer.index" extends="default">
+        <put-attribute name="title" value="Quản lý nhân viên"/>
+        <put-attribute name="page" value="/WEB-INF/views/customer/index.jsp"/>
     </definition>
 
     <!--detail CTV-->

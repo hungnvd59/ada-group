@@ -6,7 +6,7 @@
 <head>
     <meta charset="utf-8"/>
     <title><tiles:insertAttribute name="title"/></title>
-    <link rel="shortcut icon" type="image/x-icon" href="<%=request.getContextPath()%>/assets/images/favion/favicon.ico" />
+    <link rel="shortcut icon" type="image/x-icon" href="<%=request.getContextPath()%>/assets/images/favion/favion.png" />
     <meta name="description" content="ada-group"/>
     <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
@@ -61,6 +61,14 @@
 	
 	<link rel="stylesheet" href="<%=request.getContextPath()%>/assets/note/js/toastr/toastr.min.css" type="text/css"/>
     <script src="<%= request.getContextPath()%>/assets/note/js/toastr/toastr.min.js"></script>
+
+    <%--CHOSEN--%>
+
+    <script src="<%=request.getContextPath()%>/assets/chosen_v1.8.7/chosen.jquery.min.js" type="text/javascript"
+            charset="utf-8"></script>
+    <link rel="stylesheet" href="<%=request.getContextPath()%>/assets/chosen_v1.8.7/chosen.css">
+    <link rel="stylesheet" href="<%=request.getContextPath()%>/assets/chosen_v1.8.7/docsupport/style.css">
+    <link rel="stylesheet" href="<%=request.getContextPath()%>/assets/chosen_v1.8.7/docsupport/prism.css">
     
 
     <script>

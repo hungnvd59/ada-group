@@ -14,7 +14,7 @@
     <meta name="author" content="">
 
     <!-- CSS -->
-    <link rel="shortcut icon" href="<%=request.getContextPath()%>/assets/images/favion/favicon.ico"/>
+    <link rel="shortcut icon" href="<%=request.getContextPath()%>/assets/images/favion/favion.png"/>
     <link rel="stylesheet" href="<%=request.getContextPath()%>/assets/login/css/login.css">
     <style>
         .errorss {

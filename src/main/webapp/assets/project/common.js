@@ -1,13 +1,13 @@
 /**
  * Created by Admin on 12/21/2017.
  */
-var app = angular.module('ADAGROUP', ["ngSanitize","autocomplete"]);
+var app = angular.module('ADAGROUP', ["ngSanitize", "autocomplete"]);
 
 //Bat ky tu
 var digitsOnly = /[1234567890]/g;
 var digitsAndSemicolon = /[1234567890;]/g;
 var digitsAndAsterisk = /[1234567890\\*]/g;
-var digitsAndSlash =/[1234567890/]/g;
+var digitsAndSlash = /[1234567890/]/g;
 
 function restrictCharacters(myfield, e, restrictionType) {
     if (!e) var e = window.event
@@ -16,12 +16,15 @@ function restrictCharacters(myfield, e, restrictionType) {
     var character = String.fromCharCode(code);
 
     // if they pressed esc... remove focus from field...
-    if (code==27) { this.blur(); return false; }
+    if (code == 27) {
+        this.blur();
+        return false;
+    }
 
     // ignore if they are press other keys
     // strange because code: 39 is the down key AND ' key...
     // and DEL also equals .
-    if (!e.ctrlKey && code!=9 && code!=8 && code!=36 && code!=37 && code!=38 && (code!=39 || (code==39 && character=="'")) && code!=40) {
+    if (!e.ctrlKey && code != 9 && code != 8 && code != 36 && code != 37 && code != 38 && (code != 39 || (code == 39 && character == "'")) && code != 40) {
         if (character.match(restrictionType)) {
             return true;
         } else {
@@ -44,7 +47,7 @@ app.directive('format', ['$filter', function ($filter) {
 
             ctrl.$parsers.unshift(function (viewValue) {
                 var plainNumber = viewValue.replace(/[^\d|\-+|\.+]/g, '');
-                plainNumber=plainNumber.replace(",",".");
+                plainNumber = plainNumber.replace(",", ".");
                 elem.val($filter(attrs.format)(plainNumber));
                 return plainNumber;
             });
@@ -53,17 +56,18 @@ app.directive('format', ['$filter', function ($filter) {
 }]);
 
 /*KHU VỰC PHÂN TRANG JAVASCRIPT*/
- var page={items:"",rowCount:0,numberPerPage:20,pageNumber:1,pageList:[],pageCount:0};
+var page = {items: "", rowCount: 0, numberPerPage: 20, pageNumber: 1, pageList: [], pageCount: 0};
+
 /*load tong trang va danh sach trang*/
 function getPageCount(pageResult) {
-    var pageCount=Math.ceil(pageResult.rowCount/pageResult.numberPerPage);
+    var pageCount = Math.ceil(pageResult.rowCount / pageResult.numberPerPage);
     return pageCount;
 }
 
 /*TRợ giúp tính toán số trang hiển thị khi hiện page*/
 function getPageList(pagingResult) {
-    var pages=[];
-    var from = pagingResult.pageNumber  - 3;
+    var pages = [];
+    var from = pagingResult.pageNumber - 3;
     var to = pagingResult.pageNumber + 5;
     if (from < 0) {
         to -= from;
@@ -78,7 +82,7 @@ function getPageList(pagingResult) {
         to = pagingResult.pageCount;
     }
 
-    for (var i=from; i<=to; i++ ) {
+    for (var i = from; i <= to; i++) {
         pages.push(i);
     }
     return pages;
@@ -87,13 +91,13 @@ function getPageList(pagingResult) {
 
 //convert date dd/mm/yyyy sang date cua he thong.
 function formatDate(strDate) {
-    if(strDate==null || strDate.length!=10) return null;
+    if (strDate == null || strDate.length != 10) return null;
     var dateArray = strDate.split("/");
     var date = dateArray[2] + "-" + dateArray[1] + "-" + dateArray[0];
     // alert(moment(moment(date).format("YYYY/MM/DD"),"YYYY/MM/DD",true).isValid());
-    if(moment(date,"YYYY-MM-DD",true).isValid()){
+    if (moment(date, "YYYY-MM-DD", true).isValid()) {
         return new Date(date);
-    }else{
+    } else {
         return null;
     }
 
@@ -103,8 +107,8 @@ function formatDate(strDate) {
 app.directive('myEnter', function () {
     return function (scope, element, attrs) {
         element.bind("keydown keypress", function (event) {
-            if(event.which === 13) {
-                scope.$apply(function (){
+            if (event.which === 13) {
+                scope.$apply(function () {
                     scope.$eval(attrs.myEnter);
                 });
 
@@ -119,11 +123,11 @@ function getWeekNumber(d) {
     d = new Date(Date.UTC(d.getFullYear(), d.getMonth(), d.getDate()));
     // Set to nearest Thursday: current date + 4 - current day number
     // Make Sunday's day number 7
-    d.setUTCDate(d.getUTCDate() + 4 - (d.getUTCDay()||7));
+    d.setUTCDate(d.getUTCDate() + 4 - (d.getUTCDay() || 7));
     // Get first day of year
-    var yearStart = new Date(Date.UTC(d.getUTCFullYear(),0,1));
+    var yearStart = new Date(Date.UTC(d.getUTCFullYear(), 0, 1));
     // Calculate full weeks to nearest Thursday
-    var weekNo = Math.ceil(( ( (d - yearStart) / 86400000) + 1)/7);
+    var weekNo = Math.ceil((((d - yearStart) / 86400000) + 1) / 7);
     // Return array of year and week number
     return weekNo;
 }
@@ -157,27 +161,30 @@ const getParameters = (path) => {
     }
     return result;
 };
-function isUndefined(value){
-    if(typeof value == "undefined" || value == null || value == "" || value.length == 0){
+
+function isUndefined(value) {
+    if (typeof value == "undefined" || value == null || value == "" || value.length == 0) {
         return true;
     }
     return false;
 }
-function isUndefined(value){
-    if(typeof value == "undefined" || value == null || value == "" || value.length == 0){
+
+function isUndefined(value) {
+    if (typeof value == "undefined" || value == null || value == "" || value.length == 0) {
         return true;
     }
     return false;
 }
-function isNotUndefined(value){
-    if(typeof value == "undefined" || value == null || value == "" || value.length == 0){
+
+function isNotUndefined(value) {
+    if (typeof value == "undefined" || value == null || value == "" || value.length == 0) {
         return false;
     }
     return true;
 }
 
 function initLadda(selector) {
-    var ladda = Ladda.create( document.querySelector(selector));
+    var ladda = Ladda.create(document.querySelector(selector));
     ladda.start();
     return ladda;
 }
@@ -188,7 +195,7 @@ function stopLadda(ladda) {
 }
 
 function stringToDate(_date, _format, _delimiter) {
-    if(typeof _date == "undefined"|| _date == "" || _date == null) return "";
+    if (typeof _date == "undefined" || _date == "" || _date == null) return "";
     var timenow = new Date();
     var formatLowerCase = _format.toLowerCase();
     var formatItems = formatLowerCase.split(_delimiter);
@@ -208,7 +215,7 @@ function stringToDateTime(_date) {
         dateParts = dateTimeParts[0].split('-'),
         date;
     date = new Date(dateParts[2], parseInt(dateParts[1], 10) - 1, dateParts[0], timeParts[0], timeParts[1], timeParts[2]);
-    date.toLocaleString('vi-VN', { timeZone: 'Asia/Ho_Chi_Minh' });
+    date.toLocaleString('vi-VN', {timeZone: 'Asia/Ho_Chi_Minh'});
     return date;
 }
 
@@ -220,27 +227,25 @@ function stringToDateTimeDDMMYYYYHHMM(_date) {
         dateParts = dateTimeParts[0].split('/'),
         date;
     date = new Date(dateParts[2], parseInt(dateParts[1], 10) - 1, dateParts[0], timeParts[0], timeParts[1], "00");
-    date.toLocaleString('vi-VN', { timeZone: 'Asia/Ho_Chi_Minh' });
+    date.toLocaleString('vi-VN', {timeZone: 'Asia/Ho_Chi_Minh'});
     return date;
 }
 
 
-function Date2String(date)
-{
+function Date2String(date) {
     let dateStr = new Date(date);
     return moment(dateStr).format('DD/MM/YYYY');
 }
 ;
 
-function Date2String2(date)
-{
+function Date2String2(date) {
     let dateStr = new Date(date);
     return moment(dateStr).format('DD-MM-YYYY');
 };
-angular.module('FrameworkBase').filter('filter', function() {
-    return function(value, stringdate) {
-        var stringDate=stringDate;
-        var convertedDate=new Date(stringDate);
+angular.module('ADAGROUP').filter('filter', function () {
+    return function (value, stringdate) {
+        var stringDate = stringDate;
+        var convertedDate = new Date(stringDate);
         return convertedDate
     };
 });
@@ -367,35 +372,34 @@ function showDropDownOnTable() {
     })
 }
 
-function getPageListNotCount(page,isHome,checkLast) {
-    var pages=[];
+function getPageListNotCount(page, isHome, checkLast) {
+    var pages = [];
     var from;
     var to;
-    if(isHome == 1 && page < 10){
-        from=1;
-        to=10
+    if (isHome == 1 && page < 10) {
+        from = 1;
+        to = 10
 
-    }else if(isHome == 1 && page >= 10 && checkLast == 0){
-        from=page-8;
-        to=page+1
-    }else if(isHome == 1 && page >= 10 && checkLast == 1){
-        from=page-9;
-        to=page;
-    }else if(isHome == 0 && checkLast == 0){
-        from=page-3 > 0 ? page - 3 : 1;
-        to=page+1;
-    }else if(isHome == 0 && checkLast == 1){
-        from=page-4 > 0 ? page - 4 : 1;
-        to=page;
+    } else if (isHome == 1 && page >= 10 && checkLast == 0) {
+        from = page - 8;
+        to = page + 1
+    } else if (isHome == 1 && page >= 10 && checkLast == 1) {
+        from = page - 9;
+        to = page;
+    } else if (isHome == 0 && checkLast == 0) {
+        from = page - 3 > 0 ? page - 3 : 1;
+        to = page + 1;
+    } else if (isHome == 0 && checkLast == 1) {
+        from = page - 4 > 0 ? page - 4 : 1;
+        to = page;
     }
-    for (var i=from; i<=to; i++ ) {
+    for (var i = from; i <= to; i++) {
         pages.push(i);
     }
     return pages;
 }
 
-function show_dialog(_title, _message, _focus)
-{
+function show_dialog(_title, _message, _focus) {
     BootstrapDialog.show({
         title: _title,
         message: _message,
@@ -404,8 +408,7 @@ function show_dialog(_title, _message, _focus)
                 label: 'Đóng',
                 action: function (dialogItself) {
                     dialogItself.close();
-                    if (_focus != undefined)
-                    {
+                    if (_focus != undefined) {
                         $(_focus).focus();
                         if ($(_focus).is("select")) {
                             $(_focus).select2("open");
@@ -416,6 +419,7 @@ function show_dialog(_title, _message, _focus)
     });
 
 }
+
 function formatCurrencyHtml(ctrl) {
     var val = ctrl.innerHTML;
     val = val.replace(/,/g, "");
@@ -445,13 +449,41 @@ function checkSesstionTimeOut() {
 }
 
 function daysDiffStringDDMMYYYY(date1, date2) {
-    var date3 = moment(date1,'DD/MM/YYYY');
-    var date4 = moment(date2,'DD/MM/YYYY');
+    var date3 = moment(date1, 'DD/MM/YYYY');
+    var date4 = moment(date2, 'DD/MM/YYYY');
     return date4.diff(date3, 'days');
 }
 
 function compareDateStringDDMMYYYYHHMMSS(date1, date2) {
-    var date3 = moment(date1,'DD/MM/YYYY HH:mm:ss');
-    var date4 = moment(date2,'DD/MM/YYYY HH:mm:ss');
+    var date3 = moment(date1, 'DD/MM/YYYY HH:mm:ss');
+    var date4 = moment(date2, 'DD/MM/YYYY HH:mm:ss');
     return date3 - date4;
+}
+
+function getTypeCtv(typeCtv) {
+    switch (typeCtv) {
+        case 0:
+            return "Admin";
+        case 1:
+            return "CEO ADA";
+        case 2:
+            return "CEO Kim cương";
+        case 3:
+            return "Đại lý"
+        default:
+            return "-";
+    }
+}
+
+function getStatusCtv(status) {
+    switch (status) {
+        case 0:
+            return "Ngừng hoạt động"
+        case 1:
+            return "Đang hoạt động";
+        case 2:
+            return "Đã xóa";
+        default:
+            return "-";
+    }
 }

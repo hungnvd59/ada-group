@@ -40,8 +40,9 @@
         <section class="scrollable padder" style="background: #f4f4f4">
             <ul style="font-weight: 700;color: #2A2C54"
                 class="bg-white breadcrumb no-border no-radius b-b b-light pull-in breadcrumb-common">
-                <li>Quản trị hệ thống</li>
-                <li>Chức năng hệ thống</li>
+                <li style="color: gray"><span><i class="fa fa-home"></i>&nbsp;Trang chủ</span></li>
+                <li style="color: gray"><span>Quản lý hệ thống</span></li>
+                <li><span>Danh sách chức năng hệ thống</span></li>
             </ul>
             <div class="m-b-md">
                 <h3 class="m-b-none" id="response-status" style="color: #009900">

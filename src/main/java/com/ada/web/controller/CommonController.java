@@ -1,8 +1,10 @@
 package com.ada.web.controller;
 
 import com.ada.common.FileUtil;
+import com.ada.model.Catalogy;
 import com.ada.model.User;
 import com.ada.model.dto.ResultUpload;
+import com.ada.web.dao.CommonDao;
 import com.ada.web.dao.GroupAuthorityDAO;
 import com.ada.web.dao.ParameterDAO;
 import com.ada.web.dao.UserDAO;
@@ -23,7 +25,9 @@ import java.io.*;
 import java.net.URLConnection;
 import java.net.URLEncoder;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
 
 @Controller
 @RequestMapping("/common")
@@ -32,8 +36,8 @@ public class CommonController {
     private static final String PATTERN_FILE = ".";
     @Autowired
     ParameterDAO parameterDAO;
-    //    @Autowired
-//    CategoryDAO categoryDAO;
+    @Autowired
+    CommonDao commonDao;
     @Autowired
     GroupAuthorityDAO groupService;
     @Autowired
@@ -127,17 +131,23 @@ public class CommonController {
     }
 
     //
-//    @GetMapping("/getListProvince")
-//    public ResponseEntity<List> getListProvince(HttpServletRequest request) {
-//        List<AffCatCatalogy> list = new ArrayList<>();
-//        try {
-//            list = categoryDAO.getListProvince();
-//        } catch (Exception e) {
-//            e.printStackTrace();
-//        }
-//        return new ResponseEntity<List>(list, HttpStatus.OK);
-//    }
-//
+    @GetMapping("/getListProvince")
+    public ResponseEntity<List> getListProvince(HttpServletRequest request) {
+        List<Catalogy> list = new ArrayList<>();
+        try {
+            list = commonDao.getALlProvince();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return new ResponseEntity<List>(list, HttpStatus.OK);
+    }
+
+    @GetMapping("/getDistrictByProvince")
+    public ResponseEntity<List> getListDistrict(@RequestParam(value = "province") Long provinceId, HttpServletRequest request) {
+        return new ResponseEntity<>(commonDao.getDistrictByProvince(provinceId), HttpStatus.OK);
+    }
+
+    //
 //    @GetMapping("/getListProvinceWithMobiShop")
 //    public ResponseEntity<List> getListProvinceWithMobiShop(HttpServletRequest request) {
 //        List<AffCatCatalogy> list = new ArrayList<>();

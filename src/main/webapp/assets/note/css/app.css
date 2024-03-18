@@ -1101,7 +1101,7 @@ body.container {
 .nav-primary ul.nav > li:hover > a,
 .nav-primary ul.nav > li:focus > a,
 .nav-primary ul.nav > li > a:hover,
-.nav-primary ul.nav > li > a:focus{
+.nav-primary ul.nav > li > a:focus {
     color: #ffc13e;
     background-color: inherit;
     background-color: rgba(0, 0, 0, 0.05) !important;
@@ -1110,19 +1110,20 @@ body.container {
 
 .nav-primary ul.nav > li > a:active,
 .nav-primary ul.nav > li.active > a {
-    color: #ffc13e;
-    background-color: #b456001a;
-    text-shadow: none;
-    border-right: 3px solid ;
+    color: #ffc13e !important;
+    background-color: #b456001a !important;
+    text-shadow: none !important;
+    border-right: 3px solid !important;
 }
-
 .nav-primary ul.nav > li:hover > a > i.icon,
 .nav-primary ul.nav > li:focus > a > i.icon,
 .nav-primary ul.nav > li > a:hover > i.icon,
 .nav-primary ul.nav > li > a:focus > i.icon,
 .nav-primary ul.nav > li > a:active > i.icon,
 .nav-primary ul.nav > li.active > a > i.icon {
-    color: #fff;
+    color: #ffc13e !important;
+    /*background-color: #b456001a !important;*/
+    text-shadow: none !important;
 }
 
 .nav-primary ul.nav > li:hover > a > i > b,

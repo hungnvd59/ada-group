@@ -5,14 +5,16 @@
 <%@ taglib prefix="spring" uri="http://www.springframework.org/tags" %>
 
 <style>
-    .userLG{
+    .userLG {
         color: whitesmoke;
     }
-    .userLG:hover{
+
+    .userLG:hover {
         color: #FFFFFF;
         cursor: pointer;
     }
-    .nav-user > li > a:hover{
+
+    .nav-user > li > a:hover {
         background-color: transparent;
     }
 </style>
@@ -23,19 +25,20 @@
             <i class="fa fa-bars"></i>
         </a>
         <a href="<%=request.getContextPath()%>/" class="navbar-brand" data-toggle="fullscreen1111"><img
-                src="<%=request.getContextPath()%>/assets/images/logo-osp.png" class="m-r-sm" style="max-height: 45px;"></a>
+                src="<%=request.getContextPath()%>/assets/images/logo.png" class="m-r-sm" style="max-height: 45px;"></a>
         <a class="btn btn-link visible-xs" data-toggle="dropdown" data-target=".nav-user">
             <i class="fa fa-cog"></i>
         </a>
     </div>
-    <ul class="nav navbar-nav navbar-right hidden-xs nav-user" style="margin-top: 10px;margin-right: 15px;color: #FFFFFF">
-        <li style="border-radius: 20px;border:1px solid #FFF" class="dropdown"><a style=";padding-bottom: 5px;padding-top: 5px" class="dropdown-toggle userLG" onclick="myFunction()">
+    <ul class="nav navbar-nav navbar-right hidden-xs nav-user"
+        style="margin-top: 10px;margin-right: 15px;color: #FFFFFF">
+        <li style="border-radius: 20px;border:1px solid whitesmoke" class="dropdown"><a
+                style=";padding-bottom: 5px;padding-top: 5px" class="dropdown-toggle userLG" onclick="myFunction()">
             <%=request.getRemoteUser()%> <b class="caret"></b>
         </a>
-            <ul id="myDropdown" class="dropdown-menu animated fadeInRight">
+            <ul id="myDropdown" class="dropdown-menu animated fadeInRight" style="min-width: 100px">
                 <li><a
                         href="<%=request.getContextPath()%>/cap-nhat-thong-tin-tai-khoan.html">Hồ sơ</a></li>
-                <li><a href="docs.html">Trợ giúp</a></li>
                 <li class="divider"></li>
                 <li><a href="<c:url value="/j_spring_security_logout" />">Đăng
                     xuất</a></li>
@@ -60,6 +63,5 @@
             }
         }
     }
-
 </script>
 
