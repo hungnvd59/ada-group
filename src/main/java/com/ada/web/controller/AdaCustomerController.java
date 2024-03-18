@@ -10,7 +10,6 @@ import org.apache.logging.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.security.access.annotation.Secured;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
@@ -30,7 +29,7 @@ public class AdaCustomerController {
     @Autowired
     CustomerDao customerDao;
 
-    @RequestMapping(value = "/quan-ly-nhan-vien.html", method = RequestMethod.GET)
+    @RequestMapping(value = "/quan-ly-dai-ly.html", method = RequestMethod.GET)
     public String index() {
         return "customer.index";
     }

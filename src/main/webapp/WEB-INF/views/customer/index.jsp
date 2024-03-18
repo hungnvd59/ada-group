@@ -109,9 +109,22 @@
             <ul style="font-weight: 700;color: #2A2C54"
                 class="bg-white breadcrumb no-border no-radius b-b b-light pull-in breadcrumb-common">
                 <li style="color: gray"><span><i class="fa fa-home"></i>&nbsp;Trang chủ</span></li>
-                <li style="color: gray"><span>Quản lý nhân viên</span></li>
-                <li><span>Danh sách nhân viên</span></li>
+                <li style="color: gray"><span>Quản lý đại lý</span></li>
+                <li><span>Danh sách đại lý</span></li>
             </ul>
+            <div class="row" style="margin-bottom: 1rem">
+                <div class="col-md-6">
+                    <h4 style="font-weight: 700">THÔNG TIN TÌM KIẾM</h4>
+                </div>
+                <div class="col-md-6">
+                    <%--                    <sec:authorize--%>
+                    <%--                            access="hasAnyRole('ROLE_CTV_USER_EXPORT_EXCEL')">--%>
+                    <a class="btn btn-add btn-search-common" ng-click="preAddCust()"
+                       style="float:right;margin-right: .5rem;"><i
+                            class="fa fa-plus"></i>&nbsp;Thêm mới đại lý</a>
+                    <%--                    </sec:authorize>--%>
+                </div>
+            </div>
             <section class="panel panel-default" style="border-radius: 20px;">
                 <div class="panel-body">
                     <form Class="form-horizontal" role="form" theme="simple">
@@ -234,11 +247,11 @@
                                 <div class="col-md-6">
                                     <div class="row">
                                         <div class="col-md-6">
-                                            <label class="control-label color-label left-search">Ngày vào công
+                                            <label class="control-label color-label left-search">Thời gian vào công
                                                 ty</label>
                                         </div>
                                         <div class="col-md-6">
-                                            <label class="control-label color-label left-search">Ngày rời công
+                                            <label class="control-label color-label left-search">Thời gian rời công
                                                 ty</label>
                                         </div>
                                     </div>
@@ -279,11 +292,9 @@
                         <div class="row" style="padding-top: 30px">
                             <div class="col-lg-12 text-center">
                                 <a ng-click="clear()"
-                                   style="width:136px; border: 1px solid #0071ce;color: #0071ce; border-radius: 6px"
-                                   class="btn btn-light">Xóa điều kiện</a>
+                                   class="btn btn-light btn-clear-common">Xóa điều kiện</a>
                                 <a ng-click="search()"
-                                   style="width: 136px;background: #0071ce;border-radius: 6px;color: #FFFFFF;border: none"
-                                   class="btn btn-secondary">Tìm kiếm</a>
+                                   class="btn btn-secondary btn-search-common">Tìm kiếm</a>
                                 <sec:authorize
                                         access="hasAnyRole('ROLE_CTV_USER_ADD')">
                                     <a ng-click="preAdd()"
@@ -302,9 +313,12 @@
                 <div class="col-md-6">
                     <%--                    <sec:authorize--%>
                     <%--                            access="hasAnyRole('ROLE_CTV_USER_EXPORT_EXCEL')">--%>
-                    <a class="btn btn-add" ng-click="export()"
-                       style="border:  1px solid #20B4BD;color: #FFFFFF;background: #20B4BD;border-radius: 8px;float:right;margin-right: 2rem;width: 111px"><i
-                            class="fa fa-download"></i> Xuất excel</a>
+                    <a class="btn btn-add btn-export-common" ng-click="export()"
+                       style="margin-right: 2rem;"><i
+                            class="fa fa-download"></i>&nbsp;Xuất excel</a>
+                        <a class="btn btn-add btn-import-common" ng-click="import()"
+                           style="float:right;margin-right: .5rem;">
+                           <i class="fa fa-upload"></i>&nbsp;Tải lên danh sách nhân viên</a>
                     <%--                    </sec:authorize>--%>
                 </div>
             </div>
@@ -344,8 +358,11 @@
                             <th style="vertical-align: middle;"
                                 class="text-white small_col text-left">Đại lý cấp trên
                             </th>
+                            <th style="vertical-align: middle;"
+                                class="text-white small_col text-left">Thời gian vào công ty
+                            </th>
                             <th style="border-top-right-radius: 20px;vertical-align: middle;"
-                                class="text-white small_col text-right">Thời gian vào công ty
+                                class="text-white small_col text-left">Thời gian rời công ty
                             </th>
                         </tr>
                         </thead>
@@ -452,7 +469,10 @@
                                 {{item.presenter}} <br>
                             </td>
                             <td style="vertical-align: middle;text-align: right" class="text-left v-inherit">
-                                {{item.comingDate | date:'dd/MM/yyyy HH:mm:ss'}}
+                                {{item.comingDate == null ? '-' : (item.comingDate | date:'dd/MM/yyyy HH:mm:ss')}}
+                            </td>
+                            <td style="vertical-align: middle;text-align: right" class="text-left v-inherit">
+                                {{item.leaveDate == null ? '-' : (item.leaveDate | date:'dd/MM/yyyy HH:mm:ss')}}
                             </td>
                         </tr>
                         <tr>

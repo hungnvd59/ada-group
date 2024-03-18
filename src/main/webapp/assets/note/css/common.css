@@ -1,33 +1,72 @@
 .btn-search-common {
-    width: 111px !important;
+    width: fit-content !important;
     background: #0065FF !important;
-    border-radius: 8px !important;
+    border-radius: 6px !important;
+
     color: #FFFFFF !important;
-    border: none !important;
+    border: 1px solid #0065FF !important;
 }
 
-.btn-clear-common {
-    width: 111px !important;
-    background: #FF5630 !important;
-    border-radius: 8px !important;
-    color: #FFFFFF !important;
-    border: none !important;
-}
+.btn-search-common:hover {
+    width: fit-content !important;
+    background: #FFF !important;
+    border-radius: 6px !important;
 
-.btn-export-common {
-    width: 111px !important;
-    background: #36B37E !important;
-    border-radius: 8px !important;
-    color: #FFFFFF !important;
-    border: none !important;
+    color: #0065FF !important;
+    border: 1px solid #0065FF !important;
 }
 
 .btn-import-common {
-    width: 111px !important;
-    background: #0065FF !important;
-    border-radius: 8px !important;
+    width: fit-content !important;
+    background: #20B4BD !important;
+    border-radius: 6px !important;
+
     color: #FFFFFF !important;
-    border: none !important;
+    border: 1px solid #20B4BD !important;
+}
+
+.btn-import-common:hover {
+    width: fit-content !important;
+    background: #FFF !important;
+    border-radius: 6px !important;
+    color: #20B4BD !important;
+    border: 1px solid #20B4BD !important;
+}
+
+.btn-clear-common {
+    width: fit-content !important;
+    background: #FF5630 !important;
+    border-radius: 6px !important;
+
+    color: #FFFFFF !important;
+    border: 1px solid #FF5630 !important;
+}
+
+.btn-clear-common:hover {
+    width: fit-content !important;
+    background: #FFF !important;
+    border-radius: 6px !important;
+
+    color: #FF5630 !important;
+    border: 1px solid #FF5630 !important;
+}
+
+.btn-export-common {
+    width: fit-content !important;
+    background: rgb(8 135 26) !important;
+    border-radius: 6px !important;
+    color: #FFFFFF !important;
+    border: 1px solid rgb(8 135 26);
+    float: right;
+}
+
+.btn-export-common:hover {
+    width: fit-content !important;
+    background: #FFF !important;
+    border-radius: 6px !important;
+    color: rgb(8 135 26) !important;
+    border: 1px solid rgb(8 135 26);
+    float: right;
 }
 
 .status-active {
@@ -56,7 +95,8 @@
 .btn-add-common {
     width: 111px !important;
     background: #0065FF !important;
-    border-radius: 8px !important;
+    border-radius: 6px !important;
+
     color: #FFFFFF !important;
     border: none !important;
 }
@@ -70,9 +110,11 @@
     font-weight: 600 !important
 
 }
+
 .left {
     text-align: left !important;
 }
+
 .right-text {
     text-align: right !important;
 }

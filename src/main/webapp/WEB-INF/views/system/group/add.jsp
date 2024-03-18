@@ -16,10 +16,11 @@
 <section style="color: #1F2937;" id="content" ng-app="ADAGROUP" ng-controller="addGroupCtrl">
     <section class="vbox">
         <section class="scrollable padder" style="background: #f4f4f4">
-            <ul style="font-weight: 700;color: #172B4D"
+            <ul style="font-weight: 700;color: #2A2C54"
                 class="bg-white breadcrumb no-border no-radius b-b b-light pull-in breadcrumb-common">
-                <li>Quản trị hệ thống</li>
-                <li>Thêm mới nhóm quyền</li>
+                <li style="color: gray"><span><i class="fa fa-home"></i>&nbsp;Trang chủ</span></li>
+                <li style="color: gray"><span>Quản lý hệ thống</span></li>
+                <li><span>Thêm mới nhóm quyền</span></li>
             </ul>
             <c:if test="${!empty messageError }">
                 <div class="m-b-md">

@@ -68,9 +68,9 @@
                         <%--						<sec:authorize access="hasAnyRole('ROLE_SYSTEM_USER_WEB_LIST','ROLE_SYSTEM_USER_CMS_LIST')">--%>
                         <li class="<%= (isActive(request.getContextPath() + "/customer", request)
                         	& isActive(request.getContextPath() + "/customer/", request)) ? "active" : "" %>">
-                            <a href="<%=request.getContextPath()%>/customer/quan-ly-nhan-vien.html">
+                            <a href="<%=request.getContextPath()%>/customer/quan-ly-dai-ly.html">
                                 <i class="fa fa-user icon">
-                                </i> <span>Quản lý nhân viên</span>
+                                </i> <span>Quản lý đại lý</span>
                             </a>
                         </li>
 
