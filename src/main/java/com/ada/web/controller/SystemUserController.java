@@ -41,9 +41,9 @@ import java.util.stream.Collectors;
  */
 @Controller
 @RequestMapping("/system/user")
-public class UserController {
+public class SystemUserController {
 
-    private Logger logger = LogManager.getLogger(UserController.class);
+    private Logger logger = LogManager.getLogger(SystemUserController.class);
     @Autowired
     UserDAO useService;
     @Autowired
@@ -150,7 +150,7 @@ public class UserController {
                 return "user.add";
             }
         } catch (Exception e) {
-            logger.error("Have a error UserController.UserAdd:" + e.getMessage());
+            logger.error("Have a error SystemUserController.UserAdd:" + e.getMessage());
             model.addAttribute("messageError", "message.have.error");
             model.addAttribute("user", user);
             return "user.add";
@@ -186,7 +186,7 @@ public class UserController {
             String ipClient = Utils.getIpClient(request);
             check = useService.editUserFromView(item, ipClient).orElse(false);
         } catch (Exception e) {
-            logger.error("Have an error UserController.UserEdit:" + e.getMessage());
+            logger.error("Have an error SystemUserController.UserEdit:" + e.getMessage());
 
         }
         if (!check) {
@@ -292,7 +292,7 @@ public class UserController {
             attributes.addFlashAttribute("success", "message.user.set.role.success");
             return "redirect:/system/user/list";
         } catch (Exception e) {
-            logger.error("Have an error UserController.addUserGroup:" + e.getMessage());
+            logger.error("Have an error SystemUserController.addUserGroup:" + e.getMessage());
             model.addAttribute("errorMessage", "message.have.error");
             //load all groups
             List<Group> allGroups = groupService.loadAllGroup().orElse(new ArrayList<>());

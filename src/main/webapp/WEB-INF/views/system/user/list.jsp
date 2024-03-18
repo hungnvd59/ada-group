@@ -63,7 +63,7 @@
             <input type="hidden" value="" name="ids" id="ids">
             <section class="panel panel-default" style="border-radius: 20px;">
                 <div class="table-responsive table-overflow-x-fix">
-                    <table id="tbl" class="table table-striped table-bordered m-b-none b-light">
+                    <table class="table table-hover mb-sm-2">
                         <thead>
                         <tr>
                             <th class="box-shadow-inner small_col text-center" style="width: 1%;border-top-left-radius: 20px;">#</th>

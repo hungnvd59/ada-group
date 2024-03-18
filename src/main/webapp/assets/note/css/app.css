@@ -1036,7 +1036,7 @@ body.container {
     width: 44px;
     float: left;
     margin-right: 10px;
-    font-size: 12px;
+    font-size: 13px;
     border-right: 1px solid rgba(255, 255, 255, 0.05);
     text-align: center;
     position: relative;
@@ -1062,8 +1062,8 @@ body.container {
 .nav-primary ul.nav > li > a {
     padding: 11px 15px;
     position: relative;
-    font-weight: bold;
-    font-size: 13px;
+    font-weight: 400;
+    font-size: 14px;
     border-top: 1px solid transparent;
     border-color: rgba(255, 255, 255, 0.05);
     transition: color .3s ease-in-out 0s;
@@ -1074,7 +1074,7 @@ body.container {
 }
 
 .nav-primary ul.nav > li > a > .badge {
-    font-size: 11px;
+    font-size: 12px;
     padding: 3px 6px;
     margin-top: 2px;
 }
@@ -1101,13 +1101,19 @@ body.container {
 .nav-primary ul.nav > li:hover > a,
 .nav-primary ul.nav > li:focus > a,
 .nav-primary ul.nav > li > a:hover,
-.nav-primary ul.nav > li > a:focus,
-.nav-primary ul.nav > li > a:active,
-.nav-primary ul.nav > li.active > a {
-    color: #fff;
+.nav-primary ul.nav > li > a:focus{
+    color: #ffc13e;
     background-color: inherit;
     background-color: rgba(0, 0, 0, 0.05) !important;
     text-shadow: none;
+}
+
+.nav-primary ul.nav > li > a:active,
+.nav-primary ul.nav > li.active > a {
+    color: #ffc13e;
+    background-color: #b456001a;
+    text-shadow: none;
+    border-right: 3px solid ;
 }
 
 .nav-primary ul.nav > li:hover > a > i.icon,
@@ -1131,7 +1137,7 @@ body.container {
 .nav-primary ul.nav > li li a {
     font-weight: normal;
     text-transform: none;
-    font-size: 12px;
+    font-size: 13px;
     background-color: #222222;
 }
 

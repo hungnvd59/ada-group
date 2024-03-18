@@ -54,7 +54,7 @@
             <br>
             <section class="panel panel-default" style="border-radius: 20px;">
                 <div class="table-responsive table-overflow-x-fix">
-                    <table class="table b-t b-light table-bordered table-hover" style="margin-bottom: 0px;">
+                    <table class="table table-hover mb-sm-2">
                         <thead class="bg-gray">
                         <tr style="background-color: #222222">
                             <th class="text-center v-inherit text-white"

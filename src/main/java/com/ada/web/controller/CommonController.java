@@ -2,7 +2,7 @@ package com.ada.web.controller;
 
 import com.ada.common.FileUtil;
 import com.ada.model.User;
-import com.ada.web.dao.FilesDAO;
+import com.ada.model.dto.ResultUpload;
 import com.ada.web.dao.GroupAuthorityDAO;
 import com.ada.web.dao.ParameterDAO;
 import com.ada.web.dao.UserDAO;
@@ -42,9 +42,6 @@ public class CommonController {
     private String pathFile;
 
     private String pathFirst = "/app/webhome/web/cdn.ctv.osp.vn";
-
-    @Autowired
-    FilesDAO filesDAO;
 
 
     /*upload file*/

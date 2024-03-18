@@ -1,1 +1,0 @@
-package com.ada.model.view;import javax.persistence.Column;import javax.persistence.Entity;import javax.persistence.Id;@Entitypublic class ServiceNameView {    @Id    @Column(name = "item_name")    public String name;    public String getName() {        return name;    }    public void setName(String name) {        this.name = name;    }}

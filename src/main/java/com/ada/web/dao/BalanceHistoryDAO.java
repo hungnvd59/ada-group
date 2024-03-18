@@ -1,1 +1,0 @@
-package com.ada.web.dao;import com.ada.common.PagingResult;import java.util.Optional;public interface BalanceHistoryDAO {    Long getBalanceWithdraw(String username);    Optional<PagingResult> page(PagingResult page, String username, String itemName, Long transType, String fromGenDate, String toGenDate);}

@@ -64,27 +64,21 @@
                         <c:set var="typeUser" scope="page"><sec:authentication property="principal.type"/></c:set>
                         <%--USER--%>
                         <%--						<sec:authorize access="hasAnyRole('ROLE_SYSTEM_USER_WEB_LIST','ROLE_SYSTEM_USER_CMS_LIST')">--%>
-                        <li class="<%= isActive(request.getContextPath() + "/system/user", request) ? "active" : ""%>">
-                            <a id="<%= isActive(request.getContextPath() + "/system/user/", request)
-                            || isActive(request.getContextPath() + "/system/user", request)
-                        ||isActive(request.getContextPath() + "/system/user/", request) ? "active" : ""%>"
-                               href="#" class=""> <i class="fa fa-user icon"></i> <span
-                                    class="pull-right"> <i class="fa fa-angle-down text"></i> <i
-                                    class="fa fa-angle-up text-active"></i> </span>Quản lý người dùng</span> </a>
-                            <ul class="nav lt">
-                                <%--									<sec:authorize access="hasRole('ROLE_SYSTEM_USER_WEB_LIST')">--%>
-                                <li class="<%= isActive(request.getContextPath() + "/system/user/quan-ly-nguoi-dung-w", request) ? "active" : ""%>">
-                                    <a href="<%=request.getContextPath()%>/system/user/quan-ly-nguoi-dung-web.html"
-                                       class=""> <i
-                                            class="fa fa-angle-right"></i> <span>Tài khoản CEO-Kim cương</span> </a></li>
-                                <%--									</sec:authorize>--%>
-                                <%--									<sec:authorize access="hasRole('ROLE_SYSTEM_USER_CMS_LIST')">--%>
-                                <li class="<%= isActive(request.getContextPath() + "/system/user/quan-ly-nguoi-dung-h", request) ? "active" : ""%>">
-                                    <a href="<%=request.getContextPath()%>/system/user/quan-ly-nguoi-dung-he-thong.html"
-                                       class=""> <i
-                                            class="fa fa-angle-right"></i> <span>Tài khoản đại lý </span> </a></li>
-                                <%--									</sec:authorize>--%>
-                            </ul>
+                        <li class="<%= isActive(request.getContextPath() + "/customer", request) ? "active" : ""%>">
+                            <a id="<%= isActive(request.getContextPath() + "/customer/", request)
+                            || isActive(request.getContextPath() + "/customer", request)
+                        ||isActive(request.getContextPath() + "/customer/", request) ? "active" : ""%>"
+                               href="<%=request.getContextPath()%>/customer/quan-ly-nhan-vien.html"> <i
+                                    class="fa fa-user icon"></i>  </span>Quản lý nhân viên</span> </a>
+                        </li>
+
+                        <li class="<%= isActive(request.getContextPath() + "/account", request) ? "active" : ""%>">
+                            <a id="<%= isActive(request.getContextPath() + "/account/", request)
+                            || isActive(request.getContextPath() + "/account", request)
+                        ||isActive(request.getContextPath() + "/account/", request) ? "active" : ""%>"
+                               href="<%=request.getContextPath()%>/account/quan-ly-tai-khoan-he-thong.html"> <i
+                                    class="fa fa-user icon" style="padding-top: 12px;padding-bottom: 10px;"></i>  </span>
+                                Quản lý tài khoản hệ thống</span> </a>
                         </li>
                         <%--//						</sec:authorize>--%>
 
@@ -93,13 +87,9 @@
                         <%--							<sec:authorize--%>
                         <%--									access="hasAnyRole('ROLE_SYSTEM_GROUP_LIST','ROLE_SYSTEM_AUTHORITY_LIST','ROLE_SYSTEM_PARAMETERS_LIST','ROLE_SYSTEM_LOG_HISTORY')">--%>
                         <li class="<%= isActive(request.getContextPath() + "/system/group", request)
-                          || isActive(request.getContextPath() + "/system/authority", request)
-                           || isActive(request.getContextPath() + "/system/parameters", request)
-                            || isActive(request.getContextPath() + "/system/history", request)? "active" : ""%>">
-                            <a id="<%= isActive(request.getContextPath() + "/system/group/", request)
-                            || isActive(request.getContextPath() + "/system/authority", request)
-                             || isActive(request.getContextPath() + "/system/parameters", request)
-                             || isActive(request.getContextPath() + "/system/history", request)? "active" : ""%>"
+                          || isActive(request.getContextPath() + "/system/authority", request) ? "active-new" : ""%>">
+                            <a class="<%= isActive(request.getContextPath() + "/system/group/", request)
+                            || isActive(request.getContextPath() + "/system/authority", request) ? "active-new" : ""%>"
                                href="#" class=""> <i class="fa fa-cogs icon"></i> <span
                                     class="pull-right"> <i class="fa fa-angle-down text"></i> <i
                                     class="fa fa-angle-up text-active"></i> </span> <span>Quản lý hệ thống</span> </a>
@@ -108,14 +98,14 @@
                                 <%--												access="hasAnyRole('ROLE_SYSTEM_GROUP_LIST')">--%>
                                 <li>
                                     <a href="<%=request.getContextPath()%>/system/group/quan-ly-nhom-quyen.html"
-                                       class=""> <i
+                                       class="<%= isActive(request.getContextPath() + "/system/group/quan-ly-nhom-quyen.html", request) ? "active" : ""%>"> <i
                                             class="fa fa-angle-right"></i> <span>Nhóm quyền</span> </a></li>
                                 <%--										</sec:authorize>--%>
                                 <%--										<sec:authorize--%>
                                 <%--												access="hasAnyRole('ROLE_SYSTEM_AUTHORITY_LIST')">--%>
                                 <li>
                                     <a href="<%=request.getContextPath()%>/system/authority/quan-ly-chuc-nang-he-thong.html"
-                                       class=""> <i
+                                       class="<%= isActive(request.getContextPath() + "/system/group//quan-ly-chuc-nang-he-thong.html", request) ? "active" : ""%>"> <i
                                             class="fa fa-angle-right"></i> <span>Chức năng hệ thống</span> </a></li>
                                 <%--										</sec:authorize>--%>
                             </ul>

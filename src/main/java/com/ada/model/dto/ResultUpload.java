@@ -1,0 +1,1 @@
+package com.ada.model.dto;import lombok.Data;@Datapublic class ResultUpload {    private Long idFile;    private String name;    private String path;    public ResultUpload(String name, String path) {        this.name = name;        this.path = path;    }    public ResultUpload() {    }}

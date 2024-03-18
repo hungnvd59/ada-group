@@ -60,6 +60,27 @@ public class User implements Serializable, UserDetails {
     @Getter
     @Column(name = "TYPE")
     private Long type;
+    @Getter
+    @Column(name = "EMP_CODE")
+    private String empCode;
+    @Getter
+    @Column(name = "EMP_AVT")
+    private String empAvt;
+    @Getter
+    @Column(name = "REF_CODE")
+    private String refCode;
+    @Getter
+    @Column(name = "STATUS_CUST")
+    private Long statusCust;
+    @Getter
+    @Column(name = "COMING_DATE")
+    private Date comingDate;
+    @Getter
+    @Column(name = "LEAVE_DATE")
+    private Date leaveDate;
+    @Getter
+    @Column(name = "PRESENTER")
+    private String presenter;
 
     private transient List<GrantedAuthority> grantedAuths;
 
@@ -224,5 +245,33 @@ public class User implements Serializable, UserDetails {
 
     public Long getType() {
         return type;
+    }
+
+    public void setEmpCode(String empCode) {
+        this.empCode = empCode;
+    }
+
+    public void setEmpAvt(String empAvt) {
+        this.empAvt = empAvt;
+    }
+
+    public void setRefCode(String refCode) {
+        this.refCode = refCode;
+    }
+
+    public void setStatusCust(Long statusCust) {
+        this.statusCust = statusCust;
+    }
+
+    public void setComingDate(Date comingDate) {
+        this.comingDate = comingDate;
+    }
+
+    public void setLeaveDate(Date leaveDate) {
+        this.leaveDate = leaveDate;
+    }
+
+    public void setPresenter(String presenter) {
+        this.presenter = presenter;
     }
 }

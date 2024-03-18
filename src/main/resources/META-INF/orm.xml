@@ -1,8 +1,6 @@
 <entity-mappings version="2.1"
                  xmlns="http://www.eclipse.org/eclipselink/xsds/persistence/orm"
 >
-
-
     <!--MySQL, MarriaDB, PostgreSQL sử dụng tự tăng của DB. -->
 
     <entity class="com.ada.model.User" name="User">
@@ -40,19 +38,4 @@
             </id>
         </attributes>
     </entity>
-    <entity class="com.ada.model.AffConfigContract" name="AffConfigContract">
-        <attributes>
-            <id name="id">
-                <generated-value strategy="identity"/>
-            </id>
-        </attributes>
-    </entity>
-    <entity class="com.ada.model.AffPartner" name="AffPartner">
-        <attributes>
-            <id name="id">
-                <generated-value strategy="identity"/>
-            </id>
-        </attributes>
-    </entity>
-
 </entity-mappings>
