@@ -9,95 +9,11 @@
 <script src="<%=request.getContextPath()%>/assets/js/moment-with-locales.js"></script>
 <script src="<%=request.getContextPath()%>/assets/js/bootstrap-datetimepicker.js"></script>
 <script src="<%=request.getContextPath()%>/assets/project/customer/index.js"></script>
-
-
 <style>
     .error {
+        display: none;
         color: red;
-        padding-top: 5px;
-    }
-
-    .left {
-        text-align: left !important;
-        font-weight: bold;
-    }
-
-    .left-search {
-        text-align: left !important;
-        font-weight: bold;
-        font-size: 14px;
-        line-height: 25px;
-    }
-
-    .btn-secondary {
-        background-color: #52525b;
-        color: white;
-    }
-
-    .btn-secondary:hover {
-        background-color: #aaa;
-        color: white;
-    }
-
-    form label {
-        text-align: left !important;
-    }
-
-    .table > thead > tr > th {
-        vertical-align: top;
-    }
-
-    .box-full {
-        box-shadow: rgba(0, 0, 0, 0.3) 0px 5px 15px;
-        border: 1px solid white;
-        border-radius: 6px;
-        width: 93%;
-        margin-left: 5rem;
-        margin-top: 0rem;
-        padding-bottom: 20px;
-        line-height: 0px;
-    }
-
-    .status-active {
-        background-color: #DBEAFE;
-        color: #2563EB;
-        border-radius: 4px;
-        pointer-events: none;
-    }
-
-    .status-remove {
-        background-color: #E5E7EB;
-        color: #374151;
-        border-radius: 4px;
-        pointer-events: none;
-    }
-
-    .status-lock {
-        background-color: #FFE4E6;
-        color: #E11D48;
-        border-radius: 4px;
-        pointer-events: none;
-    }
-
-    .status-pending {
-        background-color: #E5E7EB;
-        color: #374151;
-        border-radius: 4px;
-        pointer-events: none;
-    }
-
-    .status-success {
-        background-color: #CCFBF1;
-        color: #0D9488;
-        border-radius: 4px;
-        pointer-events: none;
-    }
-
-    .status-waitting {
-        background-color: #FEF3C7;
-        color: #D97706;
-        border-radius: 4px;
-        pointer-events: none;
+        font-size: 12px;
     }
 </style>
 
@@ -227,7 +143,13 @@
                         </div>
                     </form>
                 </div>
-                <div class="row" style="margin-top: 3rem">
+                <div class="row" style="margin-top: 3rem;text-align: center">
+                    <div class="col-md-12">
+                        <a class="btn btn-light" ng-click="search()"><i
+                                class="ti ti-search"></i>&nbsp;Tìm kiếm</a>
+                    </div>
+                </div>
+                <div class="row" style="margin-top: 3rem;">
                     <div class="col-md-6">
                         <h5 style="font-weight: 700"></h5>
                     </div>
@@ -242,8 +164,8 @@
                             <i class="ti ti-file-upload"></i>&nbsp;Tải lên danh sách nhân viên</a>
                     </div>
                 </div>
-                <div class="panel-body" style="margin-top: 2rem">
-                    <div class="card w-100">
+                <div class="panel-body" style="margin-top: 3rem">
+                    <div id="data-search" class="card w-100">
                         <div class="card-body p-4">
                             <h5 class="card-title fw-semibold mb-4">Danh sách nhân viên</h5>
                             <div class="table-responsive">
@@ -345,6 +267,14 @@
                             </div>
                         </div>
                     </div>
+                    <div id="loading" style="display: none" class="card w-100">
+                        <div class="card-body">
+                            <div class="text-center">
+                                <div class="spinner-border" role="status">
+                                </div>
+                            </div>
+                        </div>
+                    </div>
                 </div>
             </div>
         </div>
@@ -364,34 +294,11 @@
                                 <div class="tab-pane fade show active" id="pills-account" role="tabpanel"
                                      aria-labelledby="pills-account-tab" tabindex="0">
                                     <div class="row">
-                                        <%--AVATA --%>
-                                        <%--<div class="col-lg-12 d-flex align-items-stretch">
-                                            <div class="card w-100 position-relative overflow-hidden">
-                                                <div class="card-body p-4">
-                                                    <h5 class="card-title fw-semibold">Ảnh đại diện</h5>
-                                                    <p class="card-subtitle mb-4">Thay đổi ảnh hồ sơ của bạn từ đây</p>
-                                                    <div class="text-center">
-                                                        <img src="<%=request.getContextPath()%>/assets/images/profile/user-1.jpg"
-                                                             alt="" class="img-fluid rounded-circle" width="120"
-                                                             height="120">
-                                                        <div class="d-flex align-items-center justify-content-center my-4 gap-6">
-                                                            <button class="btn btn-primary" fdprocessedid="nnyu7yr">Upload
-                                                            </button>
-                                                            <button class="btn bg-danger-subtle text-danger"
-                                                                    fdprocessedid="jljpj5">Reset
-                                                            </button>
-                                                        </div>
-                                                        <p class="mb-0">Cho phép file dạng JPG, GIF hoặc PNG và không lớn
-                                                            hơn 5MB </p>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        </div>--%>
                                         <div class="col-12">
                                             <div class="card w-100 position-relative overflow-hidden mb-0">
                                                 <div class="card-body p-4">
                                                     <h5 class="card-title fw-semibold">Thông tin cá nhân</h5>
-                                                    <form style="margin-top: 1rem" novalidate>
+                                                    <form style="margin-top: 1rem">
                                                         <div class="row">
                                                             <div class="col-lg-6">
                                                                 <div class="mb-3">
@@ -399,12 +306,13 @@
                                                                             class="text-danger">*</span></label>
                                                                     <input type="text" class="form-control"
                                                                            id="add-fullName"
-                                                                           required
-                                                                           data-validation-required-message="Vui lòng nhập Tên nhân viên!"
                                                                            placeholder="Họ và tên nhân viên"
-                                                                           ng-model="add.fullName">
-                                                                    <div class="help-block"></div>
+                                                                           ng-model="add.fullName"/>
+                                                                    <div id="fullNameAddErr" class="invalid-tooltip">
+                                                                        Vui lòng nhập Tên nhân viên!
+                                                                    </div>
                                                                 </div>
+
                                                                 <div class="mb-3">
                                                                     <label class="form-label">Chức danh &nbsp;<span
                                                                             class="text-danger">*</span></label>
@@ -415,6 +323,9 @@
                                                                         <option ng-value="-1">-- Lựa chọn --</option>
                                                                         <option ng-value="3">Đại lý</option>
                                                                     </select>
+                                                                    <div id="typeAddErr" class="invalid-tooltip">
+                                                                        Vui lòng chọn Chức danh!
+                                                                    </div>
                                                                 </div>
                                                                 <div class="mb-3">
                                                                     <label class="form-label">Email &nbsp;<span
@@ -423,6 +334,12 @@
                                                                            placeholder="Email"
                                                                            id="add-email"
                                                                            ng-model="add.email">
+                                                                    <div id="emailAddErr" class="invalid-tooltip">
+                                                                        Vui lòng nhập Email!
+                                                                    </div>
+                                                                    <div id="emailAddFormatErr" class="invalid-tooltip">
+                                                                        Email không đúng định dạng!
+                                                                    </div>
                                                                 </div>
                                                                 <div class="mb-3">
                                                                     <label class="form-label">Tỉnh/ Thành phố
@@ -439,6 +356,9 @@
                                                                             {{city.name}}
                                                                         </option>
                                                                     </select>
+                                                                    <div id="provinceAddErr" class="invalid-tooltip">
+                                                                        Vui lòng chọn Tỉnh/ Thành phố!
+                                                                    </div>
                                                                 </div>
                                                                 <div class="mb-3">
                                                                     <label class="form-label">Quận/
@@ -446,6 +366,7 @@
                                                                                 class="text-danger">*</span></label>
                                                                     <select id="add-districtId" name="team"
                                                                             class="form-control"
+                                                                            ng-change="changeDistrictAdd(add.districtId)"
                                                                             style="width: 100% ;border-radius: 6px"
                                                                             ng-model="add.districtId">
                                                                         <option ng-value="-1">-- Lựa chọn --</option>
@@ -454,6 +375,9 @@
                                                                             {{d.name}}
                                                                         </option>
                                                                     </select>
+                                                                    <div id="districtAddErr" class="invalid-tooltip">
+                                                                        Vui lòng chọn Quận/ Huyện!
+                                                                    </div>
                                                                 </div>
                                                             </div>
                                                             <div class="col-lg-6">
@@ -466,6 +390,9 @@
                                                                            id="add-mobile"
                                                                            ng-model="add.mobile"
                                                                            placeholder="Số điện thoại">
+                                                                    <div id="mobileAddErr" class="invalid-tooltip">
+                                                                        Vui lòng nhập Số điện thoại!
+                                                                    </div>
                                                                 </div>
                                                                 <div class="mb-3">
                                                                     <label class="form-label">Ngày sinh</label>
@@ -481,6 +408,9 @@
                                                                            id="add-empCode"
                                                                            placeholder="Mã nhân viên"
                                                                            ng-model="add.empCode">
+                                                                    <div id="empCodeAddErr" class="invalid-tooltip">
+                                                                        Vui lòng nhập Mã nhân viên!
+                                                                    </div>
                                                                 </div>
                                                                 <div class="mb-3">
                                                                     <label class="form-label">Team &nbsp;<span
@@ -498,6 +428,27 @@
                                                                         <option ng-value="6">Kim cương 6</option>
                                                                         <option ng-value="7">Kim cương 7</option>
                                                                     </select>
+                                                                    <div id="teamAddErr" class="invalid-tooltip">
+                                                                        Vui lòng nhập Team!
+                                                                    </div>
+                                                                </div>
+                                                                <div class="mb-3">
+                                                                    <label class="form-label">Xã/
+                                                                        Phường &nbsp;<span
+                                                                                class="text-danger">*</span></label>
+                                                                    <select id="add-wardId" name="team"
+                                                                            class="form-control"
+                                                                            style="width: 100% ;border-radius: 6px"
+                                                                            ng-model="add.wardId">
+                                                                        <option ng-value="-1">-- Lựa chọn --</option>
+                                                                        <option ng-repeat="w in wardListAdd track by $index"
+                                                                                ng-value="{{w.id}}">
+                                                                            {{w.name}}
+                                                                        </option>
+                                                                    </select>
+                                                                    <div id="wardAddErr" class="invalid-tooltip">
+                                                                        Vui lòng chọn Xã/ Phường!
+                                                                    </div>
                                                                 </div>
                                                             </div>
                                                         </div>
@@ -518,6 +469,7 @@
                                                                     Lưu
                                                                 </button>
                                                                 <button class="btn btn-warning m-1"
+                                                                        ng-click="clearFormAdd()"
                                                                         data-bs-dismiss="modal" aria-label="Close">Hủy
                                                                     bỏ
                                                                 </button>
@@ -659,6 +611,7 @@
                                                                     <select id="customerDetail-districtId" name="team"
                                                                             class="form-control"
                                                                             style="width: 100% ;border-radius: 6px"
+                                                                            ng-change="changeDistrictDetail(customerDetail.districtId)"
                                                                             ng-model="customerDetail.districtId">
                                                                         <option ng-repeat="d in districtListDetail track by $index"
                                                                                 ng-value="{{d.id}}">
@@ -703,6 +656,20 @@
                                                                         <option ng-value="5">Kim cương 5</option>
                                                                         <option ng-value="6">Kim cương 6</option>
                                                                         <option ng-value="7">Kim cương 7</option>
+                                                                    </select>
+                                                                </div>
+                                                                <div class="mb-3">
+                                                                    <label class="form-label">Xã/
+                                                                        Phường &nbsp;<span
+                                                                                class="text-danger">*</span></label>
+                                                                    <select id="customerDetail-wardId" name="wardId"
+                                                                            class="form-control"
+                                                                            style="width: 100% ;border-radius: 6px"
+                                                                            ng-model="customerDetail.wardId">
+                                                                        <option ng-repeat="w in wardListDetail track by $index"
+                                                                                ng-value="{{w.id}}">
+                                                                            {{w.name}}
+                                                                        </option>
                                                                     </select>
                                                                 </div>
 

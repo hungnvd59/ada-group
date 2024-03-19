@@ -83,6 +83,26 @@ public class AdaCustomerController {
         return new ResponseEntity<>("0", HttpStatus.OK);
     }
 
+    @PostMapping("/add")
+    public ResponseEntity<?> add(@RequestBody CustomerView dto, HttpServletRequest request) {
+        try {
+            AdaCustomer customerCheck = customerDao.getCustomerByMobile(dto.getMobile());
+            if (customerCheck != null) {
+                //Exist customer first
+                return new ResponseEntity<>("-1", HttpStatus.OK);
+            }
+            AdaCustomer customer = new AdaCustomer(dto);
+            customer.setStatus(Constants.CUSTOMER_STATUS.DANG_HOAT_DONG);
+            customer.setGenDate(new Date());
+            customer.setComingDate(new Date());
+            commonDao.save(customer);
+            return new ResponseEntity<>("1", HttpStatus.OK);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return new ResponseEntity<>("0", HttpStatus.OK);
+    }
+
     @PostMapping("/delete")
     public ResponseEntity<?> delete(@RequestBody CustomerView dto, HttpServletRequest request) {
         try {

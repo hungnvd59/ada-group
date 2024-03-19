@@ -4,7 +4,6 @@ import lombok.Data;
 
 import javax.persistence.*;
 import java.io.Serializable;
-import java.util.Date;
 
 /**
  * Created by Admin on 12/27/2017.
@@ -30,5 +29,5 @@ public class Catalogy implements Serializable {
     private String description;
 
     @Column(name = "PARENT_ID")
-    private Long parent_id;
+    private Long parentId;
 }

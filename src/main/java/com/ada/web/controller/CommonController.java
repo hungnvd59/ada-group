@@ -147,6 +147,11 @@ public class CommonController {
         return new ResponseEntity<>(commonDao.getDistrictByProvince(provinceId), HttpStatus.OK);
     }
 
+    @GetMapping("/getWardByDistrict")
+    public ResponseEntity<List> getWardByDistrict(@RequestParam(value = "districtId") Long provinceId, HttpServletRequest request) {
+        return new ResponseEntity<>(commonDao.getWardByDistrict(provinceId), HttpStatus.OK);
+    }
+
     //
 //    @GetMapping("/getListProvinceWithMobiShop")
 //    public ResponseEntity<List> getListProvinceWithMobiShop(HttpServletRequest request) {

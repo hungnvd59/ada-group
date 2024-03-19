@@ -73,6 +73,7 @@ public class CustomerDaoImpl implements CustomerDao {
                 vals.put("team", team);
             }
 
+            sql.append(" ORDER BY cust.id DESC");
 
             Query query = entityManager.createQuery(sql.toString());
             Query queryCount = entityManager.createQuery(sqlCount.toString());
@@ -125,5 +126,20 @@ public class CustomerDaoImpl implements CustomerDao {
             e.printStackTrace();
         }
         return Optional.empty();
+    }
+
+    @Override
+    public AdaCustomer getCustomerByMobile(String mobile) {
+        try {
+            Query query = entityManager.createNativeQuery("SELECT * FROM  ada_customer cust WHERE 1=1 AND  cust.mobile = :mobile", AdaCustomer.class)
+                    .setParameter("mobile", mobile);
+            List<AdaCustomer> adaCustomers = query.getResultList();
+            if (adaCustomers != null && adaCustomers.size() > 0) {
+                return adaCustomers.get(0);
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return null;
     }
 }

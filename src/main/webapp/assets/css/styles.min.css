@@ -2683,7 +2683,8 @@ progress {
 }
 
 .form-label {
-    margin-bottom: 0.5rem;
+    margin-bottom: 0.2rem;
+    margin-top: 0.7rem;
     font-weight: 600;
     color: #2A3547
 }
@@ -3629,7 +3630,6 @@ textarea.form-control-lg {
 
 .invalid-tooltip {
     position: absolute;
-    top: 100%;
     z-index: 5;
     display: none;
     max-width: 100%;

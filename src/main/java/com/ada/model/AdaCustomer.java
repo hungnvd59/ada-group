@@ -13,7 +13,9 @@ import java.util.Date;
 @Data
 public class AdaCustomer implements Serializable {
     private static final long serialVersionUID = -8299255898396933698L;
+
     @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "ID", unique = true, nullable = false)
     private Long id;
     @Column(name = "FULLNAME", nullable = false, unique = true)

@@ -34,7 +34,21 @@ public class CommonDao extends EntityDAOImpl {
     public List<Catalogy> getDistrictByProvince(Long id) {
         try {
             Query query = entityManager.createQuery(
-                    "select ca from Catalogy ca where ca.type = 'QH' and ca.parent_id = :id").setParameter("id", id);
+                    "select ca from Catalogy ca where ca.type = 'QH' and ca.parentId = :id").setParameter("id", id);
+            List<Catalogy> list = query.getResultList();
+            if (list != null && !list.isEmpty()) {
+                return list;
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return null;
+    }
+
+    public List<Catalogy> getWardByDistrict(Long id) {
+        try {
+            Query query = entityManager.createQuery(
+                    "select ca from Catalogy ca where ca.type = 'PX' and ca.parentId = :id").setParameter("id", id);
             List<Catalogy> list = query.getResultList();
             if (list != null && !list.isEmpty()) {
                 return list;

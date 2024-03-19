@@ -20,8 +20,7 @@ public class User implements Serializable, UserDetails {
     private static final long serialVersionUID = -8299255898396933698L;
     @Getter
     @Id
-    @SequenceGenerator(name = "ADM_USERS_SEQ", sequenceName = "ADM_USERS_SEQ", allocationSize = 1)
-    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "ADM_USERS_SEQ")
+    @GeneratedValue(strategy=GenerationType.IDENTITY)
     @Column(name = "ID", unique = true, nullable = false)
     private Long id;
     @Column(name = "USERNAME", nullable = false, unique = true)

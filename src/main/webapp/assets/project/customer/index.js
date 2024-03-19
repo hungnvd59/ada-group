@@ -53,7 +53,6 @@ app.controller('customerUser', ['$scope', '$http', '$timeout', '$q', function ($
         });
     });
 
-    /*region handle*/
     $scope.onChangeCity = function () {
         $http.get(preUrl + "/common/getDistrictByProvince", {
             params: {
@@ -72,7 +71,10 @@ app.controller('customerUser', ['$scope', '$http', '$timeout', '$q', function ($
         $scope.team = -1
     }
 
+    /*SEARCH*/
     $scope.search = function () {
+        document.getElementById("data-search").style.display = 'none';
+        document.getElementById("loading").style.display = 'block';
         $scope.listData.pageNumber = 1;
         $scope.loadListData();
     }
@@ -90,6 +92,8 @@ app.controller('customerUser', ['$scope', '$http', '$timeout', '$q', function ($
             }
         }).then(function (response) {
             if (response != null && response.status === 200) {
+                document.getElementById("data-search").style.display = 'block';
+                document.getElementById("loading").style.display = 'none';
                 $scope.listData = response.data;
                 $scope.listData.pageCount = getPageCount($scope.listData);
                 $scope.listData.pageList = getPageList($scope.listData);
@@ -112,6 +116,8 @@ app.controller('customerUser', ['$scope', '$http', '$timeout', '$q', function ($
                 }
             }).then(function (response) {
                 if (response != null && response != 'undefined' && response.status == 200) {
+                    document.getElementById("data-search").style.display = 'block';
+                    document.getElementById("loading").style.display = 'none';
                     $scope.listData = response.data;
                     $scope.listData.pageCount = getPageCount($scope.listData);
                     $scope.listData.pageList = getPageList($scope.listData);
@@ -121,7 +127,13 @@ app.controller('customerUser', ['$scope', '$http', '$timeout', '$q', function ($
     }
 
     $scope.export = function () {
-        window.location.href = preUrl + "/customer/export?p=" + $scope.listData.pageNumber + "&numberPerPage=" + $scope.listData.numberPerPage + "&fullName=" + $scope.fullName + "&mobile=" + $scope.mobile + "&typeCtv=" + $scope.typeCtv + "&status=" + $scope.status + "&idNumber=" + $scope.idNumber + "&statusVerify=" + $scope.statusVerify + "&superiorName=" + $scope.superiorName + "&provinceId=" + $scope.provinceId + "&districtId=" + $scope.districtId + "&comingDate=" + $scope.comingDate + "&leaveDate=" + $scope.leaveDate;
+        window.location.href = preUrl + "/customer/export?p=" + $scope.listData.pageNumber
+            + "&numberPerPage=" + $scope.listData.numberPerPage
+            + "&fullName=" + $scope.fullName
+            + "&mobile=" + $scope.mobile
+            + "&provinceId=" + $scope.provinceId
+            + "&districtId=" + $scope.districtId
+            + "&team=" + $scope.team
     }
     //----------------show detail---------------------
     $scope.showDetailCust = function (item) {
@@ -137,6 +149,13 @@ app.controller('customerUser', ['$scope', '$http', '$timeout', '$q', function ($
         }).then(function (response) {
             $scope.districtListDetail = response.data
         });
+        $http.get(preUrl + "/common/getWardByDistrict", {
+            params: {
+                districtId: item.districtId
+            }
+        }).then(function (response) {
+            $scope.wardListDetail = response.data
+        });
         $("#mdDetailCustomer").modal("show");
     }
 
@@ -147,8 +166,19 @@ app.controller('customerUser', ['$scope', '$http', '$timeout', '$q', function ($
             }
         }).then(function (response) {
             $scope.districtListDetail = response.data
+
         });
     }
+    $scope.changeDistrictDetail = function (id) {
+        $http.get(preUrl + "/common/getWardByDistrict", {
+            params: {
+                districtId: id
+            }
+        }).then(function (response) {
+            $scope.wardListDetail = response.data
+        });
+    }
+
 
     $scope.editCustomer = function () {
         var requestBody = JSON.parse(JSON.stringify($scope.customerDetail));
@@ -157,7 +187,7 @@ app.controller('customerUser', ['$scope', '$http', '$timeout', '$q', function ($
             .then(function (response) {
                 switch (Number(response.data)) {
                     case 1:
-                        toastr.info("Cập nhật thông tin thành công")
+                        toastr.success("Cập nhật thông tin thành công")
                         $("#mdDetailCustomer").modal("hide");
                         $scope.search();
                         break;
@@ -185,7 +215,7 @@ app.controller('customerUser', ['$scope', '$http', '$timeout', '$q', function ($
             .then(function (response) {
                 switch (Number(response.data)) {
                     case 1:
-                        toastr.info("Xóa nhân viên thành công")
+                        toastr.success("Xóa nhân viên thành công")
                         $("#mdConfirmDelete").modal("hide");
                         $scope.search();
                         break;
@@ -203,11 +233,126 @@ app.controller('customerUser', ['$scope', '$http', '$timeout', '$q', function ($
         $scope.add.type = -1
         $scope.add.provinceId = -1
         $scope.add.districtId = -1
+        $scope.add.wardId = -1
         $http.get(preUrl + "/common/getListProvince", {}).then(function (response) {
             $scope.provinceListAdd = response.data
         });
         $("#mdAddCustomer").modal("show");
     }
+
+    $scope.rsValidate = true;
+    $scope.validateFormAdd = function () {
+        if ($scope.add.fullName == null || $scope.add.fullName === '') {
+            document.getElementById("add-fullName").style.border = '1px solid red';
+            document.getElementById("fullNameAddErr").style.display = 'block';
+            $scope.rsValidate = false
+        }
+        if ($scope.add.type == null || $scope.add.type === -1) {
+            document.getElementById("add-type").style.border = '1px solid red';
+            document.getElementById("typeAddErr").style.display = 'block';
+            $scope.rsValidate = false
+        }
+        if ($scope.add.email == null || $scope.add.email === '') {
+            document.getElementById("add-email").style.border = '1px solid red';
+            document.getElementById("emailAddErr").style.display = 'block';
+            $scope.rsValidate = false
+        }
+        if ($scope.add.email != null && !validateEmail($scope.add.email)) {
+            document.getElementById("add-email").style.border = '1px solid red';
+            document.getElementById("emailAddFormatErr").style.display = 'block';
+            $scope.rsValidate = false
+        }
+
+        if ($scope.add.mobile == null || $scope.add.mobile === '') {
+            document.getElementById("add-mobile").style.border = '1px solid red';
+            document.getElementById("mobileAddErr").style.display = 'block';
+        }
+        if ($scope.add.provinceId == null || $scope.add.provinceId === -1) {
+            document.getElementById("add-provinceId").style.border = '1px solid red';
+            document.getElementById("provinceAddErr").style.display = 'block';
+            $scope.rsValidate = false
+        }
+        if ($scope.add.districtId == null || $scope.add.districtId === -1) {
+            document.getElementById("add-districtId").style.border = '1px solid red';
+            document.getElementById("districtAddErr").style.display = 'block';
+            $scope.rsValidate = false
+        }
+        if ($scope.add.wardId == null || $scope.add.wardId === -1) {
+            document.getElementById("add-wardId").style.border = '1px solid red';
+            document.getElementById("wardAddErr").style.display = 'block';
+            $scope.rsValidate = false
+        }
+        if ($scope.add.empCode == null || $scope.add.empCode === '') {
+            document.getElementById("add-empCode").style.border = '1px solid red';
+            document.getElementById("empCodeAddErr").style.display = 'block';
+            $scope.rsValidate = false
+        }
+        if ($scope.add.team == null || $scope.add.team === -1) {
+            document.getElementById("add-team").style.border = '1px solid red';
+            document.getElementById("teamAddErr").style.display = 'block';
+            $scope.rsValidate = false
+        }
+        return $scope.rsValidate;
+    }
+
+    $scope.clearFormAdd = function () {
+        document.getElementById("add-fullName").style.border = '1px solid #DFE5EF';
+        document.getElementById("add-type").style.border = '1px solid #DFE5EF';
+        document.getElementById("add-email").style.border = '1px solid #DFE5EF';
+        document.getElementById("add-mobile").style.border = '1px solid #DFE5EF';
+        document.getElementById("add-provinceId").style.border = '1px solid #DFE5EF';
+        document.getElementById("add-districtId").style.border = '1px solid #DFE5EF';
+        document.getElementById("add-empCode").style.border = '1px solid #DFE5EF';
+        document.getElementById("add-team").style.border = '1px solid #DFE5EF';
+        document.getElementById("add-wardId").style.border = '1px solid #DFE5EF';
+
+        document.getElementById("fullNameAddErr").style.display = 'none';
+        document.getElementById("typeAddErr").style.display = 'none';
+        document.getElementById("emailAddErr").style.display = 'none';
+        document.getElementById("emailAddFormatErr").style.display = 'none';
+        document.getElementById("provinceAddErr").style.display = 'none';
+        document.getElementById("mobileAddErr").style.display = 'none';
+        document.getElementById("districtAddErr").style.display = 'none';
+        document.getElementById("empCodeAddErr").style.display = 'none';
+        document.getElementById("teamAddErr").style.display = 'none';
+        document.getElementById("wardAddErr").style.display = 'none';
+
+
+        $scope.add.fullName = ''
+        $scope.add.type = -1
+        $scope.add.email = ''
+        $scope.add.mobile = ''
+        $scope.add.provinceId = -1
+        $scope.add.districtId = -1
+        $scope.add.wardId = -1
+        $scope.add.empCode = ''
+        $scope.add.team = -1
+    }
+
+    $scope.addCustomer = function () {
+        if ($scope.validateFormAdd()) {
+            var requestBody = JSON.parse(JSON.stringify($scope.add));
+            console.log(requestBody)
+            $http.post(preUrl + "/customer/add", requestBody)
+                .then(function (response) {
+                    switch (Number(response.data)) {
+                        case 1:
+                            toastr.success("Thêm mới nhân viên thành công")
+                            $("#mdAddCustomer").modal("hide");
+                            $scope.search();
+                            break;
+                        case -1:
+                            toastr.error("Nhân viên đã tồn tại trong hệ thống!")
+                            break;
+                        default:
+                            toastr.error('Thêm mới không thành công. Bạn vui lòng thử lại sau');
+                            break;
+                    }
+                });
+        }
+    }
+
+
     $scope.changeCityAdd = function (id) {
         $http.get(preUrl + "/common/getDistrictByProvince", {
             params: {
@@ -217,78 +362,15 @@ app.controller('customerUser', ['$scope', '$http', '$timeout', '$q', function ($
             $scope.districtListAdd = response.data
         });
     }
-    //----------------LOCK/UNLOCK/DELETE---------------------
-    $scope.userLock = {}
-    $scope.userUnLock = {}
-    $scope.userDelete = {}
-    $scope.preLockPartner = function (user) {
-        $scope.userLock = Object.assign({}, user);
-        $("#mdLockUser").modal("show");
-    }
-    $scope.preUnLockPartner = function (user) {
-        $scope.userUnLock = Object.assign({}, user);
-        $("#mdUnLockUser").modal("show");
-    }
-    $scope.preDeletePartner = function (user) {
-        $scope.userDelete = Object.assign({}, user);
-        $("#mdDeleteUser").modal("show");
-    }
 
-    $scope.lockUser = function () {
-        var requestBody = JSON.parse(JSON.stringify($scope.userLock));
-        $http.post(preUrl + "/system/user/lock-user", requestBody)
-            .then(function (response) {
-                if (response != null && response != 'undefined' && response.status == 200) {
-                    switch (Number(response.data)) {
-                        case 1:
-                            toastr.success("Khóa tài khoản thành công!")
-                            $scope.search()
-                            $("#mdLockUser").modal("hide");
-                            break;
-                        default:
-                            toastr.error('Khóa tài khoản không thành công!');
-                            break;
-                    }
-                }
-            });
-    }
-
-    $scope.unLockUser = function () {
-        var requestBody = JSON.parse(JSON.stringify($scope.userUnLock));
-        $http.post(preUrl + "/system/user/unLock-user", requestBody)
-            .then(function (response) {
-                if (response != null && response != 'undefined' && response.status == 200) {
-                    switch (Number(response.data)) {
-                        case 1:
-                            $scope.search()
-                            toastr.success("Mở khóa tài khoản thành công!")
-                            $("#mdUnLockUser").modal("hide");
-                            break;
-                        default:
-                            toastr.error('Mở khóa tài khoản không thành công!');
-                            break;
-                    }
-                }
-            });
-    }
-
-    $scope.deleteUserF = function () {
-        var requestBody = JSON.parse(JSON.stringify($scope.userDelete));
-        $http.post(preUrl + "/ctv/user/deletePartner", requestBody)
-            .then(function (response) {
-                if (response != null && response != 'undefined' && response.status == 200) {
-                    switch (Number(response.data)) {
-                        case 0:
-                            $scope.search()
-                            toastr.success("Xóa tài khoản thành công!")
-                            $("#mdDeleteUser").modal("hide");
-                            break;
-                        default:
-                            toastr.error('Xóa tài khoản thất bại!');
-                            break;
-                    }
-                }
-            });
+    $scope.changeDistrictAdd = function (id) {
+        $http.get(preUrl + "/common/getWardByDistrict", {
+            params: {
+                districtId: id
+            }
+        }).then(function (response) {
+            $scope.wardListAdd = response.data
+        });
     }
 
 
