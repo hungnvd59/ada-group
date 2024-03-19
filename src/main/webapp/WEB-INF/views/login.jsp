@@ -4,84 +4,83 @@
 <%@ taglib uri="http://tiles.apache.org/tags-tiles" prefix="tiles" %>
 <%@ taglib prefix="sec" uri="http://www.springframework.org/security/tags" %>
 <%@ taglib prefix="spring" uri="http://www.springframework.org/tags" %>
-<!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
     <title>Đăng nhập</title>
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta name="description" content="">
-    <meta name="author" content="">
-
-    <!-- CSS -->
-    <link rel="shortcut icon" href="<%=request.getContextPath()%>/assets/images/favion/favion.png"/>
-    <link rel="stylesheet" href="<%=request.getContextPath()%>/assets/login/css/login.css">
-    <style>
-        .errorss {
-            padding: 5px;
-            border: 1px solid transparent;
-            border-radius: 4px;
-            color: #a94442;
-            background-color: #f2dede;
-            border-color: #ebccd1;
-            position: absolute;
-            top: 15rem;
-            left: 2%;
-        }
-
-        section {
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            min-height: 100vh;
-            width: 100%;
-        <%--background: url('<%=request.getContextPath()%>/assets/image/img_login_bg.jpg') no-repeat;--%> background-color: #222222;
-            background-position: center;
-            background-size: cover;
-        }
-    </style>
+    <link rel="shortcut icon" type="image/png" href="<%=request.getContextPath()%>/assets/images/logos/favicon.png"/>
+    <link rel="stylesheet" href="<%=request.getContextPath()%>/assets/css/styles.min.css"/>
 </head>
-<body onload='document.loginForm.password.focus();document.loginForm.username.focus();'>
-<section>
-    <div class="form-box">
-        <div class="form-value">
-            <form name='loginForm' style="text-align: center"
-                  action="<c:url value='/j_spring_security_check'/>" method="POST">
-                <h2>Đăng nhập hệ thống</h2>
-                <div class="inputbox">
-                    <ion-icon name="mail-outline"></ion-icon>
-                    <input type="text"
-                           id="username"
-                           name="username" placeholder="Tên đăng nhập" required>
-                    <c:if test="${not empty error}">
-                        <div class="errorss" style="text-align: center;width: 92%"><spring:message
-                                code="${error}"/></div>
-                    </c:if>
-                    <label for="">Tên đăng nhập</label>
+
+<body>
+<!--  Body Wrapper -->
+<div class="page-wrapper" id="main-wrapper" data-layout="vertical" data-navbarbg="skin6" data-sidebartype="full"
+     data-sidebar-position="fixed" data-header-position="fixed">
+    <div
+            class="position-relative overflow-hidden radial-gradient min-vh-100 d-flex align-items-center justify-content-center">
+        <div class="d-flex align-items-center justify-content-center w-100">
+            <div class="row justify-content-center w-100">
+                <div class="col-md-8 col-lg-6 col-xxl-3">
+                    <div class="card mb-0">
+                        <div class="card-body">
+                            <a href="<%=request.getContextPath()%>/"
+                               class="text-nowrap logo-img text-center d-block py-3 w-100" style="margin-bottom: 2rem">
+                                <img src="<%=request.getContextPath()%>/assets/images/logos/logo.png" width="250"
+                                     alt="">
+                            </a>
+                            <form name='loginForm' style="text-align: center"
+                                  action="<c:url value='/j_spring_security_check'/>" method="POST">
+                                <div class="row mb-3">
+                                    <div class="col-sm-3">
+                                        <label class="form-label">Tài khoản</label>
+                                    </div>
+                                    <div class="col-sm-9">
+                                        <input for="" type="text"
+                                               id="username"
+                                               name="username" placeholder="Tên đăng nhập" required
+                                               class="form-control">
+                                    </div>
+                                </div>
+                                <div class="mb-4">
+                                    <div class="row mb-3">
+                                        <div class="col-sm-3">
+                                            <label for="" class="form-label">Mật khẩu</label>
+                                        </div>
+                                        <div class="col-sm-9">
+                                            <input type="password" id="password" name="password"
+                                                   placeholder="Mật khẩu" required class="form-control">
+                                        </div>
+                                    </div>
+                                </div>
+                                <c:if test="${not empty error}">
+                                    <div class="alert alert-danger" style="text-align: center;width: 100%">
+                                        <spring:message
+                                                code="${error}"/></div>
+                                </c:if>
+                                <div class="d-flex align-items-center justify-content-between mb-4">
+                                    <div class="form-check">
+                                        <input name="_spring_security_remember_me" class="form-check-input primary"
+                                               type="checkbox" value="" id="flexCheckChecked" checked>
+                                        <label class="form-check-label text-dark" for="flexCheckChecked">
+                                            Ghi nhớ tài khoản
+                                        </label>
+                                    </div>
+                                </div>
+                                <button type="submit" class="btn btn-primary w-100 py-8 fs-4 mb-4 rounded-2">Đăng
+                                    nhập
+                                </button>
+                            </form>
+                        </div>
+                    </div>
                 </div>
-                <div class="inputbox">
-                    <ion-icon name="lock-closed-outline"></ion-icon>
-                    <input type="password" id="password" name="password"
-                           placeholder="Mật khẩu" required>
-                    <label for="">Mật khẩu</label>
-                </div>
-                <div class="forget">
-                    <label>
-                        <input type="checkbox" value="yes"
-                               name="_spring_security_remember_me"> Ghi nhớ tài khoản
-                    </label>
-                </div>
-                <button type="submit" class="btn btn-primary">Đăng nhập</button>
-            </form>
+            </div>
         </div>
     </div>
-</section>
-<script src="<%=request.getContextPath()%>/assets/login/js/jquery-1.8.2.min.js"></script>
-<script src="<%=request.getContextPath()%>/assets/login/js/supersized.3.2.7.min.js"></script>
-<script type="module" src="https://unpkg.com/ionicons@5.5.2/dist/ionicons/ionicons.esm.js"></script>
-<script nomodule src="https://unpkg.com/ionicons@5.5.2/dist/ionicons/ionicons.js"></script>
+</div>
+<script src="<%=request.getContextPath()%>/assets/libs/jquery/dist/jquery.min.js"></script>
+<script src="<%=request.getContextPath()%>/assets/libs/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
 </body>
-<script>
-</script>
 </html>
 

@@ -28,11 +28,9 @@ public class Constants {
     }
 
     //status partner
-    public static class STATUS_PARTNER {
-        public static final Long ACTIVE = 1L;
-        public static final Long BLOCK = 0L;
-        //xoa boi osp admin
-        public static final Long DELETEBYOSP = 2L;
+    public static class CUSTOMER_STATUS {
+        public static final Long DANG_HOAT_DONG = 1L;
+        public static final Long NGUNG_HOAT_DONG = 2L;
     }
 
     //status config contract

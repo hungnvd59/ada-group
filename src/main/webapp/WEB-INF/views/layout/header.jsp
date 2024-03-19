@@ -4,64 +4,45 @@
 <%@ taglib prefix="sec" uri="http://www.springframework.org/security/tags" %>
 <%@ taglib prefix="spring" uri="http://www.springframework.org/tags" %>
 
-<style>
-    .userLG {
-        color: whitesmoke;
-    }
-
-    .userLG:hover {
-        color: #FFFFFF;
-        cursor: pointer;
-    }
-
-    .nav-user > li > a:hover {
-        background-color: transparent;
-    }
-</style>
-<header class="bg-secondary dk header navbar navbar-fixed-top-xs" style="background-color: #222222">
-
-    <div class="navbar-header aside-md ">
-        <a class="btn btn-link visible-xs" data-toggle="class:nav-off-screen,open" data-target="#nav,html">
-            <i class="fa fa-bars"></i>
-        </a>
-        <a href="<%=request.getContextPath()%>/" class="navbar-brand" data-toggle="fullscreen1111"><img
-                src="<%=request.getContextPath()%>/assets/images/logo.png" class="m-r-sm" style="max-height: 45px;"></a>
-        <a class="btn btn-link visible-xs" data-toggle="dropdown" data-target=".nav-user">
-            <i class="fa fa-cog"></i>
-        </a>
-    </div>
-    <ul class="nav navbar-nav navbar-right hidden-xs nav-user"
-        style="margin-top: 10px;margin-right: 15px;color: #FFFFFF">
-        <li style="border-radius: 20px;border:1px solid whitesmoke" class="dropdown"><a
-                style=";padding-bottom: 5px;padding-top: 5px" class="dropdown-toggle userLG" onclick="myFunction()">
-            <%=request.getRemoteUser()%> <b class="caret"></b>
-        </a>
-            <ul id="myDropdown" class="dropdown-menu animated fadeInRight" style="min-width: 100px">
-                <li><a
-                        href="<%=request.getContextPath()%>/cap-nhat-thong-tin-tai-khoan.html">Hồ sơ</a></li>
-                <li class="divider"></li>
-                <li><a href="<c:url value="/j_spring_security_logout" />">Đăng
-                    xuất</a></li>
+<header class="app-header">
+    <nav class="navbar navbar-expand-lg navbar-light">
+        <ul class="navbar-nav">
+            <li class="nav-item d-block d-xl-none">
+                <a class="nav-link sidebartoggler nav-icon-hover" id="headerCollapse" href="javascript:void(0)">
+                    <i class="ti ti-menu-2"></i>
+                </a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link nav-icon-hover" href="javascript:void(0)">
+<%--
+--%>
+                </a>
+            </li>
+        </ul>
+        <div class="navbar-collapse justify-content-end px-0" id="navbarNav">
+            <ul class="navbar-nav flex-row ms-auto align-items-center justify-content-end">
+                <li class="nav-item dropdown">
+                    <a class="nav-link nav-icon-hover" href="javascript:void(0)" id="drop2" data-bs-toggle="dropdown"
+                       aria-expanded="false">
+                        <img src="../assets/images/profile/user-1.jpg" alt="" width="35" height="35" class="rounded-circle">
+                    </a>
+                    <div class="dropdown-menu dropdown-menu-end dropdown-menu-animate-up" aria-labelledby="drop2">
+                        <div class="message-body">
+                            <a href="javascript:void(0)" class="d-flex align-items-center gap-2 dropdown-item">
+                                <i class="ti ti-user fs-6"></i>
+                                <p class="mb-0 fs-3">Thông tin cá nhân</p>
+                            </a>
+                            <a href="javascript:void(0)" class="d-flex align-items-center gap-2 dropdown-item">
+                                <i class="ti ti-mail fs-6"></i>
+                                <p class="mb-0 fs-3">Đổi mật khẩu</p>
+                            </a>
+                            <a href="./authentication-login.html" class="btn btn-outline-primary mx-3 mt-2 d-block">Logout</a>
+                        </div>
+                    </div>
+                </li>
             </ul>
-        </li>
-    </ul>
-
+        </div>
+    </nav>
 </header>
 
-<script>
-    function myFunction() {
-        document.getElementById("myDropdown").classList.toggle("show");
-    }
-
-    document.getElementsByClassName("userLG").onclick = function (event) {
-        var dropdowns = document.getElementsByClassName("dropdown-menu");
-        var i;
-        for (i = 0; i < dropdowns.length; i++) {
-            var openDropdown = dropdowns[i];
-            if (openDropdown.classList.contains('show')) {
-                openDropdown.classList.remove('show');
-            }
-        }
-    }
-</script>
 

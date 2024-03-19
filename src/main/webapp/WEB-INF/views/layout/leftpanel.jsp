@@ -43,140 +43,83 @@
 //    }
 
 %>
-<aside class="bg-dark b-r aside-md hidden-print" id="nav">
-    <section class="vbox">
-        <section class="w-f scrollable">
-            <div class="slim-scroll" data-height="auto"
-                 data-disable-fade-out="true" data-distance="0" data-size="5px"
-                 data-color="#333333">
-                <nav class="nav-primary hidden-xs">
-                    <ul class="nav">
-                        <%
-                            request.setAttribute("userName", request.getRemoteUser());
-                        %>
-                        <li class="<%= (!isActive(request.getContextPath() + "/customer", request)
+<link rel="stylesheet" href="<%=request.getContextPath()%>/assets/css/styles.min.css"/>
+
+<aside class="left-sidebar">
+    <!-- Sidebar scroll-->
+    <div>
+        <div class="brand-logo d-flex align-items-center justify-content-between">
+            <a href="<%=request.getContextPath()%>/" class="text-nowrap logo-img">
+                <img src="<%=request.getContextPath()%>/assets/images/logos/logo.png" width="225" alt=""/>
+            </a>
+            <div class="close-btn d-xl-none d-block sidebartoggler cursor-pointer" id="sidebarCollapse">
+                <i class="ti ti-x fs-8"></i>
+            </div>
+        </div>
+        <!-- Sidebar navigation-->
+        <nav class="sidebar-nav scroll-sidebar" data-simplebar="">
+            <ul id="sidebarnav">
+                <li class="nav-small-cap">
+                    <i class="ti ti-dots nav-small-cap-icon fs-4"></i>
+                    <span class="hide-menu">Trang chủ</span>
+                </li>
+                <li class="sidebar-item">
+                    <a class="sidebar-link <%= (!isActive(request.getContextPath() + "/customer", request)
                         & !isActive(request.getContextPath() + "/system", request)
                         & !isActive(request.getContextPath() + "/system/", request)
-                        & !isActive(request.getContextPath() + "/customer/", request)) ? "active" : "" %>">
-                            <a href="<%=request.getContextPath()%>/">
-                                <i class="fa fa-home icon">
-                                </i> <span>Trang chủ</span>
-                            </a>
-                        </li>
-                        <c:set var="typeUser" scope="page"><sec:authentication property="principal.type"/></c:set>
-                        <%--USER--%>
-                        <%--						<sec:authorize access="hasAnyRole('ROLE_SYSTEM_USER_WEB_LIST','ROLE_SYSTEM_USER_CMS_LIST')">--%>
-                        <li class="<%= (isActive(request.getContextPath() + "/customer", request)
-                        	& isActive(request.getContextPath() + "/customer/", request)) ? "active" : "" %>">
-                            <a href="<%=request.getContextPath()%>/customer/quan-ly-dai-ly.html">
-                                <i class="fa fa-user icon">
-                                </i> <span>Quản lý đại lý</span>
-                            </a>
-                        </li>
-
-                        <li class="<%= isActive(request.getContextPath() + "/account", request) ? "active" : ""%>">
-                            <a id="<%= isActive(request.getContextPath() + "/account/", request)
-                            || isActive(request.getContextPath() + "/account", request)
-                        ||isActive(request.getContextPath() + "/account/", request) ? "active" : ""%>"
-                               href="<%=request.getContextPath()%>/account/quan-ly-tai-khoan-he-thong.html"> <i
-                                    class="fa fa-user icon"
-                                    style="padding-top: 12px;padding-bottom: 10px;"></i>  </span>
-                                Quản lý tài khoản hệ thống</span> </a>
-                        </li>
-                        <%--//						</sec:authorize>--%>
-
-                        <%--SYSTEM--%>
-                        <%--						<c:if test="${pageScope.typeUser != 2 && pageScope.typeUser != 3}">--%>
-                        <%--							<sec:authorize--%>
-                        <%--									access="hasAnyRole('ROLE_SYSTEM_GROUP_LIST','ROLE_SYSTEM_AUTHORITY_LIST','ROLE_SYSTEM_PARAMETERS_LIST','ROLE_SYSTEM_LOG_HISTORY')">--%>
-                        <li class="<%= isActive(request.getContextPath() + "/system/group", request)
-                          || isActive(request.getContextPath() + "/system/authority", request) ? "active" : ""%>">
-                            <a class="<%= isActive(request.getContextPath() + "/system/group/", request)
-                            || isActive(request.getContextPath() + "/system/authority", request) ? "active" : ""%>"
-                               href="#" class=""> <i class="fa fa-cogs icon"></i> <span
-                                    class="pull-right"> <i class="fa fa-angle-down text"></i> <i
-                                    class="fa fa-angle-up text-active"></i> </span> <span>Quản lý hệ thống</span> </a>
-                            <ul class="nav lt">
-                                <%--										<sec:authorize--%>
-                                <%--												access="hasAnyRole('ROLE_SYSTEM_GROUP_LIST')">--%>
-                                <li>
-                                    <a href="<%=request.getContextPath()%>/system/group/quan-ly-nhom-quyen.html"
-                                       class=""> <i
-                                            class="fa fa-angle-right"></i> <span>Nhóm quyền</span> </a></li>
-                                <%--										</sec:authorize>--%>
-                                <%--										<sec:authorize--%>
-                                <%--												access="hasAnyRole('ROLE_SYSTEM_AUTHORITY_LIST')">--%>
-                                <li>
-                                    <a href="<%=request.getContextPath()%>/system/authority/quan-ly-chuc-nang-he-thong.html"
-                                       class=""> <i
-                                            class="fa fa-angle-right"></i> <span>Chức năng hệ thống</span> </a></li>
-                                <%--										</sec:authorize>--%>
-                            </ul>
-                        </li>
-                        <%--							</sec:authorize>--%>
-                        <%--						</c:if>--%>
-                    </ul>
-                </nav>
-                <!-- / nav -->
-            </div>
-        </section>
-        <footer class="footer lt hidden-xs b-t b-light">
-            <div id="chat" class="dropup">
-                <section class="dropdown-menu on aside-md m-l-n">
-                    <section class="panel bg-white">
-                        <header class="panel-heading b-b b-light">Active chats</header>
-                        <div class="panel-body animated fadeInRight">
-                            <p class="text-sm">No active chats.</p>
-
-                            <p>
-                                <a href="#" class="btn btn-sm btn-default">Start a chat</a>
-                            </p>
-                        </div>
-                    </section>
-                </section>
-            </div>
-            <div id="invite" class="dropup">
-                <section class="dropdown-menu on aside-md m-l-n">
-                    <section class="panel bg-white">
-                        <header class="panel-heading b-b b-light">
-                            John <i class="fa fa-circle text-success"></i>
-                        </header>
-                        <div class="panel-body animated fadeInRight">
-                            <p class="text-sm">No contacts in your lists.</p>
-                            <p>
-                                <a href="#" class="btn btn-sm btn-facebook">
-                                    <i class="fa fa-fw fa-facebook"></i>
-                                    Invite from Facebook
-                                </a>
-                            </p>
-                        </div>
-                    </section>
-                </section>
-            </div>
-            <a href="#nav" data-toggle="class:nav-xs" class="pull-right btn btn-sm btn-default btn-icon">
-                <i class="fa fa-angle-left text"></i>
-                <i class="fa fa-angle-right text-active"></i>
-            </a>
-        </footer>
-    </section>
+                        & !isActive(request.getContextPath() + "/customer/", request)) ? "active" : "" %>"
+                       href="<%=request.getContextPath()%>/" aria-expanded="false">
+                <span>
+                  <i class="ti ti-layout-dashboard"></i>
+                </span>
+                        <span class="hide-menu">Trang chủ</span>
+                    </a>
+                </li>
+                <li class="nav-small-cap">
+                    <i class="ti ti-dots nav-small-cap-icon fs-4"></i>
+                    <span class="hide-menu">Quản lý tài khoản</span>
+                </li>
+                <li class="sidebar-item">
+                    <a class="sidebar-link <%= (isActive(request.getContextPath() + "/customer", request)
+                        & isActive(request.getContextPath() + "/customer/", request)) ? "active" : "" %>"
+                       href="<%=request.getContextPath()%>/customer/quan-ly-dai-ly.html " aria-expanded="false">
+                <span>
+                  <i class="ti ti-user"></i>
+                </span>
+                        <span class="hide-menu">Quản lý nhân viên</span>
+                    </a>
+                </li>
+                <li class="nav-small-cap">
+                    <i class="ti ti-dots nav-small-cap-icon fs-4"></i>
+                    <span class="hide-menu">Quản lý hệ thống</span>
+                </li>
+                <li class="sidebar-item">
+                    <a class="sidebar-link" href="./ui-alerts.html" aria-expanded="false">
+                <span>
+                  <i class="ti ti-user-circle"></i>
+                </span>
+                        <span class="hide-menu">Người dùng hệ thống</span>
+                    </a>
+                </li>
+                <li class="sidebar-item">
+                    <a class="sidebar-link" href="./authentication-login.html" aria-expanded="false">
+                <span>
+                  <i class="ti ti-login"></i>
+                </span>
+                        <span class="hide-menu">Quản lý nhóm quyền</span>
+                    </a>
+                </li>
+                <li class="sidebar-item">
+                    <a class="sidebar-link" href="./authentication-register.html" aria-expanded="false">
+                <span>
+                  <i class="ti ti-user-plus"></i>
+                </span>
+                        <span class="hide-menu">Chức năng hệ thống</span>
+                    </a>
+                </li>
+            </ul>
+        </nav>
+        <!-- End Sidebar navigation -->
+    </div>
+    <!-- End Sidebar scroll-->
 </aside>
-<!-- /.aside -->
-<script type="text/javascript">
-    $(document).ready(function () {
-        if (window.location.href.lastIndexOf("/") == window.location.href.length - 1) {
-            $(".link-home").addClass("active");
-        } else {
-            $(".nav-primary .nav li a").each(function () {
-                if (!$(this).attr("href").match("/$") && window.location.href.indexOf($(this).attr("href")) >= 0) {
-                    if ($(this).parent().parent().parent().is("li")) {
-                        $(this).parent().parent().parent().addClass("active");
-                        //$(this).parent().css("background-color","#428bca");
-                    } else
-                        $(this).parent().addClass("active");
-
-                    $(this).css("color", "white");
-                }
-            });
-        }
-    });
-</script>

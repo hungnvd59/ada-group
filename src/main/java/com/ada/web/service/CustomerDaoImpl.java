@@ -1,6 +1,7 @@
 package com.ada.web.service;
 
 import com.ada.common.PagingResult;
+import com.ada.model.AdaCustomer;
 import com.ada.model.User;
 import com.ada.model.view.CustomerView;
 import org.apache.commons.lang3.StringUtils;
@@ -26,55 +27,52 @@ public class CustomerDaoImpl implements CustomerDao {
     private EntityManager entityManager;
 
     @Override
-    public Optional<PagingResult> page(PagingResult page, String fullName, String mobile, Long status, String presenter, Long provinceId, Long districtId, String comingDate, String leaveDate, User user) {
+    public Optional<PagingResult> page(PagingResult page, String fullName, String mobile, Long provinceId, Long districtId, Long team, User user) {
         int offset = 0;
         List<CustomerView> listCustomer = null;//9-1046
         try {
-            StringBuffer sql = new StringBuffer("SELECT u, cat.name, cata.name from User u" + " JOIN Catalogy cat ON u.idProvince = cat.id" + " JOIN Catalogy cata ON u.idDistrict = cata.id " + " WHERE 1=1 AND u.type = 3");
-            StringBuffer sqlCount = new StringBuffer("SELECT COUNT(*) from User u" + " JOIN Catalogy cat ON u.idProvince = cat.id" + " JOIN Catalogy cata ON u.idDistrict = cata.id " + " WHERE 1=1 AND u.type = 3");
+            StringBuffer sql = new StringBuffer("SELECT cust, cat.name, cata.name from AdaCustomer cust"
+                    + " JOIN Catalogy cat ON cust.provinceId = cat.id"
+                    + " JOIN Catalogy cata ON cust.districtId = cata.id "
+                    + " WHERE 1=1 AND cust.status = 1");
+            StringBuffer sqlCount = new StringBuffer("SELECT COUNT(*) from AdaCustomer cust"
+                    + " JOIN Catalogy cat ON cust.provinceId = cat.id"
+                    + " JOIN Catalogy cata ON cust.districtId = cata.id "
+                    + " WHERE 1=1 AND cust.status = 1");
 
             Map<String, Object> vals = new HashMap<>();
 
-            if (Integer.parseInt(user.getType().toString()) == 3) {
-                sql.append(" AND u.presenter = :refCode");
-                sqlCount.append(" AND u.presenter = :refCode");
-                vals.put("refCode", user.getRefCode());
+            if (Integer.parseInt(user.getType().toString()) == 2) {
+                sql.append(" AND cust.team = :team");
+                sql.append(" AND cust.team = :team");
+                vals.put("team", user.getTeam());
             }
             if (fullName != null && !StringUtils.isEmpty(fullName)) {
-                sql.append(" AND u.fullName = :fullName");
-                sqlCount.append(" AND u.fullName = :fullName");
+                sql.append(" AND cust.fullName = :fullName");
+                sqlCount.append(" AND cust.fullName = :fullName");
                 vals.put("fullName", fullName);
             }
             if (mobile != null && !StringUtils.isEmpty(mobile)) {
-                sql.append(" AND u.phone = :mobile");
-                sqlCount.append(" AND u.phone = :mobile");
+                sql.append(" AND cust.phone = :mobile");
+                sqlCount.append(" AND cust.phone = :mobile");
                 vals.put("mobile", mobile);
             }
-            if (presenter != null && !StringUtils.isEmpty(presenter)) {
-                sql.append(" AND u.presenter = :presenter");
-                sqlCount.append(" AND u.presenter = :presenter");
-                vals.put("presenter", presenter);
-            }
             if (provinceId != null && provinceId != -1L) {
-                sql.append(" AND u.idProvince = :provinceId");
-                sqlCount.append(" AND u.idProvince = :provinceId");
+                sql.append(" AND cust.provinceId = :provinceId");
+                sqlCount.append(" AND cust.provinceId = :provinceId");
                 vals.put("provinceId", provinceId);
             }
             if (districtId != null && districtId != -1L) {
-                sql.append(" AND u.idDistrict = :districtId");
-                sqlCount.append(" AND u.idDistrict = :districtId");
+                sql.append(" AND cust.districtId = :districtId");
+                sqlCount.append(" AND cust.districtId = :districtId");
                 vals.put("districtId", districtId);
             }
-            if (comingDate != null && !StringUtils.isEmpty(comingDate)) {
-                sql.append(" AND trunc(u.comingDate) >= to_date(:comingDate, 'dd/MM/yyyy') ");
-                sqlCount.append(" AND trunc(u.comingDate) >= to_date(:comingDate, 'dd/MM/yyyy') ");
-                vals.put("comingDate", comingDate);
+            if (team != null && team != -1L) {
+                sql.append(" AND cust.team = :team");
+                sqlCount.append(" AND cust.team = :team");
+                vals.put("team", team);
             }
-            if (leaveDate != null && !StringUtils.isEmpty(leaveDate)) {
-                sql.append(" AND trunc(u.leaveDate) <= to_date(:leaveDate, 'dd/MM/yyyy') ");
-                sqlCount.append(" AND trunc(u.leaveDate) <= to_date(:leaveDate, 'dd/MM/yyyy') ");
-                vals.put("leaveDate", leaveDate);
-            }
+
 
             Query query = entityManager.createQuery(sql.toString());
             Query queryCount = entityManager.createQuery(sqlCount.toString());
@@ -95,33 +93,29 @@ public class CustomerDaoImpl implements CustomerDao {
                 listCustomer = new ArrayList<>();
 
                 for (Object[] item : list) {
-                    User userView = (User) item[0];
+                    AdaCustomer userView = (AdaCustomer) item[0];
                     CustomerView customerView = new CustomerView();
                     customerView.setId(userView.getId());
-                    customerView.setUsername(userView.getUsername());
-                    customerView.setPassword(userView.getPassword());
                     customerView.setFullName(userView.getFullName());
-                    customerView.setPhone(userView.getPhone());
+                    customerView.setMobile(userView.getMobile());
                     customerView.setEmail(userView.getEmail());
-                    customerView.setDescription(userView.getDescription());
-                    customerView.setIdWard(userView.getIdWard());
-                    customerView.setIdDistrict(userView.getIdDistrict());
-                    customerView.setIdProvince(userView.getIdProvince());
+                    customerView.setWardId(userView.getWardId());
+                    customerView.setDistrictId(userView.getDistrictId());
+                    customerView.setProvinceId(userView.getProvinceId());
                     customerView.setAddress(userView.getAddress());
-                    customerView.setLastAccessTime(userView.getLastAccessTime());
                     customerView.setStatus(userView.getStatus());
                     customerView.setGenDate(userView.getGenDate());
                     customerView.setLastUpdated(userView.getLastUpdated());
                     customerView.setType(userView.getType());
-                    customerView.setRefCode(userView.getRefCode());
-                    customerView.setStatusCust(userView.getStatusCust());
+                    customerView.setTeam(userView.getTeam());
                     customerView.setComingDate(userView.getComingDate());
                     customerView.setLeaveDate(userView.getLeaveDate());
-                    customerView.setPresenter(userView.getPresenter());
                     customerView.setEmpCode(userView.getEmpCode());
                     customerView.setEmpAvt(userView.getEmpAvt());
+                    customerView.setBirthday(userView.getBirthday());
                     customerView.setProvinceName((String) item[1]);
                     customerView.setDistrictName((String) item[2]);
+
                     listCustomer.add(customerView);
                 }
                 page.setItems(listCustomer);

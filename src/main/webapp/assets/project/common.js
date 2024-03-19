@@ -1,5 +1,5 @@
 /**
- * Created by Admin on 12/21/2017.
+ * Created by hungnv on 19/03/2024.
  */
 var app = angular.module('ADAGROUP', ["ngSanitize", "autocomplete"]);
 

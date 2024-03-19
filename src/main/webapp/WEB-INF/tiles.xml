@@ -78,7 +78,7 @@
     <!--CUSTOMER-->
     <definition name="customer.index" extends="default">
         <put-attribute name="title" value="Quản lý nhân viên"/>
-        <put-attribute name="page" value="/WEB-INF/views/customer/index.jsp"/>
+        <put-attribute name="page" value="/WEB-INF/views/customer/index1.jsp"/>
     </definition>
 
     <!--detail CTV-->

@@ -18,6 +18,7 @@ import java.util.List;
 public class User implements Serializable, UserDetails {
 
     private static final long serialVersionUID = -8299255898396933698L;
+    @Getter
     @Id
     @SequenceGenerator(name = "ADM_USERS_SEQ", sequenceName = "ADM_USERS_SEQ", allocationSize = 1)
     @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "ADM_USERS_SEQ")
@@ -27,6 +28,7 @@ public class User implements Serializable, UserDetails {
     private String username;
     @Column(name = "PASSWORD", nullable = false, length = 100)
     private String password;
+    @Getter
     @Column(name = "FULLNAME", nullable = false, length = 100)
     private String fullName;
     @Getter
@@ -35,6 +37,7 @@ public class User implements Serializable, UserDetails {
     @Getter
     @Column(name = "EMAIL", nullable = false, length = 100)
     private String email;
+    @Getter
     @Column(name = "DESCRIPTION", length = 200)
     private String description;
     @Getter
@@ -46,32 +49,27 @@ public class User implements Serializable, UserDetails {
     @Getter
     @Column(name = "ID_PROVINCE")
     private Long idProvince;
+    @Getter
     @Column(name = "LAST_ACCESS_TIME")
     private Date lastAccessTime;
     @Getter
     @Column(name = "ADDRESS")
     private String address;
+    @Getter
     @Column(name = "STATUS")
     private Long status;
+    @Getter
     @Column(name = "GEN_DATE")
     private Date genDate;
+    @Getter
     @Column(name = "LAST_UPDATED")
     private Date lastUpdated;
     @Getter
     @Column(name = "TYPE")
     private Long type;
     @Getter
-    @Column(name = "EMP_CODE")
-    private String empCode;
-    @Getter
     @Column(name = "EMP_AVT")
     private String empAvt;
-    @Getter
-    @Column(name = "REF_CODE")
-    private String refCode;
-    @Getter
-    @Column(name = "STATUS_CUST")
-    private Long statusCust;
     @Getter
     @Column(name = "COMING_DATE")
     private Date comingDate;
@@ -79,8 +77,8 @@ public class User implements Serializable, UserDetails {
     @Column(name = "LEAVE_DATE")
     private Date leaveDate;
     @Getter
-    @Column(name = "PRESENTER")
-    private String presenter;
+    @Column(name = "TEAM")
+    private Long team;
 
     private transient List<GrantedAuthority> grantedAuths;
 
@@ -117,10 +115,6 @@ public class User implements Serializable, UserDetails {
         this.grantedAuths = grantedAuths;
     }
 
-    public Long getId() {
-        return id;
-    }
-
     public void setId(Long id) {
         this.id = id;
     }
@@ -143,52 +137,8 @@ public class User implements Serializable, UserDetails {
         this.password = password;
     }
 
-    public String getFullName() {
-        return fullName;
-    }
-
     public void setFullName(String fullName) {
         this.fullName = fullName;
-    }
-
-    public String getDescription() {
-        return description;
-    }
-
-    public void setDescription(String description) {
-        this.description = description;
-    }
-
-    public Date getLastAccessTime() {
-        return lastAccessTime;
-    }
-
-    public void setLastAccessTime(Date lastAccessTime) {
-        this.lastAccessTime = lastAccessTime;
-    }
-
-    public Long getStatus() {
-        return status;
-    }
-
-    public void setStatus(Long status) {
-        this.status = status;
-    }
-
-    public Date getGenDate() {
-        return genDate;
-    }
-
-    public void setGenDate(Date genDate) {
-        this.genDate = genDate;
-    }
-
-    public Date getLastUpdated() {
-        return lastUpdated;
-    }
-
-    public void setLastUpdated(Date lastUpdated) {
-        this.lastUpdated = lastUpdated;
     }
 
     public void setPhone(String phone) {
@@ -197,6 +147,10 @@ public class User implements Serializable, UserDetails {
 
     public void setEmail(String email) {
         this.email = email;
+    }
+
+    public void setDescription(String description) {
+        this.description = description;
     }
 
     public void setIdWard(Long idWard) {
@@ -211,56 +165,32 @@ public class User implements Serializable, UserDetails {
         this.idProvince = idProvince;
     }
 
+    public void setLastAccessTime(Date lastAccessTime) {
+        this.lastAccessTime = lastAccessTime;
+    }
+
     public void setAddress(String address) {
         this.address = address;
+    }
+
+    public void setStatus(Long status) {
+        this.status = status;
+    }
+
+    public void setGenDate(Date genDate) {
+        this.genDate = genDate;
+    }
+
+    public void setLastUpdated(Date lastUpdated) {
+        this.lastUpdated = lastUpdated;
     }
 
     public void setType(Long type) {
         this.type = type;
     }
 
-    public String getPhone() {
-        return phone;
-    }
-
-    public String getEmail() {
-        return email;
-    }
-
-    public Long getIdWard() {
-        return idWard;
-    }
-
-    public Long getIdDistrict() {
-        return idDistrict;
-    }
-
-    public Long getIdProvince() {
-        return idProvince;
-    }
-
-    public String getAddress() {
-        return address;
-    }
-
-    public Long getType() {
-        return type;
-    }
-
-    public void setEmpCode(String empCode) {
-        this.empCode = empCode;
-    }
-
     public void setEmpAvt(String empAvt) {
         this.empAvt = empAvt;
-    }
-
-    public void setRefCode(String refCode) {
-        this.refCode = refCode;
-    }
-
-    public void setStatusCust(Long statusCust) {
-        this.statusCust = statusCust;
     }
 
     public void setComingDate(Date comingDate) {
@@ -271,7 +201,7 @@ public class User implements Serializable, UserDetails {
         this.leaveDate = leaveDate;
     }
 
-    public void setPresenter(String presenter) {
-        this.presenter = presenter;
+    public void setTeam(Long team) {
+        this.team = team;
     }
 }
