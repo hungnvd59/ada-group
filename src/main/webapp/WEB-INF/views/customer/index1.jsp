@@ -10,10 +10,11 @@
 <script src="<%=request.getContextPath()%>/assets/js/bootstrap-datetimepicker.js"></script>
 <script src="<%=request.getContextPath()%>/assets/project/customer/index.js"></script>
 <style>
-    .error {
-        display: none;
-        color: red;
-        font-size: 12px;
+    .left-search {
+        text-align: left !important;
+        font-weight: bold;
+        font-size: 14px;
+        line-height: 25px;
     }
 </style>
 
