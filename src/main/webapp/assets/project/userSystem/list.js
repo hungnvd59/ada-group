@@ -79,10 +79,10 @@ app.controller('userListCtrl', ['$scope', '$http', '$timeout', '$q', function ($
     }
     //----------------show detail---------------------
     $scope.showDetail = function (item) {
-        document.getElementById("btn-save").style.display = 'block';
-        document.getElementById("btn-loading").style.display = 'none';
         $scope.userDetail = Object.assign({}, item);
         $("#mdDetail").modal("show");
+        document.getElementById("btn-save").style.display = 'block';
+        document.getElementById("btn-loading").style.display = 'none';
     }
 
     $scope.editUser = function () {
@@ -115,10 +115,10 @@ app.controller('userListCtrl', ['$scope', '$http', '$timeout', '$q', function ($
     //----------------RESTORE---------------------
     $scope.restorePass = {};
     $scope.preRestorePass = function (item) {
-        document.getElementById("btn-confirm").style.display = 'inline';
-        document.getElementById("btn-loadConfirm").style.display = 'none';
         $scope.restorePass = Object.assign({}, item);
         $("#mdRestorePassword").modal("show");
+        document.getElementById("btn-confirm").style.display = 'inline';
+        document.getElementById("btn-loadConfirm").style.display = 'none';
     }
 
     $scope.restorePassword = function () {
