@@ -463,7 +463,7 @@ function compareDateStringDDMMYYYYHHMMSS(date1, date2) {
 function getTypeCtv(typeCtv) {
     switch (typeCtv) {
         case 0:
-            return "Admin";
+            return "Hỗ trợ kỹ thuật";
         case 1:
             return "CEO ADA";
         case 2:

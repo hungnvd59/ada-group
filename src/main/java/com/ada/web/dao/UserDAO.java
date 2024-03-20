@@ -3,6 +3,7 @@ package com.ada.web.dao;
 import com.ada.common.Constants;
 import com.ada.common.PagingResult;
 import com.ada.model.User;
+import org.apache.commons.lang3.StringUtils;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -14,9 +15,7 @@ import org.springframework.transaction.annotation.Transactional;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 import javax.persistence.Query;
-import java.util.Date;
-import java.util.List;
-import java.util.Optional;
+import java.util.*;
 
 /**
  * Created by Admin on 12/26/2017.
@@ -35,18 +34,43 @@ public class UserDAO extends EntityDAOImpl {
     @Autowired
     LogAccessDAO logAccessDao;
 
-    //    @Transactional
-    public Optional<PagingResult> pageUser(String username, PagingResult page) {
+    public Optional<PagingResult> pageUser(String username, Long type, PagingResult page) {
         int offset = 0;
         if (page.getPageNumber() > 0) {
             offset = (page.getPageNumber() - 1) * page.getNumberPerPage();
         }
-        Long count = (Long) entityManager.createQuery("select count(u.id) from User u where u.username like :username").setParameter("username", "%" + username + "%").getSingleResult();
-        List<User> list = entityManager.createQuery("select u from User u where u.username like :username", User.class).setParameter("username", "%" + username + "%")
-                .setFirstResult(offset).setMaxResults(page.getNumberPerPage()).getResultList();
-        if (list != null && count > 0) {
+        StringBuilder sql = new StringBuilder("select u from User u where 1 = 1");
+        StringBuilder sqlCount = new StringBuilder("select count(u.id) from User u where 1 = 1");
+
+        Map<String, Object> vals = new HashMap<>();
+        if (username != null && !StringUtils.isEmpty(username)) {
+            sql.append(" AND u.username like :username");
+            sqlCount.append(" AND u.username like :username");
+            vals.put("username", "%" + username + "%");
+        }
+        if (type != null && type != -1) {
+            sql.append(" AND u.type = :type");
+            sqlCount.append(" AND u.type = :type");
+            vals.put("type", type);
+        }
+        Query queryCount = entityManager.createQuery(sqlCount.toString());
+        Query query = entityManager.createQuery(sql.toString(), User.class);
+
+        for (String key : vals.keySet()) {
+            query.setParameter(key, vals.get(key));
+            queryCount.setParameter(key, vals.get(key));
+        }
+        if (page.getPageNumber() > 0) {
+            Object rowCount = queryCount.getSingleResult();
+            page.setRowCount(Integer.parseInt(rowCount + ""));
+            offset = (page.getPageNumber() - 1) * page.getNumberPerPage();
+            query.setFirstResult(offset).setMaxResults(page.getNumberPerPage());
+        }
+
+        List<User> list = query.setFirstResult(offset).setMaxResults(page.getNumberPerPage()).getResultList();
+
+        if (list != null && page.getRowCount() > 0) {
             page.setItems(list);
-            page.setRowCount(count.longValue());
         }
         return Optional.of(page);
     }

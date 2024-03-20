@@ -5,26 +5,16 @@
 <%@ taglib prefix="spring" uri="http://www.springframework.org/tags" %>
 
 <script src="<%=request.getContextPath()%>/assets/js/checkbox.js"></script>
-<link rel="stylesheet" href="<%=request.getContextPath()%>/assets/note/js/nestable/nestable.css" type="text/css" />
+<link rel="stylesheet" href="<%=request.getContextPath()%>/assets/js/nestable/nestable.css" type="text/css" />
 <div style="color: #1F2937;" class="panel-body">
-    <h5 class="m-t-none font-bold"><spring:message code="label.tree.user.role"/></h5>
-    <div class="col-sm-12 no-padder">
-        <div class="col-sm-8" style="padding-left: 15px"> <button id="nestable-menu" class="btn btn-xs btn-default active" data-toggle="class:show">
-                <i class="fa fa-plus text"></i>
-                <span class="text font-bold">Expand All</span>
-                <i class="fa fa-minus text-active"></i>
-                <span class="text-active font-bold">Collapse All</span>
-            </button>
-        </div>
-    </div>
-
+    <h5 class="card-title fw-semibold mb-4">Hệ thống chức năng phân quyền</h5>
     <div style="color: #1F2937;" class="col-sm-12">
         <div class="dd" id="nestableGroup">
             <ol class="dd-list">
                 <c:forEach var="group" items="${groups}" varStatus="stat">        
                     <div >              
                         <li class="dd-item" data-id="${group.parent.id}">
-                            <div class="dd-handle font-bold">${group.parent.description}</div>
+                            <div style="font-weight: 700" class="dd-handle font-bold">${group.parent.description}</div>
                             <ol class="dd-list">
                                 <c:forEach var="children" items="${group.childrens}" varStatus="start">
                                     <li class="dd-item" data-id="${children.id}"><div class="dd-handle">${start.count}. ${children.description}</div></li>
@@ -37,7 +27,7 @@
         </div>
     </div>
 </div>
-<script src="<%=request.getContextPath()%>/assets/note/js/nestable/jquery.nestable.js"></script>
+<script src="<%=request.getContextPath()%>/assets/js/nestable/jquery.nestable.js"></script>
 <script>
     $(document).ready(function () {
         // activate Nestable for class #nestableGroup

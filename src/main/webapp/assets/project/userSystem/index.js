@@ -1,16 +1,13 @@
-app.controller('customerUser', ['$scope', '$http', '$timeout', '$q', function ($scope, $http, $timeout, $q) {
+app.controller('userListCtrl', ['$scope', '$http', '$timeout', '$q', function ($scope, $http, $timeout, $q) {
     $scope.page = page;
     $scope.listData = {items: "", rowCount: 0, numberPerPage: 15, pageNumber: 1, pageList: [], pageCount: 0};
 
     //search variable
-    $scope.fullName = '';
-    $scope.mobile = ''
-    $scope.provinceId = -1
-    $scope.districtId = -1
-    $scope.team = -1
+    $scope.username = '';
+    $scope.type = -1
 
     //object
-    $scope.customerDetail = {}
+    $scope.userDetail = {}
 
     $(document).on('keypress', function (e) {
         if (e.which == 13) {
@@ -19,57 +16,10 @@ app.controller('customerUser', ['$scope', '$http', '$timeout', '$q', function ($
     });
 
     $(document).ready(function () {//select 2 multi commune
+        $scope.username = '';
+        $scope.type = -1
 
-        $scope.fullName = '';
-        $scope.mobile = ''
-        $scope.provinceId = -1
-        $scope.districtId = -1
-        $scope.team = -1
-
-        /*date time handle*/
-        // $("#comingDateAdd").datetimepicker({
-        //     locale: 'vi-VN', format: 'DD-MM-YYYY', maxDate: d
-        // }).on('dp.change', function (e) {
-        //     if (e != null) {
-        //         $scope.comingDate = $(this).val();
-        //     }
-        // });
-        // $("#leaveDateAdd").datetimepicker({
-        //     locale: 'vi-VN', format: 'DD-MM-YYYY', maxDate: d
-        // }).on('dp.change', function (e) {
-        //     if (e != null) {
-        //         $scope.leaveDate = $(this).val();
-        //     }
-        // });
-        $scope.clear();
     });
-
-    $scope.districtListByUser = []
-    $scope.provinceList = []
-    $(document).ready(function () {
-        //region add
-        $http.get(preUrl + "/common/getListProvince", {}).then(function (response) {
-            $scope.provinceList = response.data
-        });
-    });
-
-    $scope.onChangeCity = function () {
-        $http.get(preUrl + "/common/getDistrictByProvince", {
-            params: {
-                province: $scope.provinceId
-            }
-        }).then(function (response) {
-            $scope.districtList = response.data
-        });
-    }
-
-    $scope.clear = function () {
-        $scope.fullName = '';
-        $scope.mobile = ''
-        $scope.provinceId = -1
-        $scope.districtId = -1
-        $scope.team = -1
-    }
 
     /*SEARCH*/
     $scope.search = function () {
@@ -80,15 +30,13 @@ app.controller('customerUser', ['$scope', '$http', '$timeout', '$q', function ($
     }
 
     $scope.loadListData = function () {
-        $http.get(preUrl + "/customer/search", {
+        $http.get(preUrl + "/system/user/search", {
             params: {
                 pageNumber: $scope.listData.pageNumber,
                 numberPerPage: $scope.listData.numberPerPage,
-                fullName: $scope.fullName,
-                mobile: $scope.mobile,
-                provinceId: $scope.provinceId,
-                districtId: $scope.districtId,
-                team: $scope.team,
+                username: $scope.username,
+                type: $scope.type
+
             }
         }).then(function (response) {
             if (response != null && response.status === 200) {
@@ -108,11 +56,8 @@ app.controller('customerUser', ['$scope', '$http', '$timeout', '$q', function ($
                 params: {
                     pageNumber: pageNumber,
                     numberPerPage: $scope.listData.numberPerPage,
-                    fullName: $scope.fullName,
-                    mobile: $scope.mobile,
-                    provinceId: $scope.provinceId,
-                    districtId: $scope.districtId,
-                    team: $scope.team,
+                    username: $scope.username,
+                    type: $scope.type
                 }
             }).then(function (response) {
                 if (response != null && response != 'undefined' && response.status == 200) {
@@ -127,74 +72,32 @@ app.controller('customerUser', ['$scope', '$http', '$timeout', '$q', function ($
     }
 
     $scope.export = function () {
-        window.location.href = preUrl + "/customer/export?p=" + $scope.listData.pageNumber
+        window.location.href = preUrl + "/system/user/export?p=" + $scope.listData.pageNumber
             + "&numberPerPage=" + $scope.listData.numberPerPage
-            + "&fullName=" + $scope.fullName
-            + "&mobile=" + $scope.mobile
-            + "&provinceId=" + $scope.provinceId
-            + "&districtId=" + $scope.districtId
-            + "&team=" + $scope.team
+            + "&username=" + $scope.username
+            + "&type=" + $scope.type
     }
     //----------------show detail---------------------
-    $scope.showDetailCust = function (item) {
+    $scope.showDetail = function (item) {
         document.getElementById("btn-save").style.display = 'block';
         document.getElementById("btn-loading").style.display = 'none';
-        $scope.customerDetail = Object.assign({}, item);
-        $http.get(preUrl + "/common/getListProvince", {}).then(function (response) {
-            $scope.provinceListDetail = response.data
-        });
-
-        $http.get(preUrl + "/common/getDistrictByProvince", {
-            params: {
-                province: item.provinceId
-            }
-        }).then(function (response) {
-            $scope.districtListDetail = response.data
-        });
-        $http.get(preUrl + "/common/getWardByDistrict", {
-            params: {
-                districtId: item.districtId
-            }
-        }).then(function (response) {
-            $scope.wardListDetail = response.data
-        });
-        $("#mdDetailCustomer").modal("show");
+        $scope.userDetail = Object.assign({}, item);
+        $("#mdDetail").modal("show");
     }
 
-    $scope.changeCityDetail = function (id) {
-        $http.get(preUrl + "/common/getDistrictByProvince", {
-            params: {
-                province: id
-            }
-        }).then(function (response) {
-            $scope.districtListDetail = response.data
-
-        });
-    }
-    $scope.changeDistrictDetail = function (id) {
-        $http.get(preUrl + "/common/getWardByDistrict", {
-            params: {
-                districtId: id
-            }
-        }).then(function (response) {
-            $scope.wardListDetail = response.data
-        });
-    }
-
-
-    $scope.editCustomer = function () {
+    $scope.editUser = function () {
         document.getElementById("btn-save").style.display = 'none';
         document.getElementById("btn-loading").style.display = 'block';
-        var requestBody = JSON.parse(JSON.stringify($scope.customerDetail));
+        var requestBody = JSON.parse(JSON.stringify($scope.userDetail));
         console.log(requestBody)
-        $http.post(preUrl + "/customer/update", requestBody)
+        $http.post(preUrl + "/system/user/update", requestBody)
             .then(function (response) {
                 switch (Number(response.data)) {
                     case 1:
                         toastr.success("Cập nhật thông tin thành công")
                         document.getElementById("btn-save").style.display = 'block';
                         document.getElementById("btn-loading").style.display = 'none';
-                        $("#mdDetailCustomer").modal("hide");
+                        $("#mdDetail").modal("hide");
                         $scope.search();
                         break;
                     case -1:
@@ -208,21 +111,28 @@ app.controller('customerUser', ['$scope', '$http', '$timeout', '$q', function ($
     }
     //----------------UPDATE---------------------
 
-    //----------------DELETE---------------------
-    $scope.showDeletePopup = function (item) {
-        $scope.customerDelete = Object.assign({}, item);
-        $("#mdDetailCustomer").modal("hide");
-        $("#mdConfirmDelete").modal("show");
+
+    //----------------RESTORE---------------------
+    $scope.restorePass = {};
+    $scope.preRestorePass = function (item) {
+        document.getElementById("btn-confirm").style.display = 'inline';
+        document.getElementById("btn-loadConfirm").style.display = 'none';
+        $scope.restorePass = Object.assign({}, item);
+        $("#mdRestorePassword").modal("show");
     }
-    $scope.deleteCustomer = function () {
-        var requestBody = JSON.parse(JSON.stringify($scope.customerDetail));
-        console.log(requestBody)
-        $http.post(preUrl + "/customer/delete", requestBody)
+
+    $scope.restorePassword = function () {
+        document.getElementById("btn-confirm").style.display = 'none';
+        document.getElementById("btn-loadConfirm").style.display = 'inline';
+        var requestBody = JSON.parse(JSON.stringify($scope.restorePass));
+        $http.post(preUrl + "/system/user/restore-pass", requestBody)
             .then(function (response) {
                 switch (Number(response.data)) {
                     case 1:
-                        toastr.success("Xóa nhân viên thành công")
-                        $("#mdConfirmDelete").modal("hide");
+                        toastr.success("Khôi phục mật khẩu thành công")
+                        document.getElementById("btn-confirm").style.display = 'inline';
+                        document.getElementById("btn-loadConfirm").style.display = 'none';
+                        $("#mdRestorePassword").modal("hide");
                         $scope.search();
                         break;
                     default:
@@ -232,18 +142,11 @@ app.controller('customerUser', ['$scope', '$http', '$timeout', '$q', function ($
             });
     }
 
-    //----------------ADD---------------------
-    $scope.add = {};
-    $scope.preAddCust = function () {
-        $scope.add.team = -1
-        $scope.add.type = -1
-        $scope.add.provinceId = -1
-        $scope.add.districtId = -1
-        $scope.add.wardId = -1
-        $http.get(preUrl + "/common/getListProvince", {}).then(function (response) {
-            $scope.provinceListAdd = response.data
-        });
-        $("#mdAddCustomer").modal("show");
+    //----------------AUTHORITY--   -------------------
+    $scope.authorityUser = {}
+    $scope.preAuthority = function (item) {
+        $scope.authorityUser = Object.assign({}, item);
+        $("#mdAuthority").modal("show");
     }
 
     $scope.rsValidate = true;
@@ -333,50 +236,6 @@ app.controller('customerUser', ['$scope', '$http', '$timeout', '$q', function ($
         $scope.add.wardId = -1
         $scope.add.empCode = ''
         $scope.add.team = -1
-    }
-
-    $scope.addCustomer = function () {
-        if ($scope.validateFormAdd()) {
-            var requestBody = JSON.parse(JSON.stringify($scope.add));
-            console.log(requestBody)
-            $http.post(preUrl + "/customer/add", requestBody)
-                .then(function (response) {
-                    switch (Number(response.data)) {
-                        case 1:
-                            toastr.success("Thêm mới nhân viên thành công")
-                            $("#mdAddCustomer").modal("hide");
-                            $scope.search();
-                            break;
-                        case -1:
-                            toastr.error("Nhân viên đã tồn tại trong hệ thống!")
-                            break;
-                        default:
-                            toastr.error('Thêm mới không thành công. Bạn vui lòng thử lại sau');
-                            break;
-                    }
-                });
-        }
-    }
-
-
-    $scope.changeCityAdd = function (id) {
-        $http.get(preUrl + "/common/getDistrictByProvince", {
-            params: {
-                province: id
-            }
-        }).then(function (response) {
-            $scope.districtListAdd = response.data
-        });
-    }
-
-    $scope.changeDistrictAdd = function (id) {
-        $http.get(preUrl + "/common/getWardByDistrict", {
-            params: {
-                districtId: id
-            }
-        }).then(function (response) {
-            $scope.wardListAdd = response.data
-        });
     }
 
 

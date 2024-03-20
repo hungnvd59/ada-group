@@ -9,8 +9,6 @@
 <script src="<%=request.getContextPath()%>/assets/js/moment-with-locales.js"></script>
 <script src="<%=request.getContextPath()%>/assets/js/bootstrap-datetimepicker.js"></script>
 <script src="<%=request.getContextPath()%>/assets/project/customer/index.js"></script>
-<link rel="stylesheet" href="<%=request.getContextPath()%>/assets/note/css/common.css" type="text/css"/>
-
 
 <style>
     .error {
@@ -316,9 +314,9 @@
                     <a class="btn btn-add btn-export-common" ng-click="export()"
                        style="margin-right: 2rem;"><i
                             class="fa fa-download"></i>&nbsp;Xuất excel</a>
-                        <a class="btn btn-add btn-import-common" ng-click="import()"
-                           style="float:right;margin-right: .5rem;">
-                           <i class="fa fa-upload"></i>&nbsp;Tải lên danh sách nhân viên</a>
+<%--                        <a class="btn btn-add btn-import-common" ng-click="import()"--%>
+<%--                           style="float:right;margin-right: .5rem;">--%>
+<%--                           <i class="fa fa-upload"></i>&nbsp;Tải lên danh sách nhân viên</a>--%>
                     <%--                    </sec:authorize>--%>
                 </div>
             </div>

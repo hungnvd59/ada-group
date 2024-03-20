@@ -7,341 +7,376 @@
 
 <script src="<%=request.getContextPath()%>/assets/js/bootstrap-filestyle.min.js"></script>
 <script src="<%=request.getContextPath()%>/assets/js/moment-with-locales.js"></script>
+<script src="<%=request.getContextPath()%>/assets/js/bootstrap-datetimepicker.js"></script>
+<script src="<%=request.getContextPath()%>/assets/project/userSystem/index.js"></script>
 <style>
-    .btn-secondary {
-        background-color: gray;
-        color: white;
-    }
-    .btn-add {
-        border-radius: 10px;
-        color: #0c63e4;
-        border-color: #0c63e4;
-        margin: 0.5px;
+    .left-search {
+        text-align: left !important;
+        font-weight: bold;
+        font-size: 14px;
+        line-height: 25px;
     }
 </style>
 
-<title><spring:message code="label.list.user"/></title>
-<section style="color: #1F2937;" id="content" ng-controller="userListCtrl">
-    <section class="vbox">
-        <section class="scrollable padder">
-            <ul class="bg-white breadcrumb no-border no-radius b-b b-light pull-in">
-                <li><a href="<%=request.getContextPath()%>/"><i class="fa fa-home"></i>&nbsp;<spring:message
-                        code="label.system.home"></spring:message></a></li>
-                <li><a href="#"><spring:message code="label.user"/></a></li>
-                <li><a href="javascript:void(0)"><spring:message code="label.list.user"/></a></li>
-            </ul>
-            <div>
-                <h3><font style="font-weight: bold">DANH SÁCH NGƯỜI DÙNG</font></h3>
+<div class="container-fluid">
+    <section id="content" ng-app="ADAGROUP" ng-controller="userListCtrl">
+        <c:if test="${success.length()>0}">
+            <div class="alert alert-success alert-dismissible bg-success text-white border-0 fade show" role="alert">
+                <button type="button" class="btn-close btn-close-white" data-bs-dismiss="alert" aria-label="Close"
+                        fdprocessedid="1s3b0q"></button>
+                <strong>Phân quyền tài khoản thành công</strong>
             </div>
-            <div class="m-b-md"><h3 class="m-b-none" id="sansim-status" style="color: #009900"><c:if
-                    test="${success.length()>0}"><spring:message code="${success}"/></c:if></h3></div>
-            <section class="panel panel-default" style="border-radius: 20px;">
+        </c:if>
+        <div class="card">
+            <div class="card-body">
+                <div class="row" style="margin-bottom: 1rem">
+                    <div class="col-md-6">
+                        <h5 class="card-title fw-semibold mb-4">Thông tin tìm kiếm</h5>
+                    </div>
+                </div>
                 <div class="panel-body">
-                    <form action="list" role="form">
-                        <div class="form-group">
-                            <div class="col-md-6">
-                                <div class="col-sm-8">
-                                    <input style="border-radius: 10px;" name="filterUsername" placeholder="Username"
-                                           maxlength="50" value="${filterUsername}" class="input form-control"/>
+                    <form Class="form-horizontal" role="form" theme="simple">
+                        <div class="row" style="margin-left: 30px;margin-right: 30px;">
+                            <div class="row" style="margin-top: 0px;">
+                                <div class="col-md-6">
+                                    <div class="row">
+                                        <div class="col-md-5">
+                                            <label class="control-label color-label left-search">Tài khoản</label>
+                                        </div>
+                                    </div>
+                                    <div class="row">
+                                        <div class="col-md-12">
+                                            <input ng-model="username" style="border-radius: 6px" my-enter="search()"
+                                                   id="username"
+                                                   placeholder="Tài khoản" maxlength="100"
+                                                   class="form-control"/>
+                                        </div>
+                                    </div>
                                 </div>
-                                <div class="col-sm-4">
-                                    <button style="border-radius: 10px;" type="submit" class="btn btn-secondary">
-                                        <spring:message code="label.button.search"/></button>
+                                <div class="col-md-6">
+                                    <div class="row">
+                                        <div class="col-md-6">
+                                            <label class="control-label color-label left-search">Chức danh</label>
+                                        </div>
+                                    </div>
+                                    <div class="row">
+                                        <div class="col-md-12">
+                                            <select id="type" name="type" class="form-control"
+                                                    style="width: 100% ;border-radius: 6px" ng-model="type">
+                                                <option ng-value="-1">-- Tất cả --</option>
+                                                <option ng-value="0">Hỗ trợ kỹ thuật</option>
+                                                <option ng-value="1">CEO - ADA GROUP</option>
+                                                <option ng-value="2">CEO - Kim cương</option>
+                                            </select>
+                                        </div>
+                                    </div>
                                 </div>
                             </div>
-                            <!--                            <div class="col-md-6">
-                            <sec:authorize access="hasRole('ROLE_SYSTEM_USER_ADD')">
-                                <a class="btn btn-primary pull-right"
-                                   href="<%=request.getContextPath()%>/system/user/add"><i class="fa fa-plus"></i> Thêm mới</a>
-                            </sec:authorize>
-                        </div>-->
                         </div>
-                        <div class="line line-dashed line-lg pull-in" style="clear:both ;border-top:0px"></div>
                     </form>
                 </div>
-            </section>
-            <input type="hidden" value="" name="ids" id="ids">
-            <section class="panel panel-default" style="border-radius: 20px;">
-                <div class="table-responsive table-overflow-x-fix">
-                    <table class="table table-hover mb-sm-2">
-                        <thead>
-                        <tr>
-                            <th class="box-shadow-inner small_col text-center" style="width: 1%;border-top-left-radius: 20px;">#</th>
-                            <th class="box-shadow-inner small_col text-center" style="width: 1%"><input type="checkbox"
-                                                                                                        name="chkAll"
-                                                                                                        id="chkAll"
-                                                                                                        onclick="checkAll('chkAll', 'chk');"/>
-                            </th>
-                            <th class="box-shadow-inner small_col text-center" style="width: 8%"><spring:message
-                                    code="label.login.input.username"/></th>
-                            <th class="box-shadow-inner small_col text-center" style="width: 15%"><spring:message
-                                    code="label.user.fullname"/></th>
-                            <th class="box-shadow-inner small_col text-center" style="width: 10%"><spring:message
-                                    code="label.status"/></th>
-                            <th class="box-shadow-inner small_col text-center" style="width: 5%;border-top-right-radius: 20px;"><spring:message
-                                    code="label.action"/></th>
-                        </tr>
-                        </thead>
-                        <tbody>
-                        <c:forEach items="${page.items}" var="item" varStatus="stat">
-                            <tr>
-                                <td class="align-center">${stat.count+((page.pageNumber-1)*page.numberPerPage)}</td>
-                                <td class="align-center"><input type="checkbox" value="${item.id}" class="selected_item"
-                                                                alt="chk" onclick="choose();"></td>
-                                <td class="align-center">${item.username}</td>
-                                <td class="align-center">${item.fullName}</td>
-                                <td><div class="sactive" style="color:${item.status ==1 ? 'green' : 'red'}; width:100px;cursor:pointer;font-weight:600;" title="${item.status ==1 ? 'Click để khóa' : 'Click để kích hoạt'}" onclick="activeShipper(${item.id},${item.status ==1 ? '0' : '1'});">${item.status ==1 ?  'Kích hoạt' : 'Khóa'}</div></td>
-                                <sec:authorize
-                                        access="hasAnyRole('ROLE_SYSTEM_USER_EDIT','ROLE_SYSTEM_USER_AUTHORITY','ROLE_SYSTEM_LOG_VIEW')">
-                                    <td class="align-center">
-                                        <div class="btn-group">
-                                            <button class="btn btn-default btn-xs dropdown-toggle"
-                                                    data-toggle="dropdown"><i
-                                                    class="fa fa-th-list"></i></button>
-                                            <ul class="dropdown-menu pull-right">
-                                                <sec:authorize access="hasRole('ROLE_SYSTEM_USER_EDIT')">
-                                                    <li>
-                                                        <a href="<%=request.getContextPath()%>/system/user/edit/${item.id}"><img
-                                                                src="<%=request.getContextPath()%>/assets/images/edit.png"
-                                                                style="max-height: 18px; "> <font
-                                                                style="font-weight: bold;"> <spring:message
-                                                                code="label.edit.info"/></font></a></li>
-                                                    <div class="line line-dashed m-b-none m-t-none"></div>
-                                                </sec:authorize>
-                                                <sec:authorize access="hasRole('ROLE_SYSTEM_USER_AUTHORITY')">
-                                                    <li>
-                                                        <a href="<%=request.getContextPath()%>/system/user/user-group/${item.id}"><img
-                                                                src="<%=request.getContextPath()%>/assets/images/icon-singin.png"
-                                                                style="max-height: 18px; "> <font
-                                                                style="font-weight: bold;"> <spring:message
-                                                                code="label.set.role"/></font></a></li>
-                                                    <div class="line line-dashed m-b-none m-t-none"></div>
-                                                </sec:authorize>
-                                                <sec:authorize access="hasRole('ROLE_SYSTEM_LOG_VIEW')">
-                                                    <li>
-                                                        <a href="<%=request.getContextPath()%>/system/history/${item.id}"><img
-                                                                src="<%=request.getContextPath()%>/assets/images/icon-history.png"
-                                                                style="max-height: 18px; "> <font
-                                                                style="font-weight: bold;"> <spring:message
-                                                                code="label.view.history"/></font></a></li>
-                                                    <div class="line line-dashed m-b-none m-t-none"></div>
-                                                </sec:authorize>
-                                                <sec:authorize access="hasRole('ROLE_SYSTEM_USER_EDIT')">
-                                                    <li><a href="javascript:void(0)"
-                                                           onclick="restorePassword(${item.id})"><img
-                                                            src="<%=request.getContextPath()%>/assets/images/icon-reset.png"
-                                                            style="max-height: 18px; "> <font
-                                                            style="font-weight: bold;"> <spring:message
-                                                            code="label.reset.password"/></font></a></li>
-                                                </sec:authorize>
-                                            </ul>
-                                        </div>
-                                    </td>
-                                </sec:authorize>
-                            </tr>
-
-                        </c:forEach>
-                        <c:if test="${page.rowCount ==0}">
-                            <tr>
-                                <td colspan="12" class="text-center">Không có dữ liệu</td>
-                            </tr>
-                        </c:if>
-                        </tbody>
-                    </table>
+                <div class="row" style="margin-top: 3rem;text-align: center">
+                    <div class="col-md-12">
+                        <a class="btn btn-light" ng-click="search()"><i
+                                class="ti ti-search"></i>&nbsp;Tìm kiếm</a>
+                    </div>
                 </div>
-                <footer class="panel-footer">
-                    <div class="row">
-                        <div class="col-sm-12 text-right text-center-xs">
-                            <div class="col-sm-8 text-right" style="vertical-align: middle;">
-                                <sec:authorize access="hasRole('ROLE_SYSTEM_USER_ADD')">
-                                    <a class="btn btn-add pull-left"
-                                       href="<%=request.getContextPath()%>/system/user/add"><i
-                                            class="fa fa-plus"></i> <spring:message code="label.add.user"/></a>
-                                </sec:authorize>
-                                <sec:authorize access="hasRole('ROLE_SYSTEM_USER_AUTHORITY')">
-                                    <a class="btn btn-add pull-left"
-                                       style="margin-left: 10px;"
-                                       href="javascript:void(0);" onclick="search_result_authority();"><i
-                                            class="fa fa-list"></i> <spring:message code="label.list.group.user"/></a>
-                                </sec:authorize>
-                            </div>
-                        </div>
+                <div class="row" style="margin-top: 3rem;">
+                    <div class="col-md-6">
+                        <h5 style="font-weight: 700"></h5>
                     </div>
-                    <div class="row">
-                        <div class="col-sm-12 text-left">
-                            <div class="col-sm-6 text-left" style="margin-top: 5px;">
-                                <span>Tổng số <code>${page.rowCount}</code> bản ghi</span>
-                                <label class="input-sm"><span>Hiển thị: </span></label>
-                                <select class="input-sm form-control input-s-sm inline" style="width: 60px;"
-                                        onchange="location = this.value;" ng-model="numberPerPage">
-                                    <c:choose>
-                                        <c:when test="${numberPerPage==15}">
-                                        <option value="<%=request.getContextPath()%>/system/user/list.html?p=1&numberPerPage=5&filterUsername=${filterUsername}">5</option>
-                                        <option selected value="<%=request.getContextPath()%>/system/user/list.html?p=1&numberPerPage=15&filterUsername=${filterUsername}">15</option>
-                                        <option value="<%=request.getContextPath()%>/system/user/list.html?p=1&numberPerPage=25&filterUsername=${filterUsername}">25</option>
-                                        </c:when>
-                                        <c:otherwise>
-                                            <c:if test="${numberPerPage == 5}">
-                                                <option selected value="<%=request.getContextPath()%>/system/user/list.html?p=1&numberPerPage=5&filterUsername=${filterUsername}">5</option>
-                                                <option value="<%=request.getContextPath()%>/system/user/list.html?p=1&numberPerPage=15&filterUsername=${filterUsername}">15</option>
-                                                <option value="<%=request.getContextPath()%>/system/user/list.html?p=1&numberPerPage=25&filterUsername=${filterUsername}">25</option>
-                                            </c:if>
-                                            <c:if test="${numberPerPage == 25}">
-                                                <option value="<%=request.getContextPath()%>/system/user/list.html?p=1&numberPerPage=5&filterUsername=${filterUsername}">5</option>
-                                                <option value="<%=request.getContextPath()%>/system/user/list.html?p=1&numberPerPage=15&filterUsername=${filterUsername}">15</option>
-                                                <option selected value="<%=request.getContextPath()%>/system/user/list.html?p=1&numberPerPage=25&filterUsername=${filterUsername}">25</option>
-                                            </c:if>
-                                        </c:otherwise>
-                                    </c:choose>
-                                </select>
-                            </div>
-                            <div class="col-sm-6">
-                                <ul style="float:right;" class="pagination pagination-sm m-t-none m-b-none">
-                                    <c:if test="${page.pageNumber > 1}">
-                                        <li>
-                                            <a href="<%=request.getContextPath()%>/system/user/list.html?p=1&numberPerPage=${numberPerPage}&filterUsername=${filterUsername}">«</a>
-                                        </li>
-                                    </c:if>
-                                    <c:forEach items="${page.pageList}" var="item" varStatus="stat">
-                                        <c:choose>
-                                            <c:when test="${page.pageNumber==item}">
-                                                <li><a style="color: #aa1111"
-                                                       href="<%=request.getContextPath()%>/system/user/list.html?p=${item}&numberPerPage=${numberPerPage}&filterUsername=${filterUsername}">${item}</a>
-                                                </li>
-                                            </c:when>
-                                            <c:otherwise>
-                                                <li>
-                                                    <a href="<%=request.getContextPath()%>/system/user/list.html?p=${item}&numberPerPage=${numberPerPage}&filterUsername=${filterUsername}">${item}</a>
-                                                </li>
-                                            </c:otherwise>
-                                        </c:choose>
+                    <div class="col-md-6">
+                        <%--                    <sec:authorize--%>
+                        <%--                            access="hasAnyRole('ROLE_CTV_USER_EXPORT_EXCEL')">--%>
+                        <a class="btn btn-success m-1" ng-click="export()"
+                           style="margin-right: 2rem; float: right"><i
+                                class="ti ti-download"></i>&nbsp;Xuất excel</a>
+                    </div>
+                </div>
+                <div class="panel-body" style="margin-top: 3rem">
+                    <div id="data-search" class="card w-100">
+                        <div class="card-body p-4">
+                            <h5 class="card-title fw-semibold mb-4">Danh sách người dùng</h5>
+                            <div class="table-responsive">
+                                <table class="table border text-nowrap mb-0 align-middle">
+                                    <thead class="text-dark fs-4">
+                                    <tr>
+                                        <th>
+                                            <h6 class="fw-semibold mb-0">STT</h6>
+                                        </th>
+                                        <th>
+                                            <h6 class="fw-semibold mb-0">Tài khoản</h6>
+                                        </th>
+                                        <th>
+                                            <h6 class="fw-semibold mb-0">Họ tên</h6>
+                                        </th>
+                                        <th>
+                                            <h6 class="fw-semibold mb-0">Chức danh</h6>
+                                        </th>
+                                        <th>
+                                            <h6 class="fw-semibold mb-0">Số điện thoại</h6>
+                                        </th>
+                                        <th>
+                                            <h6 class="fw-semibold mb-0">Trạng thái</h6>
+                                        </th>
+                                        <th>
+                                            <h6 class="fw-semibold mb-0">Thao tác</h6>
+                                        </th>
+                                    </tr>
+                                    </thead>
+                                    <tbody>
+                                    <tr ng-repeat="item in listData.items track by $index">
+                                        <td class="border-bottom">
+                                            <p class="mb-0 fw-normal">
+                                                {{(listData.pageNumber - 1) * listData.numberPerPage + $index + 1}}</p>
+                                        </td>
+                                        </td>
+                                        <td>
+                                            <p class="mb-0 fw-normal">{{item.username}}</p>
+                                        </td>
+                                        <td>
+                                            <p class="mb-0 fw-normal">{{item.fullName}}</p>
+                                        </td>
+                                        <td>
+                                            <p class="mb-0 fw-normal">{{getTypeCtv(item.type)}}</p>
+                                        </td>
+                                        <td>
+                                            <p class="mb-0 fw-normal">{{item.phone}}</p>
+                                        </td>
+                                        <td>
+                                            <p class="mb-0 fw-normal">{{getStatusCtv(item.status)}}</p>
+                                        </td>
+                                        <td>
+                                            <div class="action-btn">
+                                                <a style="cursor: pointer" ng-click="showDetail(item)"
+                                                   class="text-primary edit" title="Xem chi tiết" alt="Xem chi tiết">
+                                                    <i class="ti ti-eye fs-5"></i>
+                                                </a>
+                                                <a style="cursor: pointer"
+                                                   href="<%=request.getContextPath()%>/system/user/phan-quyen-nguoi-dung.html/{{item.id}}"
+                                                   class="text-dark delete ms-2" title="Phân quyền tài khoản"
+                                                   alt="Phân quyền tài khoản">
+                                                    <i class="ti ti-key fs-5"></i>
+                                                </a>
+                                                <a style="cursor: pointer" ng-click="preRestorePass(item)"
+                                                   class="text-dark delete ms-2" title="Khôi phục mật khẩu"
+                                                   alt="Khôi phục mật khẩu">
+                                                    <i class="ti ti-recycle fs-5"></i>
+                                                </a>
+                                            </div>
+                                        </td>
 
-                                    </c:forEach>
-                                    <c:if test="${page.pageNumber < page.getPageCount()}">
-                                        <li>
-                                            <a href="<%=request.getContextPath()%>/system/user/list.html?p=${page.getPageCount()}&numberPerPage=${numberPerPage}&filterUsername=${filterUsername}">»</a>
-                                        </li>
-                                    </c:if>
-                                </ul>
+                                    </tr>
+                                    <tr>
+                                        <td colspan="12" ng-if="listData.rowCount == 0" class="text-center">Không có dữ
+                                            liệu
+                                        </td>
+                                    </tr>
+                                    </tbody>
+                                </table>
+                                <div class="d-flex align-items-center justify-content-end py-1">
+                                    <p class="mb-0 fs-2">Hiển thị:</p>
+                                    <select class="form-select w-auto ms-0 ms-sm-2 me-8 me-sm-4 py-1 pe-7 ps-2 border-0"
+                                            ng-init="numberPerPage = '5'"
+                                            ng-model="numberPerPage" ng-change="setNumberPerPage(numberPerPage);">
+                                        <option value="5">5</option>
+                                        <option value="10">10</option>
+                                        <option value="20">20</option>
+                                    </select>
+                                    <p class="mb-0 fs-2">Tổng &nbsp;{{listData.rowCount | currency:"":0}}&nbsp; bản
+                                        ghi</p>
+                                    <nav aria-label="...">
+                                        <ul class="pagination justify-content-center mb-0 ms-8 ms-sm-9">
+                                            <%--TODO: page pagiation--%>
+                                            <li class="page-item p-1">
+                                                <a class="page-link border-0 rounded-circle text-dark fs-6 round-32 d-flex align-items-center justify-content-center"
+                                                   href="#"><i class="ti ti-chevron-left"></i></a>
+                                            </li>
+                                            <li class="page-item p-1">
+                                                <a class="page-link border-0 rounded-circle text-dark fs-6 round-32 d-flex align-items-center justify-content-center"
+                                                   href="#"><i class="ti ti-chevron-right"></i></a>
+                                            </li>
+                                        </ul>
+                                    </nav>
+                                </div>
                             </div>
                         </div>
                     </div>
-                </footer>
-            </section>
-            <div class="col-sm-12 no-padder">
-                <div id="searchResultAuthority"></div>
+                    <div id="loading" style="display: none" class="card w-100">
+                        <div class="card-body">
+                            <div class="text-center">
+                                <div class="spinner-border" role="status">
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
             </div>
-        </section>
+        </div>
+        <div class="modal fade" id="mdDetail" tabindex="-1" aria-labelledby="bs-example-modal-lg"
+             aria-hidden="true">
+            <div class="modal-dialog modal-xl">
+                <div class="modal-content">
+                    <div class="modal-header d-flex align-items-center">
+                        <h4 class="modal-title">
+                            Thông tin chi tiết
+                        </h4>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                    </div>
+                    <div class="card" style="margin-bottom: 0">
+                        <div class="card-body">
+                            <div class="tab-content" id="pills-tabContent">
+                                <div class="tab-pane fade show active" id="pills-account" role="tabpanel"
+                                     aria-labelledby="pills-account-tab" tabindex="0">
+                                    <div class="row">
+                                        <div class="col-12">
+                                            <div class="card w-100 position-relative overflow-hidden mb-0">
+                                                <div class="card-body p-4">
+                                                    <h5 class="card-title fw-semibold">Thông tin người dùng</h5>
+                                                    <p class="card-subtitle mb-4">Để thay đổi thông tin người dùng, hãy
+                                                        chỉnh sửa và lưu từ đây</p>
+                                                    <form>
+                                                        <div class="row">
+                                                            <div class="col-lg-6">
+                                                                <div class="mb-3">
+                                                                    <label class="form-label">Tài khoản</label>
+                                                                    <input type="text" class="form-control"
+                                                                           id="userDetail-username"
+                                                                           readonly
+                                                                           ng-model="userDetail.username">
+                                                                </div>
+                                                                <div class="mb-3">
+                                                                    <label class="form-label">Chức danh</label>
+                                                                    <select id="userDetail-type" name="team"
+                                                                            class="form-control"
+                                                                            style="width: 100% ;border-radius: 6px"
+                                                                            ng-model="userDetail.type">
+                                                                        <option ng-value="0">Hỗ trợ kỹ thuật</option>
+                                                                        <option ng-value="1">CEO - ADA GROUP</option>
+                                                                        <option ng-value="2">CEO - Kim cương</option>
+                                                                    </select>
+                                                                </div>
+                                                                <div class="mb-3">
+                                                                    <label class="form-label">Email</label>
+                                                                    <input type="text" class="form-control"
+                                                                           id="userDetail-email"
+                                                                           ng-model="userDetail.email">
+                                                                </div>
+                                                            </div>
+                                                            <div class="col-lg-6">
+                                                                <div class="mb-3">
+                                                                    <label class="form-label">Họ tên</label>
+                                                                    <input type="text" class="form-control"
+                                                                           id="userDetail-fullName"
+                                                                           ng-model="userDetail.fullName">
+                                                                </div>
+                                                                <div class="mb-3">
+                                                                    <label class="form-label">Số điện thoại</label>
+                                                                    <input maxlength="10"
+                                                                           oninput="this.value = this.value.replace(/[^0-9.]/g, '').replace(/(\..*?)\..*/g, '$1');"
+                                                                           type="text" class="form-control"
+                                                                           id="userDetail-mobile"
+                                                                           ng-model="userDetail.phone">
+                                                                </div>
+                                                                <div class="mb-3">
+                                                                    <label class="form-label">Trạng thái</label>
+                                                                    <select id="userDetail-status" name="status"
+                                                                            class="form-control"
+                                                                            style="width: 100% ;border-radius: 6px"
+                                                                            ng-model="userDetail.status">
+                                                                        <%--                                                                        <option ng-value="-1">-- Tất cả --</option>--%>
+                                                                        <option ng-value="1">Đang hoạt động</option>
+                                                                        <option ng-value="2">Ngưng hoạt động</option>
+                                                                    </select>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    </form>
+                                                </div>
+                                                <div class="col-12">
+                                                    <div style="gap: 0 !important;margin-top: 0;margin-bottom: 1rem;margin-right: 1rem;"
+                                                         class="d-flex align-items-center justify-content-end mt-4 gap-6">
+                                                        <button id="btn-save" class="btn btn-primary"
+                                                                ng-click="editUser()">
+                                                            Lưu
+                                                        </button>
+                                                        <button class="btn btn-primary" type="button"
+                                                                style="display: none" disabled="" id="btn-loading">
+                                                            <span class="spinner-border spinner-border-sm" role="status"
+                                                                  aria-hidden="true"></span>
+                                                            Vui lòng chờ...
+                                                        </button>
+                                                        <button class="btn btn-warning m-1"
+                                                                data-bs-dismiss="modal" aria-label="Close">Hủy
+                                                            bỏ
+                                                        </button>
+                                                    </div>
+                                                </div>
+                                            </div>
+
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <!-- /.modal-dialog -->
+        </div>
+        <div class="modal fade" id="mdRestorePassword" tabindex="-1" aria-labelledby="danger-header-modalLabel"
+             aria-hidden="true">
+            <div class="modal-dialog modal-dialog-scrollable modal-lg">
+                <div class="modal-content">
+                    <div class="modal-header modal-colored-header bg-danger text-white">
+                        <h4 class="modal-title text-white" id="danger-header-modalLabel">
+                            Khôi phục mật khẩu
+                        </h4>
+                        <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal"
+                                aria-label="Close"></button>
+                    </div>
+                    <div class="modal-body">
+                        <p>Bạn có chắc chắn muốn khôi phục mật khẩu cho <font
+                                style="font-weight: 700">{{restorePass.username}}</font>
+                            về mặc định hay không?</p>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-light" data-bs-dismiss="modal">
+                            Hủy
+                        </button>
+                        <button id="btn-confirm" class="btn bg-danger-subtle text-danger" ng-click="restorePassword()">
+                            Xác nhận
+                        </button>
+                        <button class="btn bg-danger-subtle text-danger" style="display: none" disabled=""
+                                id="btn-loadConfirm">
+                            <span class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span>
+                            Vui lòng chờ...
+                        </button>
+                    </div>
+                </div>
+                <!-- /.modal-content -->
+            </div>
+            <!-- /.modal-dialog -->
+        </div>
+        <div class="modal fade" id="mdAuthority" tabindex="-1" aria-labelledby="bs-example-modal-lg"
+             aria-hidden="true">
+            <div class="modal-dialog modal-xl">
+                <div class="modal-content">
+                    <div class="modal-header d-flex align-items-center">
+                        <h4 class="modal-title">
+                            Phân quyền tài khoản
+                        </h4>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                    </div>
+                    <div class="card" style="margin-bottom: 0">
+                        <div class="card-body">
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <!-- /.modal-dialog -->
+        </div>
+
+
     </section>
-    <form method="post" action="active.html" id="frmActive">
-        <input type="hidden" name="userId" id="hdfsId"/>
-        <input type="hidden" name="active" id="hdfsActive"/>
-    </form>
-    <a href="#" class="hide nav-off-screen-block" data-toggle="class:nav-off-screen" data-target="#nav"></a>
-</section>
-<script>
-    window.onload = function() {
-        setTimeout(clearChecked, 10);
-    }
-    function clearChecked() {
-        var w = document.getElementsByTagName('input');
-        for(var i = 0; i < w.length; i++){
-            if(w[i].type=='checkbox'){
-                w[i].checked = false;
-            }
-        }
-    }
-    $(document).ready(function () {
-        $('#tblUser').dataTable({
-            "bFilter": false,
-            "bPaginate": false,
-            "bAutoWidth": false,
-            "sPaginationType": "full_numbers"
-        });
-        $(".sactive").hover(function () {
-            if ($(this).text() == "Kích hoạt") {
-                $(this).css("color", "red");
-                $(this).text("Khóa");
-            } else {
-                $(this).css("color", "green");
-                $(this).text("Kích hoạt");
-            }
-        });
-    });
-
-    function choose() {
-        var selected_val = "";
-        var chkAll = true;
-        $('.selected_item').each(function () {
-            if (this.checked) {
-                if (selected_val === "") {
-                    selected_val = $(this).val();
-                } else {
-                    selected_val = selected_val + "," + $(this).val();
-                }
-            } else {
-                chkAll = false;
-                $("#chkAll").prop("checked", false);
-            }
-        });
-        if (chkAll) {
-            $("#chkAll").prop("checked", true);
-        }
-
-        $("#ids").val(selected_val);
-    }
-
-    function checkAll(selector_fire, alt_name) {
-        $('input[alt=' + alt_name + ']').prop('checked', $('#' + selector_fire).is(':checked'));
-        var selected_val = "";
-        $('.selected_item').each(function () {
-            if (this.checked) {
-                if (selected_val === "") {
-                    selected_val = $(this).val();
-                } else {
-                    selected_val = selected_val + "," + $(this).val();
-                }
-            }
-        });
-        $("#ids").val(selected_val);
-    }
-
-    function activeShipper(sId, active) {
-        $("#hdfsId").val(sId);
-        $("#hdfsActive").val(active);
-        $("#frmActive").submit();
-    };
-
-    function search_result_authority() {
-        if ($("#ids").val() === '' || $("#ids").val() === null) {
-            CommonFunction.showPopUpMsg("<spring:message code="message"/>", "<spring:message code="message.selected.arecord"/>", "error");
-        } else if ($("#ids").val().indexOf(",") > -1) {
-            CommonFunction.showPopUpMsg("<spring:message code="message"/>", "<spring:message code="message.view.arecord"/>", "error");
-        } else {
-            var id = $("#ids").val();
-            $("#searchResultAuthority").html('<div class="text-center"><img src="<%=request.getContextPath()%>/assets/images/loading.gif" /><spring:message code="label.loading.data"/></div>');
-            $("#searchResultAuthority").load("<%=request.getContextPath()%>/system/user/search-group-by-user-" + id);
-        }
-        return false;
-    };
-
-    function restorePassword(userId) {
-        $.ajax({
-            url: "<%= request.getContextPath() %>/system/user/khoi-phuc-mat-khau",
-            type: "POST",
-            data: {userId: userId},
-            success: function (data) {
-                if (data === 'ok') {
-                    CommonFunction.showPopUpMsg("Thông báo", "Khôi phục mật khầu thành công!", "success");
-                } else {
-                    CommonFunction.showPopUpMsg("Thông báo", data, "error");
-                }
-            },
-            error: function (data) {
-                CommonFunction.showPopUpMsg("Thông báo", "Có lỗi xảy ra. Vui lòng thử lại sau!", "error");
-            }
-        });
-        return false;
-    }
-
-</script>
+</div>

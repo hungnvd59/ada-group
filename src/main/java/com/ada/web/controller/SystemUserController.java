@@ -1,46 +1,48 @@
 package com.ada.web.controller;
 
-import com.ada.common.ConstantAuthor;
-import com.ada.common.Constants;
-import com.ada.common.PagingResult;
-import com.ada.common.Utils;
-import com.ada.model.Authority;
-import com.ada.model.Group;
-import com.ada.model.GroupUser;
-import com.ada.model.User;
+import com.ada.common.*;
+import com.ada.model.*;
 import com.ada.model.view.AuthorityView;
+import com.ada.model.view.CustomerView;
 import com.ada.model.view.GroupView;
+import com.ada.web.dao.CommonDao;
 import com.ada.web.dao.LogAccessDAO;
 import com.ada.web.dao.UserDAO;
 import com.ada.web.dao.GroupAuthorityDAO;
+import net.sf.jett.transform.ExcelTransformer;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
+import org.apache.poi.ss.usermodel.Workbook;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.annotation.Secured;
+import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
+import javax.servlet.ServletOutputStream;
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 import javax.validation.Valid;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Date;
-import java.util.List;
-import java.util.Objects;
+import java.io.BufferedInputStream;
+import java.io.FileInputStream;
+import java.io.InputStream;
+import java.text.SimpleDateFormat;
+import java.util.*;
 import java.util.stream.Collectors;
 
 /**
  * Created by Admin on 12/26/2017.
  */
 @Controller
-@RequestMapping("/system/user")
+@RequestMapping("/system")
 public class SystemUserController {
 
     private Logger logger = LogManager.getLogger(SystemUserController.class);
@@ -50,27 +52,30 @@ public class SystemUserController {
     GroupAuthorityDAO groupService;
     @Autowired
     LogAccessDAO logAccessService;
+    @Autowired
+    CommonDao commonDao;
+    @Autowired
+    BCryptPasswordEncoder encoder;
 
-    @GetMapping("/list")
-    @Secured(ConstantAuthor.User.view)
-    public String UserList(Model model,
-                           @RequestParam(value = "p", required = false, defaultValue = "1") int pageNumber,
-                           @RequestParam(value = "numberPerPage", required = false, defaultValue = "15") int numberPerPage,
-            @RequestParam(value = "filterUsername", required = false, defaultValue = "") String filterUsername) {
-        PagingResult page = new PagingResult();
-        page.setPageNumber(pageNumber);
-        page.setNumberPerPage(numberPerPage);
-        page = useService.pageUser(Utils.trim(filterUsername), page).orElse(new PagingResult());
-        model.addAttribute("page", page);
-        model.addAttribute("numberPerPage", numberPerPage);
-        model.addAttribute("filterUsername", filterUsername);
+    @GetMapping("/user/quan-ly-tai-khoan-he-thong.html")
+//    @Secured(ConstantAuthor.User.view)
+    public String index() {
         return "user.list";
     }
 
-    @GetMapping("/search-group-by-user-{userId}")
-    @Secured(ConstantAuthor.User.view)
-    public String ViewGroupList(Model model, @RequestParam(value = "p", required = false, defaultValue = "1") int pageNumber,
-            @PathVariable long userId) {
+    @GetMapping("/user/search")
+//    @Secured(ConstantAuthor.User.view)
+    public ResponseEntity<?> search(Model model, @RequestParam(value = "p", required = false, defaultValue = "1") int pageNumber, @RequestParam(value = "numberPerPage", required = false, defaultValue = "15") int numberPerPage, @RequestParam(value = "username", required = false, defaultValue = "") String filterUsername, @RequestParam(value = "type", required = false, defaultValue = "-1") Long type) {
+        PagingResult page = new PagingResult();
+        page.setPageNumber(pageNumber);
+        page.setNumberPerPage(numberPerPage);
+        page = useService.pageUser(Utils.trim(filterUsername), type, page).orElse(new PagingResult());
+        return new ResponseEntity<>(page, HttpStatus.OK);
+    }
+
+    @GetMapping("/user/search-group-by-user-{userId}")
+//    @Secured(ConstantAuthor.User.view)
+    public String ViewGroupList(Model model, @RequestParam(value = "p", required = false, defaultValue = "1") int pageNumber, @PathVariable long userId) {
         PagingResult page = new PagingResult();
         page.setPageNumber(pageNumber);
         page.setNumberPerPage(10);
@@ -92,131 +97,78 @@ public class SystemUserController {
         return "system/user/groupByUser";
     }
 
-    @GetMapping("/add")
-    @Secured(ConstantAuthor.User.add)
-    public String UserAddView(Model model) {
-        return "user.add";
-    }
-
-    @PostMapping("/add")
-    @Secured(ConstantAuthor.User.add)
-    public String UserAdd(Model model, @Valid User user, BindingResult result, String confirmPassword, RedirectAttributes attributes, HttpServletRequest request) {
-        if (user.getUsername() == null || user.getUsername().length() == 0) {
-            model.addAttribute("messageError", "label.user.account.isemty");
-            model.addAttribute("user", user);
-            return "user.add";
-        }
-        if (user.getPassword() == null || user.getPassword().length() == 0) {
-            model.addAttribute("messageError", "message.user.password.isempty");
-            model.addAttribute("user", user);
-            return "user.add";
-        }
-        if (confirmPassword == null || confirmPassword.length() == 0) {
-            model.addAttribute("messagePassword", "message.user.password.isempty");
-            model.addAttribute("user", user);
-            return "user.add";
-        }
-
-        if (!confirmPassword.equals(user.getPassword())) {
-            model.addAttribute("messagePassword", "message.user.re-passowrd.notcorrect");
-            model.addAttribute("user", user);
-            return "user.add";
-        }
-
-        if (user.getFullName() == null || user.getFullName().length() == 0) {
-            model.addAttribute("messageError", "message.user.fullname.isempty");
-            model.addAttribute("user", user);
-            return "user.add";
-        }
-        if (!Utils.checkRegex(user.getUsername(), Constants.REGEX_TEXT_USERNAME)) {
-            model.addAttribute("messageError", "message.user.not.space.special.char");
-            model.addAttribute("user", user);
-            return "user.add";
-        }
-
-        User userCheck = useService.getByUsername(user.getUsername().trim()).orElse(null);
-        if (userCheck != null) {
-            model.addAttribute("messageError", "message.account.exist.already");
-            model.addAttribute("user", user);
-            return "user.add";
-        }
-        user.setFullName(user.getFullName().trim());
+    @PostMapping("/user/update")
+//    @Secured(ConstantAuthor.User.edit)
+    public ResponseEntity<?> update(@RequestBody User dto, HttpServletRequest request) {
         try {
-            String ipClient = Utils.getIpClient(request);
-            boolean checkAdd = useService.addUser(user, ipClient).orElse(false);
-            if (!checkAdd) {
-                model.addAttribute("messageError", "message.have.error");
-                model.addAttribute("user", user);
-                return "user.add";
+            User userCheck = commonDao.findById(User.class, dto.getId());
+            if (userCheck == null) {
+                return new ResponseEntity<>("-1", HttpStatus.OK);
             }
+            commonDao.update(dto);
+            return new ResponseEntity<>("1", HttpStatus.OK);
         } catch (Exception e) {
-            logger.error("Have a error SystemUserController.UserAdd:" + e.getMessage());
-            model.addAttribute("messageError", "message.have.error");
-            model.addAttribute("user", user);
-            return "user.add";
+            e.printStackTrace();
         }
-
-        attributes.addFlashAttribute("success", "message.user.add.completed");
-        return "redirect:/system/user/list";
+        return new ResponseEntity<>("0", HttpStatus.OK);
     }
 
-    @GetMapping("/edit/{id}")
-    @Secured(ConstantAuthor.User.edit)
-    public String UserEditView(Model model, @PathVariable("id") Long id) {
-        if (id == null || id == 0) {
-            return "404";
-        }
-        User user = useService.get(id).orElse(new User());
-        model.addAttribute("item", user);
-        return "user.edit";
-    }
-
-    @PostMapping("/edit")
-    @Secured(ConstantAuthor.User.edit)
-    public String UserEdit(Model model, @Valid User item, BindingResult result, RedirectAttributes attributes, HttpServletRequest request) {
-        boolean check = false;
-        if (item.getFullName() == null || item.getFullName().length() == 0) {
-            model.addAttribute("messageError", "message.user.fullname.isempty");
-            model.addAttribute("item", item);
-            return "user.edit";
-        }
-        item.setFullName(item.getFullName().trim());
-
+    @PostMapping("/user/restore-pass")
+//    @Secured(ConstantAuthor.User.edit)
+    public ResponseEntity<?> restorePass(@RequestBody User dto, HttpServletRequest request) {
         try {
-            String ipClient = Utils.getIpClient(request);
-            check = useService.editUserFromView(item, ipClient).orElse(false);
+            User userCheck = commonDao.findById(User.class, dto.getId());
+            if (userCheck == null) {
+                return new ResponseEntity<>("-1", HttpStatus.OK);
+            }
+            dto.setPassword(encoder.encode(Constants.PASSWORD_DEFAULT));
+            commonDao.update(dto);
+            return new ResponseEntity<>("1", HttpStatus.OK);
         } catch (Exception e) {
-            logger.error("Have an error SystemUserController.UserEdit:" + e.getMessage());
-
+            e.printStackTrace();
         }
-        if (!check) {
-            model.addAttribute("messageError", "message.have.error");
-            model.addAttribute("item", item);
-            return "user.edit";
-        }
-        attributes.addFlashAttribute("success", "message.user.edit.completed");
-        return "redirect:/system/user/list";
+        return new ResponseEntity<>("0", HttpStatus.OK);
     }
 
-//    @PostMapping("/delete")
-//    public String UserDelete(Long id, RedirectAttributes attributes,HttpServletRequest request) {
-//        boolean check=false;
-//        try{
-//            String ipClient= Utils.getIpClient(request);
-//            check=userService.deleteUser(id,ipClient).orElse(false);
-//        }catch (Exception e){
-//            logger.error("have an error UserDelete:"+e.getMessage());
-//        }
-//        if(!check){
-//            attributes.addFlashAttribute("messageError","Có lỗi xảy ra. Hãy thử lại sau!");
-//            return "redirect:/system/user/list";
-//        }
-//        attributes.addFlashAttribute("success", "Xóa người dùng thành công!");
-//
-//        return "redirect:/system/user/list";
-//    }
-    @GetMapping("/user-group/{id}")
-    @Secured(ConstantAuthor.User.author)
+    @GetMapping("/user/export")
+//    @Secured(ConstantAuthor.CTV_USER_MGMT.view)
+    public void export(
+            @RequestParam(value = "pageNumber", required = false, defaultValue = "1") int pageNumber,
+            @RequestParam(value = "numberPerPage", required = false, defaultValue = "15") int numberPerPage,
+            @RequestParam(value = "username", required = false, defaultValue = "") String username,
+            @RequestParam(value = "type", required = false, defaultValue = "-1") Long type
+            , HttpServletRequest request, HttpServletResponse response) {
+        PagingResult page = new PagingResult();
+        page.setPageNumber(pageNumber);
+        page.setNumberPerPage(numberPerPage);
+        try {
+            page.setPageNumber(pageNumber);
+            page.setNumberPerPage(numberPerPage);
+            page = useService.pageUser(Utils.trim(username), type, page).orElse(new PagingResult());
+            Map<String, Object> beans = new HashMap<String, Object>();
+            beans.put("items", page.getItems());
+
+            String realPathOfFolder = request.getServletContext().getRealPath(
+                    ConfigProperties.getConfigProperties("template_path"));
+            InputStream fileIn = new BufferedInputStream(new FileInputStream(realPathOfFolder + "ada-user-system.xlsx"));
+
+            ExcelTransformer transformer = new ExcelTransformer();
+            Workbook workbook = transformer.transform(fileIn, beans);
+            response.setContentType("application/vnd.ms-excel");
+            SimpleDateFormat dateFormat = new SimpleDateFormat("dd.MM.yyyy");
+            String dateDownload = dateFormat.format(new Date());
+            response.setHeader("Content-Disposition",
+                    "attachment; filename=" + dateDownload + "_DS_tai_khoan_he_thong_ADA.xlsx");
+            ServletOutputStream out = response.getOutputStream();
+            workbook.write(out);
+            out.flush();
+            out.close();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
+    @RequestMapping(value = "/user/phan-quyen-nguoi-dung.html/{id}", method = RequestMethod.GET)
     public String userGroup(Model model, @PathVariable("id") Long id) {
         if (id == null) {
             return "404";
@@ -241,8 +193,8 @@ public class SystemUserController {
         return "user.group";
     }
 
-    @GetMapping("/user-group-view-{id}")
-    @Secured(ConstantAuthor.User.author)
+    @GetMapping("/user/user-group-view-{id}")
+//    @Secured(ConstantAuthor.User.author)
     public String groupEdit(Model model, @PathVariable("id") Long id) {
         if (id == null || id.intValue() == 0) {
             return "404";
@@ -261,8 +213,8 @@ public class SystemUserController {
         return "system/user/userGroupView";
     }
 
-    @PostMapping("user-group")
-    @Secured(ConstantAuthor.User.author)
+    @PostMapping("/user/user-group")
+//    @Secured(ConstantAuthor.User.author)
     public String addUserGroup(Model model, Long id, String listGroup, RedirectAttributes attributes) {
         if (id == null) {
             return "404";
@@ -290,7 +242,7 @@ public class SystemUserController {
                 groupService.deleteListGroupOfUser(id);
             }
             attributes.addFlashAttribute("success", "message.user.set.role.success");
-            return "redirect:/system/user/list";
+            return "redirect:/system/user/quan-ly-tai-khoan-he-thong.html";
         } catch (Exception e) {
             logger.error("Have an error SystemUserController.addUserGroup:" + e.getMessage());
             model.addAttribute("errorMessage", "message.have.error");
@@ -322,79 +274,11 @@ public class SystemUserController {
         try {
             String ipClient = Utils.getIpClient(request);
             result = useService.changeMyPass(passwordCurrent, passwordNew, user, ipClient).orElse(3);
-
         } catch (Exception e) {
             logger.error("Have an error changMyPass:" + e.getMessage());
             return new ResponseEntity<Integer>(3, HttpStatus.OK);
         }
         return new ResponseEntity<Integer>(result, HttpStatus.OK);
-    }
-
-//    @RequestMapping(value = "/khoi-phuc-mat-khau", method = RequestMethod.POST)
-    @PostMapping("/khoi-phuc-mat-khau")
-    @Secured(ConstantAuthor.User.edit)
-    @ResponseBody
-    public String restorePassword(HttpServletRequest request) {
-        String result = "message.restore.failed";
-        try {
-            if (request.getParameter("userId") != null) {
-                String userId = request.getParameter("userId");
-                Long _id = new Long(userId);
-                User userRs = useService.get(_id).orElse(null);
-                if (userRs != null) {
-
-                    if (!Objects.equals(userRs.getStatus(), 1)) {
-                        return "message.restore.pass.failed.by.account!";
-                    }
-                    String ipClient = Utils.getIpClient(request);
-                    if (useService.restorePassword(userRs, ipClient)) {
-                        return "ok";
-                    }
-
-                } else {
-                    return "message.restore.pass.failed.not.found.account";
-                }
-            }
-        } catch (Exception ex) {
-            ex.printStackTrace();
-        }
-        return result;
-    }
-
-    @RequestMapping(value = "/active.html", method = RequestMethod.POST)
-    @Secured(ConstantAuthor.User.edit)
-    public String activeShipper(RedirectAttributes model, Long userId, String active, HttpServletRequest request) {
-        String actionName = "Kich hoạt";
-        User userEdit = null;
-        try {
-            userEdit = useService.get(userId).orElse(null);
-            if (userEdit == null) {
-                return "404";
-            }
-            if (!"1".equals(active)) {
-                actionName = "Khóa";
-            }
-            if (active == null || (!active.equals("0") && !active.equals("1"))) {
-                return "404";
-            }
-
-            userEdit.setStatus(Long.parseLong(active));
-            useService.editUser(userEdit);
-        } catch (Exception e) {
-            // TODO Auto-generated catch block
-            e.printStackTrace();
-        }
-        try {
-            logAccessService.addLog(actionName + " người dùng ", Constants.Log.system, Utils.getIpClient(request));
-        } catch (Exception e) {
-            // TODO Auto-generated catch block
-            e.printStackTrace();
-        }
-        if(actionName.equals("Kich hoạt"))
-            model.addFlashAttribute("success", "message.user.activated.success");
-        else model.addFlashAttribute("success", "message.user.locked.success");
-        return "redirect:/system/user/list";
-
     }
 
     public void loadGroupAuthorityToModel(Model model, GroupView groupView, List<Authority> items) {
@@ -421,13 +305,11 @@ public class SystemUserController {
             }
             item.setChildrens(childrens);
         }
-
         for (AuthorityView item : list) {
-            if (!item.getChildrens().isEmpty() || listAutho.contains(item.getParent().getId()+"")) {
+            if (!item.getChildrens().isEmpty() || listAutho.contains(item.getParent().getId() + "")) {
                 resultList.add(item);
             }
         }
-
         model.addAttribute("groups", resultList);
     }
 

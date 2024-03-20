@@ -18,7 +18,7 @@ public class Constants {
     public static final String STATUS_STR_THANH_TOAN_DANG_XU_LY = "ĐANG XỬ LÝ";
     public static final String STATUS_STR_THANH_TOAN_TU_CHOI = "TỪ CHỐI";
 
-    public static final String PASSWORD_DEFAULT = "12345678";
+    public static final String PASSWORD_DEFAULT = "123Ada@456";
 
     public class Log { //Log hệ thống
 

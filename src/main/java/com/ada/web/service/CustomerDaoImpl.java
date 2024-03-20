@@ -44,7 +44,7 @@ public class CustomerDaoImpl implements CustomerDao {
 
             if (Integer.parseInt(user.getType().toString()) == 2) {
                 sql.append(" AND cust.team = :team");
-                sql.append(" AND cust.team = :team");
+                sqlCount.append(" AND cust.team = :team");
                 vals.put("team", user.getTeam());
             }
             if (fullName != null && !StringUtils.isEmpty(fullName)) {

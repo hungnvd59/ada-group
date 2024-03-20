@@ -68,7 +68,7 @@
                                         </label>
                                     </div>
                                 </div>
-                                <button type="submit" class="btn btn-primary w-100 py-8 fs-4 mb-4 rounded-2">Đăng
+                                <button type="submit" class="btn btn-warning w-100 py-8 fs-4 mb-4 rounded-2">Đăng
                                     nhập
                                 </button>
                             </form>

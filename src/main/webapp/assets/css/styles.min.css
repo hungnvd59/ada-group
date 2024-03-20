@@ -3103,8 +3103,8 @@ textarea.form-control-lg {
 }
 
 .form-check-input:checked {
-    background-color: #5D87FF;
-    border-color: #5D87FF
+    background-color: #FFAE1F;
+    border-color: #FFAE1F
 }
 
 .form-check-input:checked[type=checkbox] {
@@ -6672,9 +6672,9 @@ textarea.form-control-lg {
 
 .list-group-item.active {
     z-index: 2;
-    color: var(--bs-list-group-active-color);
-    background-color: var(--bs-list-group-active-bg);
-    border-color: var(--bs-list-group-active-border-color)
+    color: #000;
+    background-color: #ffc13e;
+    border-color: #ffc13e
 }
 
 .list-group-item + .list-group-item {

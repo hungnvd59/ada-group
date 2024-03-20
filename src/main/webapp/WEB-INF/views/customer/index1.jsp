@@ -18,7 +18,6 @@
     }
 </style>
 
-<title><spring:message code="label.list.user"/></title>
 <div class="container-fluid">
     <section id="content" ng-app="ADAGROUP" ng-controller="customerUser">
         <div class="card">
@@ -75,19 +74,14 @@
                                     </div>
                                 </div>
                             </div>
-                            <div class="row" style="margin-top: 1.5rem;">
-                                <div class="col-md-6">
+                            <div class="row mt-xl-3">
+                                <div class="col-md-3">
                                     <div class="row">
-                                        <div class="col-md-6">
+                                        <div class="col-md-12">
                                             <label class="control-label color-label left-search">Tỉnh/Thành
                                                 phố</label>
                                         </div>
-                                        <div class="col-md-6">
-                                            <label class="control-label color-label left-search">Quận/Huyện</label>
-                                        </div>
-                                    </div>
-                                    <div class="row">
-                                        <div class="col-md-6">
+                                        <div class="col-md-12">
                                             <select id="provinceId" name="provinceId"
                                                     style="width: 100% ;border-radius: 6px"
                                                     class="form-control"
@@ -101,7 +95,14 @@
                                                 </option>
                                             </select>
                                         </div>
-                                        <div class="col-md-6">
+                                    </div>
+                                </div>
+                                <div class="col-md-3">
+                                    <div class=" row">
+                                        <div class="col-md-12">
+                                            <label class="control-label color-label left-search">Quận/Huyện</label>
+                                        </div>
+                                        <div class="col-md-12">
                                             <select id="districtId" name="districtId"
                                                     style="width: 100% ;border-radius: 6px"
                                                     class="form-control"
@@ -119,7 +120,7 @@
                                 </div>
                                 <div class="col-md-6">
                                     <div class="row">
-                                        <div class="col-md-5">
+                                        <div class="col-md-12">
                                             <label class="control-label color-label left-search">Team</label>
                                         </div>
                                     </div>
@@ -689,9 +690,15 @@
                                                 <div class="col-12">
                                                     <div style="gap: 0 !important;margin-top: 0;margin-bottom: 1rem;margin-right: 1rem;"
                                                          class="d-flex align-items-center justify-content-end mt-4 gap-6">
-                                                        <button class="btn btn-primary"
+                                                        <button id="btn-save" class="btn btn-primary"
                                                                 ng-click="editCustomer()">
                                                             Lưu
+                                                        </button>
+                                                        <button class="btn btn-primary" type="button"
+                                                                style="display: none" disabled="" id="btn-loading">
+                                                            <span class="spinner-border spinner-border-sm" role="status"
+                                                                  aria-hidden="true"></span>
+                                                            Vui lòng chờ...
                                                         </button>
                                                         <button class="btn btn-danger m-1"
                                                                 ng-click="showDeletePopup(customerDetail)">Xóa
@@ -704,7 +711,6 @@
                                                     </div>
                                                 </div>
                                             </div>
-
                                         </div>
                                         <%--<div style="margin-top: 1rem" class="col-lg-6 d-flex align-items-stretch">
                                             <div class="card w-100 position-relative overflow-hidden">

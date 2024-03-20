@@ -82,7 +82,7 @@
                 <li class="sidebar-item">
                     <a class="sidebar-link <%= (isActive(request.getContextPath() + "/customer", request)
                         & isActive(request.getContextPath() + "/customer/", request)) ? "active" : "" %>"
-                       href="<%=request.getContextPath()%>/customer/quan-ly-dai-ly.html " aria-expanded="false">
+                       href="<%=request.getContextPath()%>/customer/quan-ly-dai-ly.html" aria-expanded="false">
                 <span>
                   <i class="ti ti-user"></i>
                 </span>
@@ -94,7 +94,9 @@
                     <span class="hide-menu">Quản lý hệ thống</span>
                 </li>
                 <li class="sidebar-item">
-                    <a class="sidebar-link" href="./ui-alerts.html" aria-expanded="false">
+                    <a class="sidebar-link <%= isActive(request.getContextPath() + "/system/user/quan-ly-tai-khoan-he-thong.html", request)? "active" : "" %>"
+                       href="<%=request.getContextPath()%>/system/user/quan-ly-tai-khoan-he-thong.html"
+                       aria-expanded="false">
                 <span>
                   <i class="ti ti-user-circle"></i>
                 </span>
