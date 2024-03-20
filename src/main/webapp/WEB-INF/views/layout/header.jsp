@@ -28,14 +28,14 @@
                     </a>
                     <div class="dropdown-menu dropdown-menu-end dropdown-menu-animate-up" aria-labelledby="drop2">
                         <div class="message-body">
-                            <a href="javascript:void(0)" class="d-flex align-items-center gap-2 dropdown-item">
+                            <a href="<%=request.getContextPath()%>/system/user/thong-tin-ca-nhan.html" class="d-flex align-items-center gap-2 dropdown-item">
                                 <i class="ti ti-user fs-6"></i>
                                 <p class="mb-0 fs-3">Thông tin cá nhân</p>
                             </a>
-                            <a href="javascript:void(0)" class="d-flex align-items-center gap-2 dropdown-item">
-                                <i class="ti ti-mail fs-6"></i>
-                                <p class="mb-0 fs-3">Đổi mật khẩu</p>
-                            </a>
+<%--                            <a href="<%=request.getContextPath()%>/system/user/doi-mat-khau.html" class="d-flex align-items-center gap-2 dropdown-item">--%>
+<%--                                <i class="ti ti-mail fs-6"></i>--%>
+<%--                                <p class="mb-0 fs-3">Đổi mật khẩu</p>--%>
+<%--                            </a>--%>
                             <a href="<c:url value="/j_spring_security_logout" />" class="btn btn-warning mx-3 mt-2 d-block"><i class="ti ti-logout"></i> &nbsp;Logout</a>
                         </div>
                     </div>

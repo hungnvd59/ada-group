@@ -93,8 +93,10 @@
                     <i class="ti ti-dots nav-small-cap-icon fs-4"></i>
                     <span class="hide-menu">Quản lý hệ thống</span>
                 </li>
+                <%--uSER--%>
                 <li class="sidebar-item">
-                    <a class="sidebar-link <%= isActive(request.getContextPath() + "/system/user/quan-ly-tai-khoan-he-thong.html", request)? "active" : "" %>"
+                    <a class="sidebar-link <%= isActive(request.getContextPath() + "/system/user/quan-ly-tai-khoan-he-thong.html", request)
+                    ? "active" : "" %>"
                        href="<%=request.getContextPath()%>/system/user/quan-ly-tai-khoan-he-thong.html"
                        aria-expanded="false">
                 <span>
@@ -103,8 +105,10 @@
                         <span class="hide-menu">Người dùng hệ thống</span>
                     </a>
                 </li>
-                <li class="sidebar-item">
-                    <a class="sidebar-link" href="./authentication-login.html" aria-expanded="false">
+                <%--AUTHORITY--%>
+                <%--<li class="sidebar-item">
+                    <a class="sidebar-link <%= isActive(request.getContextPath() + "/system/auth/quan-ly-nhom-quyen.html", request)? "active" : "" %>"
+                       href="<%=request.getContextPath()%>/system/auth/quan-ly-nhom-quyen.html" aria-expanded="false">
                 <span>
                   <i class="ti ti-login"></i>
                 </span>
@@ -118,7 +122,7 @@
                 </span>
                         <span class="hide-menu">Chức năng hệ thống</span>
                     </a>
-                </li>
+                </li>--%>
             </ul>
         </nav>
         <!-- End Sidebar navigation -->

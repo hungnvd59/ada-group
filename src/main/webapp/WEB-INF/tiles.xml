@@ -32,6 +32,10 @@
         <put-attribute name="title" value="Danh sách người dùng"/>
         <put-attribute name="page" value="/WEB-INF/views/system/user/list.jsp"/>
     </definition>
+    <definition name="user.info" extends="default">
+        <put-attribute name="title" value="Thông tin cá nhân"/>
+        <put-attribute name="page" value="/WEB-INF/views/system/user/info.jsp"/>
+    </definition>
     <definition name="user.add" extends="default">
         <put-attribute name="title" value="Thêm mới người dùng"/>
         <put-attribute name="page" value="/WEB-INF/views/system/user/add.jsp"/>

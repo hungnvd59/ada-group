@@ -3,7 +3,6 @@ package com.ada.web.controller;
 import com.ada.common.*;
 import com.ada.model.*;
 import com.ada.model.view.AuthorityView;
-import com.ada.model.view.CustomerView;
 import com.ada.model.view.GroupView;
 import com.ada.web.dao.CommonDao;
 import com.ada.web.dao.LogAccessDAO;
@@ -17,20 +16,17 @@ import org.apache.poi.ss.usermodel.Workbook;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.security.access.annotation.Secured;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import javax.servlet.ServletOutputStream;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import javax.validation.Valid;
 import java.io.BufferedInputStream;
 import java.io.FileInputStream;
 import java.io.InputStream;
@@ -47,7 +43,7 @@ public class SystemUserController {
 
     private Logger logger = LogManager.getLogger(SystemUserController.class);
     @Autowired
-    UserDAO useService;
+    UserDAO userDAO;
     @Autowired
     GroupAuthorityDAO groupService;
     @Autowired
@@ -57,10 +53,28 @@ public class SystemUserController {
     @Autowired
     BCryptPasswordEncoder encoder;
 
+
     @GetMapping("/user/quan-ly-tai-khoan-he-thong.html")
 //    @Secured(ConstantAuthor.User.view)
     public String index() {
         return "user.list";
+    }
+
+    @GetMapping("/user/thong-tin-ca-nhan.html")
+//    @Secured(ConstantAuthor.User.view)
+    public String info() {
+        return "user.info";
+    }
+
+    @GetMapping("/user/getInfo")
+//    @Secured(ConstantAuthor.User.view)
+    public ResponseEntity<?> getInfo() {
+        Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+        User user = userDAO.getByUsername(auth.getName()).orElse(null);
+        if (user != null) {
+            return new ResponseEntity<>(user, HttpStatus.OK);
+        }
+        return new ResponseEntity<>("-1", HttpStatus.OK);
     }
 
     @GetMapping("/user/search")
@@ -72,7 +86,7 @@ public class SystemUserController {
         PagingResult page = new PagingResult();
         page.setPageNumber(pageNumber);
         page.setNumberPerPage(numberPerPage);
-        page = useService.pageUser(Utils.trim(filterUsername), type, page).orElse(new PagingResult());
+        page = userDAO.pageUser(Utils.trim(filterUsername), type, page).orElse(new PagingResult());
         return new ResponseEntity<>(page, HttpStatus.OK);
     }
 
@@ -95,7 +109,7 @@ public class SystemUserController {
         page = groupService.pageGroupByUser(userId, page).orElse(new PagingResult());
 
         model.addAttribute("pageViewGroup", page);
-        User user = useService.get(userId).orElse(null);
+        User user = userDAO.get(userId).orElse(null);
         model.addAttribute("userView", user);
         return "system/user/groupByUser";
     }
@@ -147,7 +161,7 @@ public class SystemUserController {
         try {
             page.setPageNumber(pageNumber);
             page.setNumberPerPage(numberPerPage);
-            page = useService.pageUser(Utils.trim(username), type, page).orElse(new PagingResult());
+            page = userDAO.pageUser(Utils.trim(username), type, page).orElse(new PagingResult());
             Map<String, Object> beans = new HashMap<String, Object>();
             beans.put("items", page.getItems());
 
@@ -176,7 +190,7 @@ public class SystemUserController {
         if (id == null) {
             return "404";
         }
-        User user = useService.get(id).orElse(null);
+        User user = userDAO.get(id).orElse(null);
         if (user == null) {
             return "404";
         }
@@ -222,7 +236,7 @@ public class SystemUserController {
         if (id == null) {
             return "404";
         }
-        User user = useService.get(id).orElse(null);
+        User user = userDAO.get(id).orElse(null);
         if (user == null) {
             return "404";
         }
@@ -276,7 +290,7 @@ public class SystemUserController {
         Integer result = 0;
         try {
             String ipClient = Utils.getIpClient(request);
-            result = useService.changeMyPass(passwordCurrent, passwordNew, user, ipClient).orElse(3);
+            result = userDAO.changeMyPass(passwordCurrent, passwordNew, user, ipClient).orElse(3);
         } catch (Exception e) {
             logger.error("Have an error changMyPass:" + e.getMessage());
             return new ResponseEntity<Integer>(3, HttpStatus.OK);
