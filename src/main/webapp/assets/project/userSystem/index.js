@@ -1,6 +1,6 @@
 app.controller('userListCtrl', ['$scope', '$http', '$timeout', '$q', function ($scope, $http, $timeout, $q) {
     $scope.page = page;
-    $scope.listData = {items: "", rowCount: 0, numberPerPage: 15, pageNumber: 1, pageList: [], pageCount: 0};
+    $scope.listData = {items: "", rowCount: 0, numberPerPage: 5, pageNumber: 1, pageList: [], pageCount: 0};
 
     //search variable
     $scope.username = '';
@@ -32,7 +32,7 @@ app.controller('userListCtrl', ['$scope', '$http', '$timeout', '$q', function ($
     $scope.loadListData = function () {
         $http.get(preUrl + "/system/user/search", {
             params: {
-                pageNumber: $scope.listData.pageNumber,
+                p: $scope.listData.pageNumber,
                 numberPerPage: $scope.listData.numberPerPage,
                 username: $scope.username,
                 type: $scope.type
@@ -52,9 +52,9 @@ app.controller('userListCtrl', ['$scope', '$http', '$timeout', '$q', function ($
     /*reload page*/
     $scope.loadPageData = function (pageNumber) {
         if (pageNumber >= 1) {
-            $http.get(preUrl + "/customer/search", {
+            $http.get(preUrl + "/system/user/search", {
                 params: {
-                    pageNumber: pageNumber,
+                    p: pageNumber,
                     numberPerPage: $scope.listData.numberPerPage,
                     username: $scope.username,
                     type: $scope.type

@@ -56,7 +56,7 @@ public class AdaCustomerController {
 //    @Secured(ConstantAuthor.CTV_USER_MGMT.view)
     public ResponseEntity<?> search(
             @RequestParam(value = "pageNumber", required = false, defaultValue = "1") int pageNumber,
-            @RequestParam(value = "numberPerPage", required = false, defaultValue = "15") int numberPerPage,
+            @RequestParam(value = "numberPerPage", required = false, defaultValue = "5") int numberPerPage,
             @RequestParam(value = "fullName", required = false, defaultValue = "") String fullName,
             @RequestParam(value = "mobile", required = false, defaultValue = "") String mobile,
             @RequestParam(value = "provinceId", required = false, defaultValue = "-1") Long provinceId,

@@ -21,11 +21,11 @@
 <div class="container-fluid">
     <section id="content" ng-app="ADAGROUP" ng-controller="userListCtrl">
         <c:if test="${success.length()>0}">
-            <div class="alert alert-success alert-dismissible bg-success text-white border-0 fade show" role="alert">
-                <button type="button" class="btn-close btn-close-white" data-bs-dismiss="alert" aria-label="Close"
-                        fdprocessedid="1s3b0q"></button>
-                <strong>Phân quyền tài khoản thành công</strong>
-            </div>
+        <div class="alert alert-success alert-dismissible bg-success text-white border-0 fade show" role="alert">
+            <button type="button" class="btn-close btn-close-white" data-bs-dismiss="alert" aria-label="Close"
+                    fdprocessedid="1s3b0q"></button>
+            <strong>Phân quyền tài khoản thành công</strong>
+        </div>
         </c:if>
         <div class="card">
             <div class="card-body">
@@ -174,27 +174,53 @@
                                     </tr>
                                     </tbody>
                                 </table>
-                                <div class="d-flex align-items-center justify-content-end py-1">
-                                    <p class="mb-0 fs-2">Hiển thị:</p>
-                                    <select class="form-select w-auto ms-0 ms-sm-2 me-8 me-sm-4 py-1 pe-7 ps-2 border-0"
-                                            ng-init="numberPerPage = '5'"
-                                            ng-model="numberPerPage" ng-change="setNumberPerPage(numberPerPage);">
-                                        <option value="5">5</option>
-                                        <option value="10">10</option>
-                                        <option value="20">20</option>
-                                    </select>
-                                    <p class="mb-0 fs-2">Tổng &nbsp;{{listData.rowCount | currency:"":0}}&nbsp; bản
-                                        ghi</p>
-                                    <nav aria-label="...">
-                                        <ul class="pagination justify-content-center mb-0 ms-8 ms-sm-9">
-                                            <%--TODO: page pagiation--%>
-                                            <li class="page-item p-1">
-                                                <a class="page-link border-0 rounded-circle text-dark fs-6 round-32 d-flex align-items-center justify-content-center"
-                                                   href="#"><i class="ti ti-chevron-left"></i></a>
+
+                            </div>
+                        </div>
+
+                        <div class="row">
+                            <div class="p-r-0 col-sm-12 text-right text-center-xs row">
+                                <div class="col-sm-6 text-left">
+                                    <div class="d-flex align-items-center justify-content-end py-1">
+                                        <p class="mb-0 fs-2">Hiển thị:</p>
+                                        <select class="form-select w-auto ms-0 ms-sm-2 me-8 me-sm-4 py-1 pe-7 ps-2 border-0"
+                                                ng-init="numberPerPage = '5'"
+                                                ng-model="numberPerPage" ng-change="setNumberPerPage(numberPerPage);">
+                                            <option value="5">5</option>
+                                            <option value="10">10</option>
+                                            <option value="20">20</option>
+                                        </select>
+                                        <p class="mb-0 fs-2">Tổng &nbsp;{{listData.rowCount | currency:"":0}}&nbsp; bản
+                                            ghi</p>
+                                    </div>
+                                </div>
+                                <div class="col-sm-6 ">
+                                    <nav aria-label="Page navigation example">
+                                        <ul class="pagination">
+                                            <li class="page-item" ng-if="listData.pageNumber > 1">
+                                                <a class="page-link link" href="javascript:void(0)" style="background-color: #FFF"
+                                                   ng-click="loadPageData(1)"
+                                                   aria-label="Previous">
+                                                      <span aria-hidden="true">
+                                                        <i class="ti ti-chevrons-left fs-4"></i>
+                                                      </span>
+                                                </a>
                                             </li>
-                                            <li class="page-item p-1">
-                                                <a class="page-link border-0 rounded-circle text-dark fs-6 round-32 d-flex align-items-center justify-content-center"
-                                                   href="#"><i class="ti ti-chevron-right"></i></a>
+                                            <li class="page-item" ng-repeat="item in listData.pageList">
+                                                <a class="page-link link" href="javascript:void(0)"
+                                                   style="background-color: #ffc13e;border: 1px solid #ffc13e"
+                                                   ng-if="item == listData.pageNumber"> {{item}}</a>
+                                                <a class="page-link link" href="javascript:void(0)" ng-click="loadPageData(item)"
+                                                   style="background-color: #FFF;"
+                                                   ng-if="item != listData.pageNumber"> {{item}}</a>
+                                            </li>
+                                            <li class="page-item" ng-if="listData.pageNumber < listData.pageCount">
+                                                <a class="page-link link" href="javascript:void(0)" style="background-color: #FFF"
+                                                   ng-click="loadPageData(listData.pageCount)" aria-label="Next">
+                                                      <span aria-hidden="true">
+                                                        <i class="ti ti-chevrons-right fs-4"></i>
+                                                      </span>
+                                                </a>
                                             </li>
                                         </ul>
                                     </nav>
@@ -202,181 +228,182 @@
                             </div>
                         </div>
                     </div>
-                    <div id="loading" style="display: none" class="card w-100">
-                        <div class="card-body">
-                            <div class="text-center">
-                                <div class="spinner-border" role="status">
-                                </div>
+                </div>
+                <div id="loading" style="display: none" class="card w-100">
+                    <div class="card-body">
+                        <div class="text-center">
+                            <div class="spinner-border" role="status">
                             </div>
                         </div>
                     </div>
                 </div>
             </div>
         </div>
-        <div class="modal fade" id="mdDetail" tabindex="-1" aria-labelledby="bs-example-modal-lg"
-             aria-hidden="true">
-            <div class="modal-dialog modal-xl">
-                <div class="modal-content">
-                    <div class="modal-header d-flex align-items-center">
-                        <h4 class="modal-title">
-                            Thông tin chi tiết
-                        </h4>
-                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                    </div>
-                    <div class="card" style="margin-bottom: 0">
-                        <div class="card-body">
-                            <div class="tab-content" id="pills-tabContent">
-                                <div class="tab-pane fade show active" id="pills-account" role="tabpanel"
-                                     aria-labelledby="pills-account-tab" tabindex="0">
-                                    <div class="row">
-                                        <div class="col-12">
-                                            <div class="card w-100 position-relative overflow-hidden mb-0">
-                                                <div class="card-body p-4">
-                                                    <h5 class="card-title fw-semibold">Thông tin người dùng</h5>
-                                                    <p class="card-subtitle mb-4">Để thay đổi thông tin người dùng, hãy
-                                                        chỉnh sửa và lưu từ đây</p>
-                                                    <form>
-                                                        <div class="row">
-                                                            <div class="col-lg-6">
-                                                                <div class="mb-3">
-                                                                    <label class="form-label">Tài khoản</label>
-                                                                    <input type="text" class="form-control"
-                                                                           id="userDetail-username"
-                                                                           readonly
-                                                                           ng-model="userDetail.username">
-                                                                </div>
-                                                                <div class="mb-3">
-                                                                    <label class="form-label">Chức danh</label>
-                                                                    <select id="userDetail-type" name="team"
-                                                                            class="form-control"
-                                                                            style="width: 100% ;border-radius: 6px"
-                                                                            ng-model="userDetail.type">
-                                                                        <option ng-value="0">Hỗ trợ kỹ thuật</option>
-                                                                        <option ng-value="1">CEO - ADA GROUP</option>
-                                                                        <option ng-value="2">CEO - Kim cương</option>
-                                                                    </select>
-                                                                </div>
-                                                                <div class="mb-3">
-                                                                    <label class="form-label">Email</label>
-                                                                    <input type="text" class="form-control"
-                                                                           id="userDetail-email"
-                                                                           ng-model="userDetail.email">
-                                                                </div>
-                                                            </div>
-                                                            <div class="col-lg-6">
-                                                                <div class="mb-3">
-                                                                    <label class="form-label">Họ tên</label>
-                                                                    <input type="text" class="form-control"
-                                                                           id="userDetail-fullName"
-                                                                           ng-model="userDetail.fullName">
-                                                                </div>
-                                                                <div class="mb-3">
-                                                                    <label class="form-label">Số điện thoại</label>
-                                                                    <input maxlength="10"
-                                                                           oninput="this.value = this.value.replace(/[^0-9.]/g, '').replace(/(\..*?)\..*/g, '$1');"
-                                                                           type="text" class="form-control"
-                                                                           id="userDetail-mobile"
-                                                                           ng-model="userDetail.phone">
-                                                                </div>
-                                                                <div class="mb-3">
-                                                                    <label class="form-label">Trạng thái</label>
-                                                                    <select id="userDetail-status" name="status"
-                                                                            class="form-control"
-                                                                            style="width: 100% ;border-radius: 6px"
-                                                                            ng-model="userDetail.status">
-                                                                        <%--                                                                        <option ng-value="-1">-- Tất cả --</option>--%>
-                                                                        <option ng-value="1">Đang hoạt động</option>
-                                                                        <option ng-value="2">Ngưng hoạt động</option>
-                                                                    </select>
-                                                                </div>
-                                                            </div>
+</div>
+<div class="modal fade" id="mdDetail" tabindex="-1" aria-labelledby="bs-example-modal-lg"
+     aria-hidden="true">
+    <div class="modal-dialog modal-xl">
+        <div class="modal-content">
+            <div class="modal-header d-flex align-items-center">
+                <h4 class="modal-title">
+                    Thông tin chi tiết
+                </h4>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="card" style="margin-bottom: 0">
+                <div class="card-body">
+                    <div class="tab-content" id="pills-tabContent">
+                        <div class="tab-pane fade show active" id="pills-account" role="tabpanel"
+                             aria-labelledby="pills-account-tab" tabindex="0">
+                            <div class="row">
+                                <div class="col-12">
+                                    <div class="card w-100 position-relative overflow-hidden mb-0">
+                                        <div class="card-body p-4">
+                                            <h5 class="card-title fw-semibold">Thông tin người dùng</h5>
+                                            <p class="card-subtitle mb-4">Để thay đổi thông tin người dùng, hãy
+                                                chỉnh sửa và lưu từ đây</p>
+                                            <form>
+                                                <div class="row">
+                                                    <div class="col-lg-6">
+                                                        <div class="mb-3">
+                                                            <label class="form-label">Tài khoản</label>
+                                                            <input type="text" class="form-control"
+                                                                   id="userDetail-username"
+                                                                   readonly
+                                                                   ng-model="userDetail.username">
                                                         </div>
-                                                    </form>
-                                                </div>
-                                                <div class="col-12">
-                                                    <div style="gap: 0 !important;margin-top: 0;margin-bottom: 1rem;margin-right: 1rem;"
-                                                         class="d-flex align-items-center justify-content-end mt-4 gap-6">
-                                                        <button id="btn-save" class="btn btn-primary"
-                                                                ng-click="editUser()">
-                                                            Lưu
-                                                        </button>
-                                                        <button class="btn btn-primary" type="button"
-                                                                style="display: none" disabled="" id="btn-loading">
-                                                            <span class="spinner-border spinner-border-sm" role="status"
-                                                                  aria-hidden="true"></span>
-                                                            Vui lòng chờ...
-                                                        </button>
-                                                        <button class="btn btn-warning m-1"
-                                                                data-bs-dismiss="modal" aria-label="Close">Hủy
-                                                            bỏ
-                                                        </button>
+                                                        <div class="mb-3">
+                                                            <label class="form-label">Chức danh</label>
+                                                            <select id="userDetail-type" name="team"
+                                                                    class="form-control"
+                                                                    style="width: 100% ;border-radius: 6px"
+                                                                    ng-model="userDetail.type">
+                                                                <option ng-value="0">Hỗ trợ kỹ thuật</option>
+                                                                <option ng-value="1">CEO - ADA GROUP</option>
+                                                                <option ng-value="2">CEO - Kim cương</option>
+                                                            </select>
+                                                        </div>
+                                                        <div class="mb-3">
+                                                            <label class="form-label">Email</label>
+                                                            <input type="text" class="form-control"
+                                                                   id="userDetail-email"
+                                                                   ng-model="userDetail.email">
+                                                        </div>
+                                                    </div>
+                                                    <div class="col-lg-6">
+                                                        <div class="mb-3">
+                                                            <label class="form-label">Họ tên</label>
+                                                            <input type="text" class="form-control"
+                                                                   id="userDetail-fullName"
+                                                                   ng-model="userDetail.fullName">
+                                                        </div>
+                                                        <div class="mb-3">
+                                                            <label class="form-label">Số điện thoại</label>
+                                                            <input maxlength="10"
+                                                                   oninput="this.value = this.value.replace(/[^0-9.]/g, '').replace(/(\..*?)\..*/g, '$1');"
+                                                                   type="text" class="form-control"
+                                                                   id="userDetail-mobile"
+                                                                   ng-model="userDetail.phone">
+                                                        </div>
+                                                        <div class="mb-3">
+                                                            <label class="form-label">Trạng thái</label>
+                                                            <select id="userDetail-status" name="status"
+                                                                    class="form-control"
+                                                                    style="width: 100% ;border-radius: 6px"
+                                                                    ng-model="userDetail.status">
+                                                                <%--                                                                        <option ng-value="-1">-- Tất cả --</option>--%>
+                                                                <option ng-value="1">Đang hoạt động</option>
+                                                                <option ng-value="2">Ngưng hoạt động</option>
+                                                            </select>
+                                                        </div>
                                                     </div>
                                                 </div>
+                                            </form>
+                                        </div>
+                                        <div class="col-12">
+                                            <div style="gap: 0 !important;margin-top: 0;margin-bottom: 1rem;margin-right: 1rem;"
+                                                 class="d-flex align-items-center justify-content-end mt-4 gap-6">
+                                                <button id="btn-save" class="btn btn-primary"
+                                                        ng-click="editUser()">
+                                                    Lưu
+                                                </button>
+                                                <button class="btn btn-primary" type="button"
+                                                        style="display: none" disabled="" id="btn-loading">
+                                                            <span class="spinner-border spinner-border-sm" role="status"
+                                                                  aria-hidden="true"></span>
+                                                    Vui lòng chờ...
+                                                </button>
+                                                <button class="btn btn-warning m-1"
+                                                        data-bs-dismiss="modal" aria-label="Close">Hủy
+                                                    bỏ
+                                                </button>
                                             </div>
-
                                         </div>
                                     </div>
+
                                 </div>
                             </div>
                         </div>
                     </div>
                 </div>
             </div>
-            <!-- /.modal-dialog -->
         </div>
-        <div class="modal fade" id="mdRestorePassword" tabindex="-1" aria-labelledby="danger-header-modalLabel"
-             aria-hidden="true">
-            <div class="modal-dialog modal-dialog-scrollable modal-lg">
-                <div class="modal-content">
-                    <div class="modal-header modal-colored-header bg-danger text-white">
-                        <h4 class="modal-title text-white" id="danger-header-modalLabel">
-                            Khôi phục mật khẩu
-                        </h4>
-                        <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal"
-                                aria-label="Close"></button>
-                    </div>
-                    <div class="modal-body">
-                        <p>Bạn có chắc chắn muốn khôi phục mật khẩu cho <font
-                                style="font-weight: 700">{{restorePass.username}}</font>
-                            về mặc định hay không?</p>
-                    </div>
-                    <div class="modal-footer">
-                        <button type="button" class="btn btn-light" data-bs-dismiss="modal">
-                            Hủy
-                        </button>
-                        <button id="btn-confirm" class="btn bg-danger-subtle text-danger" ng-click="restorePassword()">
-                            Xác nhận
-                        </button>
-                        <button class="btn bg-danger-subtle text-danger" style="display: none" disabled=""
-                                id="btn-loadConfirm">
-                            <span class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span>
-                            Vui lòng chờ...
-                        </button>
-                    </div>
-                </div>
-                <!-- /.modal-content -->
+    </div>
+    <!-- /.modal-dialog -->
+</div>
+<div class="modal fade" id="mdRestorePassword" tabindex="-1" aria-labelledby="danger-header-modalLabel"
+     aria-hidden="true">
+    <div class="modal-dialog modal-dialog-scrollable modal-lg">
+        <div class="modal-content">
+            <div class="modal-header modal-colored-header bg-danger text-white">
+                <h4 class="modal-title text-white" id="danger-header-modalLabel">
+                    Khôi phục mật khẩu
+                </h4>
+                <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal"
+                        aria-label="Close"></button>
             </div>
-            <!-- /.modal-dialog -->
+            <div class="modal-body">
+                <p>Bạn có chắc chắn muốn khôi phục mật khẩu cho <font
+                        style="font-weight: 700">{{restorePass.username}}</font>
+                    về mặc định hay không?</p>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-light" data-bs-dismiss="modal">
+                    Hủy
+                </button>
+                <button id="btn-confirm" class="btn bg-danger-subtle text-danger" ng-click="restorePassword()">
+                    Xác nhận
+                </button>
+                <button class="btn bg-danger-subtle text-danger" style="display: none" disabled=""
+                        id="btn-loadConfirm">
+                    <span class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span>
+                    Vui lòng chờ...
+                </button>
+            </div>
         </div>
-        <div class="modal fade" id="mdAuthority" tabindex="-1" aria-labelledby="bs-example-modal-lg"
-             aria-hidden="true">
-            <div class="modal-dialog modal-xl">
-                <div class="modal-content">
-                    <div class="modal-header d-flex align-items-center">
-                        <h4 class="modal-title">
-                            Phân quyền tài khoản
-                        </h4>
-                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                    </div>
-                    <div class="card" style="margin-bottom: 0">
-                        <div class="card-body">
-                        </div>
-                    </div>
+        <!-- /.modal-content -->
+    </div>
+    <!-- /.modal-dialog -->
+</div>
+<div class="modal fade" id="mdAuthority" tabindex="-1" aria-labelledby="bs-example-modal-lg"
+     aria-hidden="true">
+    <div class="modal-dialog modal-xl">
+        <div class="modal-content">
+            <div class="modal-header d-flex align-items-center">
+                <h4 class="modal-title">
+                    Phân quyền tài khoản
+                </h4>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="card" style="margin-bottom: 0">
+                <div class="card-body">
                 </div>
             </div>
-            <!-- /.modal-dialog -->
         </div>
+    </div>
+    <!-- /.modal-dialog -->
+</div>
 
 
-    </section>
+</section>
 </div>

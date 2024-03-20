@@ -65,7 +65,10 @@ public class SystemUserController {
 
     @GetMapping("/user/search")
 //    @Secured(ConstantAuthor.User.view)
-    public ResponseEntity<?> search(Model model, @RequestParam(value = "p", required = false, defaultValue = "1") int pageNumber, @RequestParam(value = "numberPerPage", required = false, defaultValue = "15") int numberPerPage, @RequestParam(value = "username", required = false, defaultValue = "") String filterUsername, @RequestParam(value = "type", required = false, defaultValue = "-1") Long type) {
+    public ResponseEntity<?> search(Model model, @RequestParam(value = "p", required = false, defaultValue = "1") int pageNumber,
+                                    @RequestParam(value = "numberPerPage", required = false, defaultValue = "5") int numberPerPage,
+                                    @RequestParam(value = "username", required = false, defaultValue = "") String filterUsername,
+                                    @RequestParam(value = "type", required = false, defaultValue = "-1") Long type) {
         PagingResult page = new PagingResult();
         page.setPageNumber(pageNumber);
         page.setNumberPerPage(numberPerPage);

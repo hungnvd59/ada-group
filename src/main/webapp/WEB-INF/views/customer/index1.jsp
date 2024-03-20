@@ -161,9 +161,9 @@
                         <a class="btn btn-success m-1" ng-click="export()"
                            style="margin-right: 2rem; float: right"><i
                                 class="ti ti-download"></i>&nbsp;Xuất excel</a>
-                        <a class="btn btn-primary m-1" ng-click="import()"
+                        <%--<a class="btn btn-primary m-1" ng-click="import()"
                            style="float:right;margin-right: .5rem;">
-                            <i class="ti ti-file-upload"></i>&nbsp;Tải lên danh sách nhân viên</a>
+                            <i class="ti ti-file-upload"></i>&nbsp;Tải lên danh sách nhân viên</a>--%>
                     </div>
                 </div>
                 <div class="panel-body" style="margin-top: 3rem">
@@ -177,9 +177,6 @@
                                         <th>
                                             <h6 class="fw-semibold mb-0">STT</h6>
                                         </th>
-                                        <%--<th>
-                                            <h6 class="fw-semibold mb-0">Thao tác</h6>
-                                        </th>--%>
                                         <th>
                                             <h6 class="fw-semibold mb-0">Họ tên</h6>
                                         </th>
@@ -207,13 +204,6 @@
                                             <p class="mb-0 fw-normal">
                                                 {{(listData.pageNumber - 1) * listData.numberPerPage + $index + 1}}</p>
                                         </td>
-                                        <%--<td>
-                                            <a ng-click="showDetailCust(item)"
-                                               style="cursor: pointer"
-                                               class="text-primary edit">
-                                                <i class="ti ti-eye fs-5"></i>
-                                            </a>
-                                        </td>--%>
                                         </td>
                                         <td>
                                             <p class="mb-0 fw-normal">{{item.fullName}}</p>
@@ -241,27 +231,51 @@
                                     </tr>
                                     </tbody>
                                 </table>
-                                <div class="d-flex align-items-center justify-content-end py-1">
-                                    <p class="mb-0 fs-2">Hiển thị:</p>
-                                    <select class="form-select w-auto ms-0 ms-sm-2 me-8 me-sm-4 py-1 pe-7 ps-2 border-0"
-                                            ng-init="numberPerPage = '5'"
-                                            ng-model="numberPerPage" ng-change="setNumberPerPage(numberPerPage);">
-                                        <option value="5">5</option>
-                                        <option value="10">10</option>
-                                        <option value="20">20</option>
-                                    </select>
-                                    <p class="mb-0 fs-2">Tổng &nbsp;{{listData.rowCount | currency:"":0}}&nbsp; bản
-                                        ghi</p>
-                                    <nav aria-label="...">
-                                        <ul class="pagination justify-content-center mb-0 ms-8 ms-sm-9">
-                                            <%--TODO: page pagiation--%>
-                                            <li class="page-item p-1">
-                                                <a class="page-link border-0 rounded-circle text-dark fs-6 round-32 d-flex align-items-center justify-content-center"
-                                                   href="#"><i class="ti ti-chevron-left"></i></a>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="p-r-0 col-sm-12 text-right text-center-xs row">
+                                <div class="col-sm-6 text-left">
+                                    <div class="d-flex align-items-center justify-content-end py-1">
+                                        <p class="mb-0 fs-2">Hiển thị:</p>
+                                        <select class="form-select w-auto ms-0 ms-sm-2 me-8 me-sm-4 py-1 pe-7 ps-2 border-0"
+                                                ng-init="numberPerPage = '5'"
+                                                ng-model="numberPerPage" ng-change="setNumberPerPage(numberPerPage);">
+                                            <option value="5">5</option>
+                                            <option value="10">10</option>
+                                            <option value="20">20</option>
+                                        </select>
+                                        <p class="mb-0 fs-2">Tổng &nbsp;{{listData.rowCount | currency:"":0}}&nbsp; bản
+                                            ghi</p>
+                                    </div>
+                                </div>
+                                <div class="col-sm-6 ">
+                                    <nav aria-label="Page navigation example">
+                                        <ul class="pagination">
+                                            <li class="page-item" ng-if="listData.pageNumber > 1">
+                                                <a class="page-link link" href="javascript:void(0)" style="background-color: #FFF;"
+                                                   ng-click="loadPageData(1)"
+                                                   aria-label="Previous">
+                                                      <span aria-hidden="true">
+                                                        <i class="ti ti-chevrons-left fs-4"></i>
+                                                      </span>
+                                                </a>
                                             </li>
-                                            <li class="page-item p-1">
-                                                <a class="page-link border-0 rounded-circle text-dark fs-6 round-32 d-flex align-items-center justify-content-center"
-                                                   href="#"><i class="ti ti-chevron-right"></i></a>
+                                            <li class="page-item" ng-repeat="item in listData.pageList">
+                                                <a class="page-link link" href="javascript:void(0)"
+                                                   style="background-color: #ffc13e;border: 1px solid #ffc13e"
+                                                   ng-if="item == listData.pageNumber"> {{item}}</a>
+                                                <a class="page-link link" href="javascript:void(0)" ng-click="loadPageData(item)"
+                                                   style="background-color: #FFF;"
+                                                   ng-if="item != listData.pageNumber"> {{item}}</a>
+                                            </li>
+                                            <li class="page-item" ng-if="listData.pageNumber < listData.pageCount">
+                                                <a class="page-link link" href="javascript:void(0)" style="background-color: #FFF"
+                                                   ng-click="loadPageData(listData.pageCount)" aria-label="Next">
+                                                      <span aria-hidden="true">
+                                                        <i class="ti ti-chevrons-right fs-4"></i>
+                                                      </span>
+                                                </a>
                                             </li>
                                         </ul>
                                     </nav>
