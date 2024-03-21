@@ -59,15 +59,15 @@
                                         <spring:message
                                                 code="${error}"/></div>
                                 </c:if>
-                                <div class="d-flex align-items-center justify-content-between mb-4">
-                                    <div class="form-check">
-                                        <input name="_spring_security_remember_me" class="form-check-input primary"
-                                               type="checkbox" value="" id="flexCheckChecked" checked>
-                                        <label class="form-check-label text-dark" for="flexCheckChecked">
-                                            Ghi nhớ tài khoản
-                                        </label>
-                                    </div>
-                                </div>
+<%--                                <div class="d-flex align-items-center justify-content-between mb-4">--%>
+<%--                                    <div class="form-check">--%>
+<%--                                        <input name="_spring_security_remember_me" class="form-check-input primary"--%>
+<%--                                               type="checkbox" value="" id="flexCheckChecked" checked>--%>
+<%--                                        <label class="form-check-label text-dark" for="flexCheckChecked">--%>
+<%--                                            Ghi nhớ tài khoản--%>
+<%--                                        </label>--%>
+<%--                                    </div>--%>
+<%--                                </div>--%>
                                 <button type="submit" class="btn btn-warning w-100 py-8 fs-4 mb-4 rounded-2">Đăng
                                     nhập
                                 </button>
