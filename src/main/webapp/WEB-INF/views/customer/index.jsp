@@ -16,6 +16,22 @@
         font-size: 14px;
         line-height: 25px;
     }
+
+    /*Ipad ngang(1024 x 768)*/
+    @media screen and (max-width: 1024px){
+        .mobile-hide{
+            display: none;
+        }
+        .mobile-col{
+            margin-top: 1rem;
+        }
+    }
+    @media screen and (min-width: 1024px){
+        .mobile-show{
+            display: none;
+        }
+    }
+
 </style>
 
 <div class="container-fluid">
@@ -41,7 +57,7 @@
                             <div class="row" style="margin-top: 0px;">
                                 <div class="col-md-6">
                                     <div class="row">
-                                        <div class="col-md-5">
+                                        <div class="col-md-12">
                                             <label class="control-label color-label left-search">Họ và tên nhân
                                                 viên</label>
                                         </div>
@@ -55,9 +71,9 @@
                                         </div>
                                     </div>
                                 </div>
-                                <div class="col-md-6">
+                                <div class="col-md-6 mobile-col">
                                     <div class="row">
-                                        <div class="col-md-6">
+                                        <div class="col-md-12">
                                             <label class="control-label color-label left-search">Số điện thoại nhân
                                                 viên</label>
                                         </div>
@@ -75,7 +91,7 @@
                                 </div>
                             </div>
                             <div class="row mt-xl-3">
-                                <div class="col-md-3">
+                                <div class="col-md-3 mobile-col">
                                     <div class="row">
                                         <div class="col-md-12">
                                             <label class="control-label color-label left-search">Tỉnh/Thành
@@ -97,7 +113,7 @@
                                         </div>
                                     </div>
                                 </div>
-                                <div class="col-md-3">
+                                <div class="col-md-3 mobile-col">
                                     <div class=" row">
                                         <div class="col-md-12">
                                             <label class="control-label color-label left-search">Quận/Huyện</label>
@@ -118,7 +134,7 @@
                                         </div>
                                     </div>
                                 </div>
-                                <div class="col-md-6">
+                                <div class="col-md-6 mobile-col">
                                     <div class="row">
                                         <div class="col-md-12">
                                             <label class="control-label color-label left-search">Team</label>
@@ -158,7 +174,7 @@
                     <div class="col-md-6">
                         <%--                    <sec:authorize--%>
                         <%--                            access="hasAnyRole('ROLE_CTV_USER_EXPORT_EXCEL')">--%>
-                        <a class="btn btn-success m-1" ng-click="export()"
+                        <a class="btn btn-success m-1 mobile-hide" ng-click="export()"
                            style="margin-right: 2rem; float: right"><i
                                 class="ti ti-download"></i>&nbsp;Xuất excel</a>
                         <%--<a class="btn btn-primary m-1" ng-click="import()"
@@ -174,7 +190,7 @@
                                 <table class="table border text-nowrap mb-0 align-middle">
                                     <thead class="text-dark fs-4">
                                     <tr>
-                                        <th>
+                                        <th class="mobile-hide">
                                             <h6 class="fw-semibold mb-0">STT</h6>
                                         </th>
                                         <th>
@@ -183,16 +199,16 @@
                                         <th>
                                             <h6 class="fw-semibold mb-0">Chức danh</h6>
                                         </th>
-                                        <th>
+                                        <th class="mobile-hide">
                                             <h6 class="fw-semibold mb-0">Mã nhân viên</h6>
                                         </th>
-                                        <th>
+                                        <th class="mobile-hide">
                                             <h6 class="fw-semibold mb-0">Số điện thoại</h6>
                                         </th>
                                         <th>
                                             <h6 class="fw-semibold mb-0">Team</h6>
                                         </th>
-                                        <th>
+                                        <th class="mobile-hide">
                                             <h6 class="fw-semibold mb-0">Trạng thái</h6>
                                         </th>
                                     </tr>
@@ -200,7 +216,7 @@
                                     <tbody>
                                     <tr style="cursor: pointer" ng-repeat="item in listData.items track by $index"
                                         ng-click="showDetailCust(item)">
-                                        <td class="border-bottom">
+                                        <td class="border-bottom mobile-hide">
                                             <p class="mb-0 fw-normal">
                                                 {{(listData.pageNumber - 1) * listData.numberPerPage + $index + 1}}</p>
                                         </td>
@@ -211,16 +227,16 @@
                                         <td>
                                             <p class="mb-0 fw-normal">{{getTypeCtv(item.type)}}</p>
                                         </td>
-                                        <td>
+                                        <td class="mobile-hide">
                                             <p class="mb-0 fw-normal">{{item.empCode}}</p>
                                         </td>
-                                        <td>
+                                        <td class="mobile-hide">
                                             <p class="mb-0 fw-normal">{{item.mobile}}</p>
                                         </td>
                                         <td>
                                             <p class="mb-0 fw-normal">Kim cương {{item.team}}</p>
                                         </td>
-                                        <td>
+                                        <td class="mobile-hide">
                                             <p class="mb-0 fw-normal">{{getStatusCtv(item.status)}}</p>
                                         </td>
                                     </tr>
@@ -235,7 +251,7 @@
                         </div>
                         <div class="row">
                             <div style="padding-left: 40px;" class="p-r-0 col-sm-12 text-right text-center-xs row">
-                                <div class="col-sm-6 text-left">
+                                <div class="col-sm-6 text-left mobile-hide">
                                     <div class="d-flex align-items-center justify-content-start py-1">
                                         <p class="mb-0 fs-2">Hiển thị:</p>
                                         <select class="form-select w-auto ms-0 ms-sm-2 me-8 me-sm-4 py-1 pe-7 ps-2 border-0"
@@ -252,10 +268,20 @@
                                 <div class="col-sm-6 ">
                                     <nav aria-label="Page navigation example" style="float: right">
                                         <ul class="pagination">
-                                            <li class="page-item" ng-if="listData.pageNumber > 1">
+                                            <li class="page-item mobile-hide" ng-if="listData.pageNumber > 1">
                                                 <a class="page-link link" href="javascript:void(0)"
                                                    style="background-color: #FFF;"
                                                    ng-click="loadPageData(1)"
+                                                   aria-label="Previous">
+                                                      <span aria-hidden="true">
+                                                        <i class="ti ti-chevrons-left fs-4"></i>
+                                                      </span>
+                                                </a>
+                                            </li>
+                                            <li class="page-item mobile-show" ng-if="listData.pageNumber > 1">
+                                                <a class="page-link link" href="javascript:void(0)"
+                                                   style="background-color: #FFF;border-top-left-radius: 7px;border-bottom-left-radius: 7px"
+                                                   ng-click="loadPageData(listData.pageNumber -1)"
                                                    aria-label="Previous">
                                                       <span aria-hidden="true">
                                                         <i class="ti ti-chevrons-left fs-4"></i>
@@ -266,15 +292,24 @@
                                                 <a class="page-link link" href="javascript:void(0)"
                                                    style="background-color: #ffc13e;border: 1px solid #ffc13e"
                                                    ng-if="item == listData.pageNumber"> {{item}}</a>
-                                                <a class="page-link link" href="javascript:void(0)"
+                                                <a class="page-link link mobile-hide" href="javascript:void(0)"
                                                    ng-click="loadPageData(item)"
                                                    style="background-color: #FFF;"
                                                    ng-if="item != listData.pageNumber"> {{item}}</a>
                                             </li>
-                                            <li class="page-item" ng-if="listData.pageNumber < listData.pageCount">
+                                            <li class="page-item mobile-hide" ng-if="listData.pageNumber < listData.pageCount">
                                                 <a class="page-link link" href="javascript:void(0)"
-                                                   style="background-color: #FFF"
+                                                   style="background-color: #FFF;border-top-right-radius: 7px;border-bottom-right-radius: 7px"
                                                    ng-click="loadPageData(listData.pageCount)" aria-label="Next">
+                                                      <span aria-hidden="true">
+                                                        <i class="ti ti-chevrons-right fs-4"></i>
+                                                      </span>
+                                                </a>
+                                            </li>
+                                            <li class="page-item mobile-show" ng-if="listData.pageNumber + 1 <= listData.pageCount">
+                                                <a class="page-link link" href="javascript:void(0)"
+                                                   style="background-color: #FFF;border-top-right-radius: 7px;border-bottom-right-radius: 7px"
+                                                   ng-click="loadPageData(listData.pageNumber + 1)" aria-label="Next">
                                                       <span aria-hidden="true">
                                                         <i class="ti ti-chevrons-right fs-4"></i>
                                                       </span>

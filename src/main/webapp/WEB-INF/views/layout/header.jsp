@@ -20,10 +20,7 @@
                 </a>
             </li>
             <li class="nav-item">
-                <a class="nav-link nav-icon-hover" href="javascript:void(0)">
-                    <%--
-                    --%>
-                </a>
+                <a class="nav-link nav-icon-hover" href="javascript:void(0)"></a>
             </li>
         </ul>
         <div class="navbar-collapse justify-content-end px-0" id="navbarNav">
