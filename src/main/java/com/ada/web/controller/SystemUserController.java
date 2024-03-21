@@ -2,6 +2,7 @@ package com.ada.web.controller;
 
 import com.ada.common.*;
 import com.ada.model.*;
+import com.ada.model.dto.ChangePassDto;
 import com.ada.model.view.AuthorityView;
 import com.ada.model.view.GroupView;
 import com.ada.web.dao.CommonDao;
@@ -79,10 +80,7 @@ public class SystemUserController {
 
     @GetMapping("/user/search")
 //    @Secured(ConstantAuthor.User.view)
-    public ResponseEntity<?> search(Model model, @RequestParam(value = "p", required = false, defaultValue = "1") int pageNumber,
-                                    @RequestParam(value = "numberPerPage", required = false, defaultValue = "5") int numberPerPage,
-                                    @RequestParam(value = "username", required = false, defaultValue = "") String filterUsername,
-                                    @RequestParam(value = "type", required = false, defaultValue = "-1") Long type) {
+    public ResponseEntity<?> search(Model model, @RequestParam(value = "p", required = false, defaultValue = "1") int pageNumber, @RequestParam(value = "numberPerPage", required = false, defaultValue = "5") int numberPerPage, @RequestParam(value = "username", required = false, defaultValue = "") String filterUsername, @RequestParam(value = "type", required = false, defaultValue = "-1") Long type) {
         PagingResult page = new PagingResult();
         page.setPageNumber(pageNumber);
         page.setNumberPerPage(numberPerPage);
@@ -149,12 +147,7 @@ public class SystemUserController {
 
     @GetMapping("/user/export")
 //    @Secured(ConstantAuthor.CTV_USER_MGMT.view)
-    public void export(
-            @RequestParam(value = "pageNumber", required = false, defaultValue = "1") int pageNumber,
-            @RequestParam(value = "numberPerPage", required = false, defaultValue = "15") int numberPerPage,
-            @RequestParam(value = "username", required = false, defaultValue = "") String username,
-            @RequestParam(value = "type", required = false, defaultValue = "-1") Long type
-            , HttpServletRequest request, HttpServletResponse response) {
+    public void export(@RequestParam(value = "pageNumber", required = false, defaultValue = "1") int pageNumber, @RequestParam(value = "numberPerPage", required = false, defaultValue = "15") int numberPerPage, @RequestParam(value = "username", required = false, defaultValue = "") String username, @RequestParam(value = "type", required = false, defaultValue = "-1") Long type, HttpServletRequest request, HttpServletResponse response) {
         PagingResult page = new PagingResult();
         page.setPageNumber(pageNumber);
         page.setNumberPerPage(numberPerPage);
@@ -165,8 +158,7 @@ public class SystemUserController {
             Map<String, Object> beans = new HashMap<String, Object>();
             beans.put("items", page.getItems());
 
-            String realPathOfFolder = request.getServletContext().getRealPath(
-                    ConfigProperties.getConfigProperties("template_path"));
+            String realPathOfFolder = request.getServletContext().getRealPath(ConfigProperties.getConfigProperties("template_path"));
             InputStream fileIn = new BufferedInputStream(new FileInputStream(realPathOfFolder + "ada-user-system.xlsx"));
 
             ExcelTransformer transformer = new ExcelTransformer();
@@ -174,8 +166,7 @@ public class SystemUserController {
             response.setContentType("application/vnd.ms-excel");
             SimpleDateFormat dateFormat = new SimpleDateFormat("dd.MM.yyyy");
             String dateDownload = dateFormat.format(new Date());
-            response.setHeader("Content-Disposition",
-                    "attachment; filename=" + dateDownload + "_DS_tai_khoan_he_thong_ADA.xlsx");
+            response.setHeader("Content-Disposition", "attachment; filename=" + dateDownload + "_DS_tai_khoan_he_thong_ADA.xlsx");
             ServletOutputStream out = response.getOutputStream();
             workbook.write(out);
             out.flush();
@@ -273,26 +264,20 @@ public class SystemUserController {
         return "user.group";
     }
 
-    @GetMapping("/change-my-pass")
-    public String changeMyPassView() {
-        return "user.change.pass";
-    }
-
-    @PostMapping("/change-my-pass")
-    public ResponseEntity<Integer> changeMyPass(@RequestParam String passwordCurrent, @RequestParam String passwordNew, HttpServletRequest request) {
+    @PostMapping("/info/change-my-pass")
+    public ResponseEntity<Integer> changeMyPass(@RequestBody ChangePassDto dto, HttpServletRequest request) {
         //0-dieu kien ko phu hop, 1-oke thanh cong,2-mat khau cu khong dung,3-co loi server khi change
         User user = (User) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
-        passwordCurrent = Utils.trim(passwordCurrent);
-        passwordNew = Utils.trim(passwordNew);
-        if (StringUtils.isBlank(passwordCurrent) || StringUtils.isBlank(passwordNew)) {
+        dto.setPasswordCurrent(Utils.trim(dto.getPasswordCurrent()));
+        dto.setPasswordNew(Utils.trim(dto.getPasswordNew()));
+        if (StringUtils.isBlank(dto.getPasswordCurrent()) || StringUtils.isBlank(dto.getPasswordNew())) {
             return new ResponseEntity<Integer>(0, HttpStatus.OK);
         }
         Integer result = 0;
         try {
             String ipClient = Utils.getIpClient(request);
-            result = userDAO.changeMyPass(passwordCurrent, passwordNew, user, ipClient).orElse(3);
+            result = userDAO.changeMyPass(dto.getPasswordCurrent(), dto.getPasswordNew(), user, ipClient).orElse(3);
         } catch (Exception e) {
-            logger.error("Have an error changMyPass:" + e.getMessage());
             return new ResponseEntity<Integer>(3, HttpStatus.OK);
         }
         return new ResponseEntity<Integer>(result, HttpStatus.OK);

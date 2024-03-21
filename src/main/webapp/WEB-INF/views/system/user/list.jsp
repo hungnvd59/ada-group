@@ -174,14 +174,13 @@
                                     </tr>
                                     </tbody>
                                 </table>
-
                             </div>
                         </div>
 
                         <div class="row">
-                            <div class="p-r-0 col-sm-12 text-right text-center-xs row">
+                            <div style="padding-left: 40px;" class="p-r-0 col-sm-12 text-right text-center-xs row">
                                 <div class="col-sm-6 text-left">
-                                    <div class="d-flex align-items-center justify-content-end py-1">
+                                    <div class="d-flex align-items-center justify-content-start py-1">
                                         <p class="mb-0 fs-2">Hiển thị:</p>
                                         <select class="form-select w-auto ms-0 ms-sm-2 me-8 me-sm-4 py-1 pe-7 ps-2 border-0"
                                                 ng-init="numberPerPage = '5'"
@@ -195,7 +194,7 @@
                                     </div>
                                 </div>
                                 <div class="col-sm-6 ">
-                                    <nav aria-label="Page navigation example">
+                                    <nav aria-label="Page navigation example" style="float:right;">
                                         <ul class="pagination">
                                             <li class="page-item" ng-if="listData.pageNumber > 1">
                                                 <a class="page-link link" href="javascript:void(0)"
