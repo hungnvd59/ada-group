@@ -5229,6 +5229,7 @@ textarea.form-control-lg {
     flex-direction: column;
     padding-left: 0;
     margin-bottom: 0;
+    padding-right: 20px;
     list-style: none
 }
 
@@ -19270,7 +19271,7 @@ textarea.form-control-lg {
 }
 
 .app-header .navbar .navbar-nav .nav-item .nav-link {
-    padding: 8px 16px;
+    padding: 8px 15px;
     line-height: 70px;
     height: 70px;
     display: -webkit-box;

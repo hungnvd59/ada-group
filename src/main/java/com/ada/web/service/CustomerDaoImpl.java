@@ -48,13 +48,13 @@ public class CustomerDaoImpl implements CustomerDao {
                 vals.put("team", user.getTeam());
             }
             if (fullName != null && !StringUtils.isEmpty(fullName)) {
-                sql.append(" AND cust.fullName = :fullName");
-                sqlCount.append(" AND cust.fullName = :fullName");
-                vals.put("fullName", fullName);
+                sql.append(" AND UPPER(cust.fullName) like UPPER(:fullName)");
+                sqlCount.append(" AND UPPER(cust.fullName) like UPPER(:fullName)");
+                vals.put("fullName", "%" + fullName + "%");
             }
             if (mobile != null && !StringUtils.isEmpty(mobile)) {
-                sql.append(" AND cust.phone = :mobile");
-                sqlCount.append(" AND cust.phone = :mobile");
+                sql.append(" AND cust.mobile = :mobile");
+                sqlCount.append(" AND cust.mobile = :mobile");
                 vals.put("mobile", mobile);
             }
             if (provinceId != null && provinceId != -1L) {

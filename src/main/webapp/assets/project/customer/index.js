@@ -1,6 +1,6 @@
 app.controller('customerUser', ['$scope', '$http', '$timeout', '$q', function ($scope, $http, $timeout, $q) {
     $scope.page = page;
-    $scope.listData = {items: "", rowCount: 0, numberPerPage: 15, pageNumber: 1, pageList: [], pageCount: 0};
+    $scope.listData = {items: "", rowCount: 0, numberPerPage: 5, pageNumber: 1, pageList: [], pageCount: 0};
 
     //search variable
     $scope.fullName = '';
@@ -103,6 +103,8 @@ app.controller('customerUser', ['$scope', '$http', '$timeout', '$q', function ($
 
     /*reload page*/
     $scope.loadPageData = function (pageNumber) {
+        document.getElementById("data-search").style.display = 'none';
+        document.getElementById("loading").style.display = 'block';
         if (pageNumber >= 1) {
             $http.get(preUrl + "/customer/search", {
                 params: {
