@@ -53,9 +53,9 @@ public class CustomerDaoImpl implements CustomerDao {
                 vals.put("fullName", "%" + fullName + "%");
             }
             if (mobile != null && !StringUtils.isEmpty(mobile)) {
-                sql.append(" AND cust.mobile = :mobile");
-                sqlCount.append(" AND cust.mobile = :mobile");
-                vals.put("mobile", mobile);
+                sql.append(" AND cust.mobile like :mobile");
+                sqlCount.append(" AND cust.mobile like :mobile");
+                vals.put("mobile", "%" + mobile + "%");
             }
             if (provinceId != null && provinceId != -1L) {
                 sql.append(" AND cust.provinceId = :provinceId");

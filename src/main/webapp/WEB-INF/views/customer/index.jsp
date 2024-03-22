@@ -39,21 +39,21 @@
         <div class="card">
             <div class="card-body">
                 <div class="row" style="margin-bottom: 1rem">
-                    <div class="col-md-6">
-                        <h5 class="card-title fw-semibold mb-4">Thông tin tìm kiếm</h5>
+                    <div class="col-6">
+                        <h5 class="card-title fw-semibold mb-4" style="font-size: 28px;">Tìm kiếm</h5>
                     </div>
-                    <div class="col-md-6">
+                    <div class="col-6">
                         <%--                    <sec:authorize--%>
                         <%--                            access="hasAnyRole('ROLE_CTV_USER_EXPORT_EXCEL')">--%>
                         <a class="btn btn-warning m-1" ng-click="preAddCust()"
                            style="float:right;margin-right: .5rem;"><i
-                                class="ti ti-circle-plus"></i>&nbsp;Thêm mới nhân viên</a>
+                                class="ti ti-circle-plus"></i>&nbsp;Thêm mới</a>
                         <%--                    </sec:authorize>--%>
                     </div>
                 </div>
                 <div class="panel-body">
                     <form Class="form-horizontal" role="form" theme="simple">
-                        <div class="row" style="margin-left: 30px;margin-right: 30px;">
+                        <div class="row">
                             <div class="row" style="margin-top: 0px;">
                                 <div class="col-md-6">
                                     <div class="row">
@@ -163,7 +163,7 @@
                 </div>
                 <div class="row" style="margin-top: 3rem;text-align: center">
                     <div class="col-md-12">
-                        <a class="btn btn-light" ng-click="search()"><i
+                        <a class="btn btn-info" ng-click="search()"><i
                                 class="ti ti-search"></i>&nbsp;Tìm kiếm</a>
                     </div>
                 </div>
