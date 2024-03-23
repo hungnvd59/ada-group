@@ -77,7 +77,7 @@
                 </li>
                 <li class="nav-small-cap">
                     <i class="ti ti-dots nav-small-cap-icon fs-4"></i>
-                    <span class="hide-menu">Quản lý tài khoản</span>
+                    <span class="hide-menu">Quản lý nhân viên</span>
                 </li>
                 <li class="sidebar-item">
                     <a class="sidebar-link <%= (isActive(request.getContextPath() + "/customer", request)

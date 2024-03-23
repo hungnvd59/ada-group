@@ -39,7 +39,7 @@
                                 <p class="mb-0 fs-3">Thông tin cá nhân</p>
                             </a>
                             <a href="<c:url value="/j_spring_security_logout" />"
-                               class="btn btn-warning mx-3 mt-2 d-block"><i class="ti ti-logout"></i> &nbsp;Logout</a>
+                               class="btn btn-warning mx-3 mt-2 d-block"><i class="ti ti-logout"></i> &nbsp;Đăng xuất</a>
                         </div>
                     </div>
                 </li>

@@ -38,9 +38,9 @@
     <section id="content" ng-app="ADAGROUP" ng-controller="customerUser">
         <div class="card">
             <div class="card-body">
-                <div class="row" style="margin-bottom: 1rem">
+                <div class="row" style="margin-bottom: 1rem; display: flex; align-items: center;">
                     <div class="col-6">
-                        <h5 class="card-title fw-semibold mb-4" style="font-size: 28px;">Tìm kiếm</h5>
+                        <h5 class="card-title fw-semibold mb-0" style="font-size: 28px;">Tìm kiếm</h5>
                     </div>
                     <div class="col-6">
                         <%--                    <sec:authorize--%>
@@ -167,25 +167,25 @@
                                 class="ti ti-search"></i>&nbsp;Tìm kiếm</a>
                     </div>
                 </div>
-                <div class="row" style="margin-top: 3rem;">
-                    <div class="col-md-6">
-                        <h5 style="font-weight: 700"></h5>
-                    </div>
-                    <div class="col-md-6">
-                        <%--                    <sec:authorize--%>
-                        <%--                            access="hasAnyRole('ROLE_CTV_USER_EXPORT_EXCEL')">--%>
-                        <a class="btn btn-success m-1 mobile-hide" ng-click="export()"
-                           style="margin-right: 2rem; float: right"><i
-                                class="ti ti-download"></i>&nbsp;Xuất excel</a>
-                        <%--<a class="btn btn-primary m-1" ng-click="import()"
-                           style="float:right;margin-right: .5rem;">
-                            <i class="ti ti-file-upload"></i>&nbsp;Tải lên danh sách nhân viên</a>--%>
-                    </div>
-                </div>
-                <div class="panel-body" style="margin-top: 3rem">
+                <div class="panel-body" style="margin-top: 3rem; display: flex; align-items: center;">
                     <div id="data-search" class="card w-100">
                         <div class="card-body p-4">
-                            <h5 class="card-title fw-semibold mb-4">Danh sách nhân viên</h5>
+                            <div class="row" style="margin-top: 3rem;">
+                                <div class="col-md-6">
+                                    <h5 class="fw-semibold mb-0">Danh sách nhân viên</h5>
+                                </div>
+                                <div class="col-md-6">
+                                    <%--                    <sec:authorize--%>
+                                    <%--                            access="hasAnyRole('ROLE_CTV_USER_EXPORT_EXCEL')">--%>
+                                    <a class="btn btn-success m-1 mobile-hide" ng-click="export()"
+                                       style="margin-right: 2rem; float: right"><i
+                                            class="ti ti-download"></i>&nbsp;Xuất excel</a>
+                                    <%--<a class="btn btn-primary m-1" ng-click="import()"
+                                       style="float:right;margin-right: .5rem;">
+                                        <i class="ti ti-file-upload"></i>&nbsp;Tải lên danh sách nhân viên</a>--%>
+                                </div>
+                            </div>
+
                             <div class="table-responsive">
                                 <table class="table border text-nowrap mb-0 align-middle">
                                     <thead class="text-dark fs-4">
@@ -332,7 +332,7 @@
                 </div>
             </div>
         </div>
-        <div class="modal fade" id="mdAddCustomer" tabindex="-1" aria-labelledby="bs-example-modal-lg"
+        <div class="modal fade" id="mdAddCustomer" tabindex="-1" data-bs-backdrop="static" aria-labelledby="bs-example-modal-lg"
              aria-hidden="true">
             <div class="modal-dialog modal-xl">
                 <div class="modal-content">
@@ -576,7 +576,7 @@
             <!-- /.modal-dialog -->
         </div>
 
-        <div class="modal fade" id="mdDetailCustomer" tabindex="-1" aria-labelledby="bs-example-modal-lg"
+        <div class="modal fade" id="mdDetailCustomer" tabindex="-1" data-bs-backdrop="static" aria-labelledby="bs-example-modal-lg"
              aria-hidden="true">
             <div class="modal-dialog modal-xl">
                 <div class="modal-content">
@@ -805,7 +805,7 @@
             </div>
             <!-- /.modal-dialog -->
         </div>
-        <div class="modal fade" id="mdConfirmDelete" tabindex="-1" aria-labelledby="danger-header-modalLabel"
+        <div class="modal fade" id="mdConfirmDelete" tabindex="-1" data-bs-backdrop="static" aria-labelledby="danger-header-modalLabel"
              aria-hidden="true">
             <div class="modal-dialog modal-dialog-scrollable modal-lg">
                 <div class="modal-content">

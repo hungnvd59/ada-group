@@ -44,9 +44,9 @@
         </c:if>
         <div class="card">
             <div class="card-body">
-                <div class="row" style="margin-bottom: 1rem">
+                <div class="row" style="margin-bottom: 1rem; display: flex; align-items: center;">
                     <div class="col-md-6">
-                        <h5 class="card-title fw-semibold mb-4">Thông tin tìm kiếm</h5>
+                        <h5 class="card-title fw-semibold mb-0">Tìm kiếm</h5>
                     </div>
                 </div>
                 <div class="panel-body">
@@ -103,9 +103,9 @@
                     <div class="col-md-6">
                         <%--                    <sec:authorize--%>
                         <%--                            access="hasAnyRole('ROLE_CTV_USER_EXPORT_EXCEL')">--%>
-                        <a class="btn btn-success m-1 mobile-hide" ng-click="export()"
-                           style="margin-right: 2rem; float: right"><i
-                                class="ti ti-download"></i>&nbsp;Xuất excel</a>
+<%--                        <a class="btn btn-success m-1 mobile-hide" ng-click="export()"--%>
+<%--                           style="margin-right: 2rem; float: right"><i--%>
+<%--                                class="ti ti-download"></i>&nbsp;Xuất excel</a>--%>
                     </div>
                 </div>
                 <div class="panel-body" style="margin-top: 3rem">

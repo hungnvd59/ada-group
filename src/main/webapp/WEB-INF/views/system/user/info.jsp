@@ -53,17 +53,17 @@
                                         <p class="card-subtitle mb-4">Thay đổi mật khẩu của tài khoản tại đây</p>
                                         <form>
                                             <div class="mb-3">
-                                                <label for="exampleInputPassword1" class="form-label">Mật khẩu cũ &nbsp;<span
+                                                <label for="passOld" class="form-label">Mật khẩu cũ &nbsp;<span
                                                         class="text-danger">*</span></label>
                                                 <input type="password" required placeholder="Nhập mật khẩu cũ" class="form-control" ng-model="passOld" id="passOld" >
                                             </div>
                                             <div class="mb-3">
-                                                <label for="exampleInputPassword2" class="form-label">Mật khẩu mới&nbsp;<span
+                                                <label for="passNew" class="form-label">Mật khẩu mới&nbsp;<span
                                                         class="text-danger">*</span></label>
                                                 <input type="password" required placeholder="Nhập mật khẩu mới" class="form-control" ng-model="passNew" id="passNew">
                                             </div>
                                             <div>
-                                                <label for="exampleInputPassword3" class="form-label">Nhập lại mật khẩu&nbsp;<span
+                                                <label for="rePassNew" class="form-label">Nhập lại mật khẩu&nbsp;<span
                                                         class="text-danger">*</span></label>
                                                 <input type="password" required placeholder="Nhập lại mật khẩu mới" class="form-control" ng-model="rePassNew" id="rePassNew">
                                             </div>
@@ -88,13 +88,13 @@
                                             <div class="row">
                                                 <div class="col-lg-6">
                                                     <div class="mb-3">
-                                                        <label for="exampleInputtext" class="form-label">Tài khoản</label>
+                                                        <label class="form-label">Tài khoản</label>
                                                         <input readonly type="text" ng-model="userDetail.username" class="form-control">
                                                     </div>
                                                     <div class="mb-3">
                                                         <label class="form-label">Chức danh</label>
                                                         <select id="type" name="type" class="form-control"
-                                                                style="width: 100% ;border-radius: 6px" ng-model="userDetail.type">
+                                                                style="width: 100% ;border-radius: 6px" ng-model="userDetail.type" disabled>
                                                             <option ng-value="-1">-- Tất cả --</option>
                                                             <option ng-value="0">Hỗ trợ kỹ thuật</option>
                                                             <option ng-value="1">CEO - ADA GROUP</option>
@@ -102,29 +102,33 @@
                                                         </select>
                                                     </div>
                                                     <div class="mb-3">
-                                                        <label for="exampleInputtext1" class="form-label">Email</label>
+                                                        <label class="form-label">Email</label>
                                                         <input type="email" class="form-control" ng-model="userDetail.email" >
                                                     </div>
                                                 </div>
                                                 <div class="col-lg-6">
                                                     <div class="mb-3">
-                                                        <label for="exampleInputtext" class="form-label">Họ và tên</label>
+                                                        <label class="form-label">Họ và tên</label>
                                                         <input type="text" class="form-control" ng-model="userDetail.fullName">
                                                     </div>
                                                     <div class="mb-3">
-                                                        <label for="exampleInputtext2" class="form-label">Số điện thoại</label>
+                                                        <label class="form-label">Số điện thoại</label>
                                                         <input type="text" class="form-control" ng-model="userDetail.phone">
                                                     </div>
                                                     <div class="mb-3">
-                                                        <label class="form-label">Trạng thái</label>
-                                                        <select id="userDetail-status" name="status"
-                                                                class="form-control"
-                                                                style="width: 100% ;border-radius: 6px"
-                                                                ng-model="userDetail.status">
-                                                            <option ng-value="1">Đang hoạt động</option>
-                                                            <option ng-value="2">Ngưng hoạt động</option>
-                                                        </select>
+                                                        <label class="form-label">Mô tả</label>
+                                                        <input type="text" class="form-control" ng-model="userDetail.description">
                                                     </div>
+<%--                                                    <div class="mb-3">--%>
+<%--                                                        <label class="form-label">Trạng thái</label>--%>
+<%--                                                        <select id="userDetail-status" name="status"--%>
+<%--                                                                class="form-control"--%>
+<%--                                                                style="width: 100% ;border-radius: 6px"--%>
+<%--                                                                ng-model="userDetail.status">--%>
+<%--                                                            <option ng-value="1">Đang hoạt động</option>--%>
+<%--                                                            <option ng-value="2">Ngưng hoạt động</option>--%>
+<%--                                                        </select>--%>
+<%--                                                    </div>--%>
                                                 </div>
                                                 <div class="col-12">
                                                     <div class="d-flex align-items-center justify-content-end mt-4 gap-6">

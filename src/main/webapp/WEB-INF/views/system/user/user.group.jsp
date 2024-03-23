@@ -19,7 +19,7 @@
                 </c:if>
                 <section class="panel panel-default" style="border-radius: 20px;">
                     <h5 class="card-title fw-semibold mb-4">Phân nhóm quyền người dùng<span
-                            style="color:red">${user.username}</span></h5>
+                            style="color:red"> ${user.username}</span></h5>
                     <div style="margin-top: 1.5rem;" class="panel-body">
                         <form method="post" action="<%=request.getContextPath()%>/system/user/user-group" theme="simple"
                               enctype="multipart/form-data" class="form-horizontal" cssStyle="" validate="true"
