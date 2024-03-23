@@ -51,39 +51,37 @@
                 </div>
                 <div class="panel-body">
                     <form Class="form-horizontal" role="form" theme="simple">
-                        <div class="row" style="margin-left: 30px;margin-right: 30px;">
-                            <div class="row" style="margin-top: 0px;">
-                                <div class="col-md-6 mobile-col">
-                                    <div class="row">
-                                        <div class="col-md-5">
-                                            <label class="control-label color-label left-search">Tài khoản</label>
-                                        </div>
-                                    </div>
-                                    <div class="row">
-                                        <div class="col-md-12">
-                                            <input ng-model="username" style="border-radius: 6px" my-enter="search()"
-                                                   id="username"
-                                                   placeholder="Tài khoản" maxlength="100"
-                                                   class="form-control"/>
-                                        </div>
+                        <div class="row" style="margin-top: 0px;">
+                            <div class="col-md-6 mobile-col">
+                                <div class="row">
+                                    <div class="col-md-5">
+                                        <label class="control-label color-label left-search">Tài khoản</label>
                                     </div>
                                 </div>
-                                <div class="col-md-6 mobile-col">
-                                    <div class="row">
-                                        <div class="col-md-6">
-                                            <label class="control-label color-label left-search">Chức danh</label>
-                                        </div>
+                                <div class="row">
+                                    <div class="col-md-12">
+                                        <input ng-model="username" style="border-radius: 6px" my-enter="search()"
+                                               id="username"
+                                               placeholder="Tài khoản" maxlength="100"
+                                               class="form-control"/>
                                     </div>
-                                    <div class="row">
-                                        <div class="col-md-12">
-                                            <select id="type" name="type" class="form-control"
-                                                    style="width: 100% ;border-radius: 6px" ng-model="type">
-                                                <option ng-value="-1">-- Tất cả --</option>
-                                                <option ng-value="0">Hỗ trợ kỹ thuật</option>
-                                                <option ng-value="1">CEO - ADA GROUP</option>
-                                                <option ng-value="2">CEO - Kim cương</option>
-                                            </select>
-                                        </div>
+                                </div>
+                            </div>
+                            <div class="col-md-6 mobile-col">
+                                <div class="row">
+                                    <div class="col-md-6">
+                                        <label class="control-label color-label left-search">Chức danh</label>
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="col-md-12">
+                                        <select id="type" name="type" class="form-control"
+                                                style="width: 100% ;border-radius: 6px" ng-model="type">
+                                            <option ng-value="-1">-- Tất cả --</option>
+                                            <option ng-value="0">Hỗ trợ kỹ thuật</option>
+                                            <option ng-value="1">CEO - ADA GROUP</option>
+                                            <option ng-value="2">CEO - Kim cương</option>
+                                        </select>
                                     </div>
                                 </div>
                             </div>
@@ -92,22 +90,22 @@
                 </div>
                 <div class="row" style="margin-top: 3rem;text-align: center">
                     <div class="col-md-12">
-                        <a class="btn btn-light" ng-click="search()"><i
+                        <a class="btn btn-info" ng-click="search()"><i
                                 class="ti ti-search"></i>&nbsp;Tìm kiếm</a>
                     </div>
                 </div>
-                <div class="row" style="margin-top: 3rem;">
-                    <div class="col-md-6">
-                        <h5 style="font-weight: 700"></h5>
-                    </div>
-                    <div class="col-md-6">
+<%--                <div class="row" style="margin-top: 2rem;">--%>
+<%--                    <div class="col-md-6">--%>
+<%--                        <h5 style="font-weight: 700"></h5>--%>
+<%--                    </div>--%>
+<%--                    <div class="col-md-6">--%>
                         <%--                    <sec:authorize--%>
                         <%--                            access="hasAnyRole('ROLE_CTV_USER_EXPORT_EXCEL')">--%>
 <%--                        <a class="btn btn-success m-1 mobile-hide" ng-click="export()"--%>
 <%--                           style="margin-right: 2rem; float: right"><i--%>
 <%--                                class="ti ti-download"></i>&nbsp;Xuất excel</a>--%>
-                    </div>
-                </div>
+<%--                    </div>--%>
+<%--                </div>--%>
                 <div class="panel-body" style="margin-top: 3rem">
                     <div id="data-search" class="card w-100">
                         <div class="card-body p-4">

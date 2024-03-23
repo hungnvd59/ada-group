@@ -167,10 +167,10 @@
                                 class="ti ti-search"></i>&nbsp;Tìm kiếm</a>
                     </div>
                 </div>
-                <div class="panel-body" style="margin-top: 3rem; display: flex; align-items: center;">
+                <div class="panel-body" style="margin-top: 2rem;">
                     <div id="data-search" class="card w-100">
                         <div class="card-body p-4">
-                            <div class="row" style="margin-top: 3rem;">
+                            <div class="row mb-2" style="display: flex; align-items: center;">
                                 <div class="col-md-6">
                                     <h5 class="fw-semibold mb-0">Danh sách nhân viên</h5>
                                 </div>
