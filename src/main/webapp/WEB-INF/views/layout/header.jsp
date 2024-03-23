@@ -25,10 +25,23 @@
         </ul>
         <div class="navbar-collapse justify-content-end px-0" id="navbarNav">
             <ul class="navbar-nav flex-row ms-auto align-items-center justify-content-end">
+                <li style="text-align: right;">
+                    <h6 class="mb-0 fs-4 fw-semibold"><%=request.getRemoteUser()%>
+                    </h6>
+                    <c:if test="${pageScope.typeUser == 0}">
+                        <span class="fs-2">Hỗ trợ kỹ thuật</span>
+                    </c:if>
+                    <c:if test="${pageScope.typeUser == 1}">
+                        <span class="fs-2">CEO - ADA GROUP</span>
+                    </c:if>
+                    <c:if test="${pageScope.typeUser == 2}">
+                        <span class="fs-2">CEO - Kim cương</span>
+                    </c:if>
+                </li>
                 <li class="nav-item dropdown">
                     <a class="nav-link nav-icon-hover" href="javascript:void(0)" id="drop2" data-bs-toggle="dropdown"
                        aria-expanded="false">
-                        <img src="<%=request.getContextPath()%>/assets/images/profile/user-1.jpg" alt="" width="35"
+                        <img src="<%=request.getContextPath()%>/assets/images/ada_logo.jpg" alt="" width="35"
                              height="35" class="rounded-circle">
                     </a>
                     <div class="dropdown-menu dropdown-menu-end dropdown-menu-animate-up" aria-labelledby="drop2">
@@ -42,19 +55,6 @@
                                class="btn btn-warning mx-3 mt-2 d-block"><i class="ti ti-logout"></i> &nbsp;Đăng xuất</a>
                         </div>
                     </div>
-                </li>
-                <li>
-                    <h6 class="mb-0 fs-4 fw-semibold"><%=request.getRemoteUser()%>
-                    </h6>
-                    <c:if test="${pageScope.typeUser == 0}">
-                        <span class="fs-2">Hỗ trợ kỹ thuật</span>
-                    </c:if>
-                    <c:if test="${pageScope.typeUser == 1}">
-                        <span class="fs-2">CEO - ADA GROUP</span>
-                    </c:if>
-                    <c:if test="${pageScope.typeUser == 2}">
-                        <span class="fs-2">CEO - Kim cương</span>
-                    </c:if>
                 </li>
             </ul>
         </div>

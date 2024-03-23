@@ -36,7 +36,7 @@
                                         <h5 class="card-title fw-semibold">Ảnh đại diện</h5>
                                         <p class="card-subtitle mb-4">Thay đổi ảnh đại diện tại đây</p>
                                         <div class="text-center">
-                                            <img src="<%=request.getContextPath()%>/assets/images/profile/user-1.jpg" alt="" class="img-fluid rounded-circle" width="120" height="120">
+                                            <img src="<%=request.getContextPath()%>/assets/images/ada_logo.jpg" alt="" class="img-fluid rounded-circle" width="120" height="120">
                                             <div class="d-flex align-items-center justify-content-center my-4 gap-6">
                                                 <button class="btn btn-primary" fdprocessedid="7tofno">Tải lên</button>
 <%--                                                <button class="btn bg-danger-subtle text-danger" fdprocessedid="9o7ord">Reset</button>--%>

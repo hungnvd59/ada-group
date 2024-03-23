@@ -26,8 +26,8 @@
                     <div class="card mb-0">
                         <div class="card-body">
                             <a href="<%=request.getContextPath()%>/"
-                               class="text-nowrap logo-img text-center d-block py-3 w-100" style="margin-bottom: 2rem">
-                                <img src="<%=request.getContextPath()%>/assets/images/logos/logo.png" width="250"
+                               class="text-center d-block" style="margin-bottom: 2rem">
+                                <img src="<%=request.getContextPath()%>/assets/images/ada_logo.png" width="100"
                                      alt="">
                             </a>
                             <form name='loginForm' style="text-align: center"

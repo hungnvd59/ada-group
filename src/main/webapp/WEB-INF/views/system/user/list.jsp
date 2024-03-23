@@ -46,7 +46,7 @@
             <div class="card-body">
                 <div class="row" style="margin-bottom: 1rem; display: flex; align-items: center;">
                     <div class="col-md-6">
-                        <h5 class="card-title fw-semibold mb-0">Tìm kiếm</h5>
+                        <h5 class="card-title fw-semibold mb-0" style="font-size: 28px;">Tìm kiếm</h5>
                     </div>
                 </div>
                 <div class="panel-body">
