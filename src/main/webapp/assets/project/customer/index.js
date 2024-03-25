@@ -25,22 +25,6 @@ app.controller('customerUser', ['$scope', '$http', '$timeout', '$q', function ($
         $scope.provinceId = -1
         $scope.districtId = -1
         $scope.team = -1
-
-        /*date time handle*/
-        // $("#comingDateAdd").datetimepicker({
-        //     locale: 'vi-VN', format: 'DD-MM-YYYY', maxDate: d
-        // }).on('dp.change', function (e) {
-        //     if (e != null) {
-        //         $scope.comingDate = $(this).val();
-        //     }
-        // });
-        // $("#leaveDateAdd").datetimepicker({
-        //     locale: 'vi-VN', format: 'DD-MM-YYYY', maxDate: d
-        // }).on('dp.change', function (e) {
-        //     if (e != null) {
-        //         $scope.leaveDate = $(this).val();
-        //     }
-        // });
         $scope.clear();
     });
 
@@ -54,6 +38,7 @@ app.controller('customerUser', ['$scope', '$http', '$timeout', '$q', function ($
     });
 
     $scope.onChangeCity = function () {
+        $scope.districtId = -1
         $http.get(preUrl + "/common/getDistrictByProvince", {
             params: {
                 province: $scope.provinceId
@@ -153,6 +138,7 @@ app.controller('customerUser', ['$scope', '$http', '$timeout', '$q', function ($
         }).then(function (response) {
             $scope.districtListDetail = response.data
         });
+
         $http.get(preUrl + "/common/getWardByDistrict", {
             params: {
                 districtId: item.districtId
@@ -164,6 +150,8 @@ app.controller('customerUser', ['$scope', '$http', '$timeout', '$q', function ($
     }
 
     $scope.changeCityDetail = function (id) {
+        $scope.customerDetail.districtId = -1
+        $scope.customerDetail.wardId = -1
         $http.get(preUrl + "/common/getDistrictByProvince", {
             params: {
                 province: id
@@ -174,6 +162,7 @@ app.controller('customerUser', ['$scope', '$http', '$timeout', '$q', function ($
         });
     }
     $scope.changeDistrictDetail = function (id) {
+        $scope.customerDetail.wardId = -1
         $http.get(preUrl + "/common/getWardByDistrict", {
             params: {
                 districtId: id

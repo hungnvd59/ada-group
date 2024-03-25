@@ -105,10 +105,13 @@
                         <span class="hide-menu">Người dùng hệ thống</span>
                     </a>
                 </li>
-                <%--AUTHORITY--%>
-                <%--<li class="sidebar-item">
+                <%--<li class="nav-small-cap">
+                    <i class="ti ti-dots nav-small-cap-icon fs-4"></i>
+                    <span class="hide-menu">Hỗ trợ kỹ thuật</span>
+                </li>
+                <li class="sidebar-item">
                     <a class="sidebar-link <%= isActive(request.getContextPath() + "/system/auth/quan-ly-nhom-quyen.html", request)? "active" : "" %>"
-                       href="<%=request.getContextPath()%>/system/auth/quan-ly-nhom-quyen.html" aria-expanded="false">
+                       href="<%=request.getContextPath()%>/system/group/quan-ly-nhom-quyen.html" aria-expanded="false">
                 <span>
                   <i class="ti ti-login"></i>
                 </span>

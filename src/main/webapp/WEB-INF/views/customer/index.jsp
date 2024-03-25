@@ -122,9 +122,8 @@
                                             <select id="districtId" name="districtId"
                                                     style="width: 100% ;border-radius: 6px"
                                                     class="form-control"
-                                                    ng-model="districtId"
-                                                    ng-change="getDistrict(provinceId)">
-                                                <option ng-value="-1" selected="true">Quận/ Huyện
+                                                    ng-model="districtId">
+                                                <option ng-value="-1" >Quận/ Huyện
                                                 </option>
                                                 <option ng-repeat="district in districtList track by $index"
                                                         ng-value="{{district.id}}">
@@ -653,6 +652,8 @@
                                                                             ng-change="changeCityDetail(customerDetail.provinceId)"
                                                                             style="width: 100% ;border-radius: 6px"
                                                                             ng-model="customerDetail.provinceId">
+                                                                        <option ng-value="-1">Lựa chọn
+                                                                        </option>
                                                                         <option ng-repeat="city in provinceListDetail track by $index"
                                                                                 ng-value="{{city.id}}">
                                                                             {{city.name}}
@@ -667,6 +668,8 @@
                                                                             style="width: 100% ;border-radius: 6px"
                                                                             ng-change="changeDistrictDetail(customerDetail.districtId)"
                                                                             ng-model="customerDetail.districtId">
+                                                                        <option ng-value="-1">Lựa chọn
+                                                                        </option>
                                                                         <option ng-repeat="d in districtListDetail track by $index"
                                                                                 ng-value="{{d.id}}">
                                                                             {{d.name}}
@@ -720,6 +723,8 @@
                                                                             class="form-control"
                                                                             style="width: 100% ;border-radius: 6px"
                                                                             ng-model="customerDetail.wardId">
+                                                                        <option ng-value="-1">Lựa chọn
+                                                                        </option>
                                                                         <option ng-repeat="w in wardListDetail track by $index"
                                                                                 ng-value="{{w.id}}">
                                                                             {{w.name}}
