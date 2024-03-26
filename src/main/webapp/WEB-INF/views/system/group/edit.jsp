@@ -9,43 +9,46 @@
 <link rel="stylesheet" href="<%=request.getContextPath()%>/assets/note/js/nestable/nestable.css" type="text/css"/>
 <link rel="stylesheet" href="<%=request.getContextPath()%>/assets/note/css/common.css" type="text/css"/>
 
-<section style="color: #1F2937;" id="content">
-    <section class="vbox">
-        <section class="scrollable padder" style="background: #f4f4f4">
-            <ul style="font-weight: 700;color: #2A2C54"
-                class="bg-white breadcrumb no-border no-radius b-b b-light pull-in breadcrumb-common">
-                <li style="color: gray"><span><i class="fa fa-home"></i>&nbsp;Trang chủ</span></li>
-                <li style="color: gray"><span>Quản lý hệ thống</span></li>
-                <li><span>Chỉnh sửa nhóm quyền</span></li>
-            </ul>
-            <c:if test="${!empty messageError }">
-                <div class="m-b-md">
-                    <span style="color:red"><spring:message code="${messageError}"/></span>
+<div class="container-fluid">
+    <section style="color: #1F2937;" id="content">
+        <c:if test="${!empty messageError }">
+            <<div class="alert alert-success alert-dismissible bg-success text-white border-0 fade show" role="alert">
+            <button type="button" class="btn-close btn-close-white" data-bs-dismiss="alert" aria-label="Close"
+                    fdprocessedid="1s3b0q"></button>
+            <strong>${messageError}</strong>
+            </div>
+        </c:if>
+        <div class="card">
+            <div class="card-body">
+                <div class="row" style="margin-bottom: 1rem; display: flex; align-items: center;">
+                    <div class="col-md-6">
+                        <h5 class="card-title fw-semibold mb-0" style="font-size: 28px;">Chi tiết nhóm quyền</h5>
+                    </div>
                 </div>
-            </c:if>
-            <section class="panel panel-default" style="border-radius: 20px;">
-                <div class="panel-body" style="min-height: 600px;">
+                <div class="panel-body">
                     <form method="post" action="<%=request.getContextPath()%>/system/group/edit/" theme="simple"
                           enctype="multipart/form-data" class="form-horizontal" cssStyle="" validate="true"
                           name="myForm" onsubmit="return validateForm()" required>
-                        <div class="col-sm-12" style="padding: 30px">
+                        <div class="col-sm-12 row" style="padding: 30px">
                             <div class="form-group col-sm-6">
-                                <label class="col-sm-2" style="line-height: 30px;font-weight: bold;padding: 0"><spring:message
-                                        code="label.group.name"/><span style="color: red">*</span></label>
+                                <label class="col-sm-2"
+                                       style="line-height: 30px;font-weight: bold;padding: 0">Tên nhóm quyền<span
+                                        style="color: red">*</span></label>
                                 <div class="col-sm-10">
                                     <div class="input-group m-b" style="width: 88%">
                                         <input style="border-radius: 10px;"
                                                maxlength="100"
                                                type="text" class="form-control input" value="${item.groupName}"
                                                name="groupName" id="groupName"/>
-                                        <input type="hidden" class="form-control input" value="${item.id}" name="id"/>
+                                        <input type="hidden" class="form-control input" value="${item.id}"
+                                               name="id"/>
                                     </div>
                                     <form:errors cssStyle="color: red" path="groupView.groupName"/>
                                 </div>
                             </div>
                             <div class="form-group col-sm-6">
-                                <label class="col-sm-3" style="line-height: 30px; font-weight: bold;"><spring:message
-                                        code="label.infor.description"></spring:message> </label>
+                                <label class="col-sm-3"
+                                       style="line-height: 30px; font-weight: bold;">Mô tả</label>
                                 <div class="col-sm-9">
                                     <div class="input-group m-b" style="width: 100%">
                                         <input
@@ -61,7 +64,7 @@
                         </div>
                         <h4 style="font-weight: 700;margin-left: 10%" class="m-t-none">Phân quyền
                         </h4>
-                        <div class="col-sm-12 no-padder">
+                        <div class="row col-sm-12 no-padder">
                             <div class="col-sm-4 no-padder" style="margin-left:10%;margin-right:10%"><span><input
                                     type="checkbox" id="grantCheckAll"
                                     name="checkAll"/> &nbsp;<label
@@ -105,27 +108,25 @@
                                 </ol>
                             </div>
                         </div>
-
                         <div class="line line-dashed line-lg pull-in" style="clear:both ;margin-bottom: 30px"></div>
                         <div class="form-group">
-                            <div class="col-sm-4 col-sm-offset-5">
-                                <a href="<%=request.getContextPath()%>/system/group/quan-ly-nhom-quyen.html"
-                                   class="btn btn-cancel btn-clear-common"><spring:message
-                                        code="message.modal.cancel"/></a>
+                            <div class="col-sm-12">
+                                <a style="border-radius: 6px;float: right"
+                                   href="<%=request.getContextPath()%>/system/group/quan-ly-nhom-quyen.html"
+                                   class="btn btn-light"> Hủy bỏ</a>
                                 <button type="submit"
-                                        class="btn btn-search-common"></i> Lưu
+                                        style="border-radius: 6px;float:right;margin-right: 10px"
+                                        class="btn btn-warning">Cập nhật
                                 </button>
                             </div>
                         </div>
                     </form>
-
                 </div>
-            </section>
-        </section>
-        <!--<footer class="footer bg-white b-t b-light"><small>Sàn sim số &copy; 2018</small></footer>-->
+
+            </div>
+        </div>
     </section>
-    <a href="#" class="hide nav-off-screen-block" data-toggle="class:nav-off-screen" data-target="#nav"></a>
-</section>
+</div>
 
 <script src="<%=request.getContextPath()%>/assets/note/js/nestable/jquery.nestable.js"></script>
 <!--<script src="<%=request.getContextPath()%>/asset/note/js/nestable/demo.js"></script>-->

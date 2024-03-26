@@ -31,7 +31,6 @@
             display: none;
         }
     }
-
 </style>
 
 <div class="container-fluid">

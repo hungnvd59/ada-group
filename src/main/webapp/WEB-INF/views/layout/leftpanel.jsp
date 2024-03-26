@@ -105,7 +105,7 @@
                         <span class="hide-menu">Người dùng hệ thống</span>
                     </a>
                 </li>
-                <%--<li class="nav-small-cap">
+                <li class="nav-small-cap">
                     <i class="ti ti-dots nav-small-cap-icon fs-4"></i>
                     <span class="hide-menu">Hỗ trợ kỹ thuật</span>
                 </li>
@@ -113,19 +113,19 @@
                     <a class="sidebar-link <%= isActive(request.getContextPath() + "/system/auth/quan-ly-nhom-quyen.html", request)? "active" : "" %>"
                        href="<%=request.getContextPath()%>/system/group/quan-ly-nhom-quyen.html" aria-expanded="false">
                 <span>
-                  <i class="ti ti-login"></i>
+                  <i class="ti ti-crop"></i>
                 </span>
                         <span class="hide-menu">Quản lý nhóm quyền</span>
                     </a>
                 </li>
                 <li class="sidebar-item">
-                    <a class="sidebar-link" href="./authentication-register.html" aria-expanded="false">
+                    <a class="sidebar-link" href="<%=request.getContextPath()%>/system/authority/quan-ly-chuc-nang-he-thong.html" aria-expanded="false">
                 <span>
-                  <i class="ti ti-user-plus"></i>
+                  <i class="ti ti-crop"></i>
                 </span>
                         <span class="hide-menu">Chức năng hệ thống</span>
                     </a>
-                </li>--%>
+                </li>
             </ul>
         </nav>
         <!-- End Sidebar navigation -->
