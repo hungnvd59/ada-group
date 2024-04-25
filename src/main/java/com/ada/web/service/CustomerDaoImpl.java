@@ -40,46 +40,46 @@ public class CustomerDaoImpl implements CustomerDao {
                     + " JOIN Catalogy cata ON cust.districtId = cata.id "
                     + " WHERE 1=1 AND cust.status = 1");
 
-            Map<String, Object> vals = new HashMap<>();
+            Map<String, Object> params = new HashMap<>();
 
             if (Integer.parseInt(user.getType().toString()) == 2) {
                 sql.append(" AND cust.team = :team");
                 sqlCount.append(" AND cust.team = :team");
-                vals.put("team", user.getTeam());
+                params.put("team", user.getTeam());
             }
             if (fullName != null && !StringUtils.isEmpty(fullName)) {
                 sql.append(" AND UPPER(cust.fullName) like UPPER(:fullName)");
                 sqlCount.append(" AND UPPER(cust.fullName) like UPPER(:fullName)");
-                vals.put("fullName", "%" + fullName + "%");
+                params.put("fullName", "%" + fullName + "%");
             }
             if (mobile != null && !StringUtils.isEmpty(mobile)) {
                 sql.append(" AND cust.mobile like :mobile");
                 sqlCount.append(" AND cust.mobile like :mobile");
-                vals.put("mobile", "%" + mobile + "%");
+                params.put("mobile", "%" + mobile + "%");
             }
             if (provinceId != null && provinceId != -1L) {
                 sql.append(" AND cust.provinceId = :provinceId");
                 sqlCount.append(" AND cust.provinceId = :provinceId");
-                vals.put("provinceId", provinceId);
+                params.put("provinceId", provinceId);
             }
             if (districtId != null && districtId != -1L) {
                 sql.append(" AND cust.districtId = :districtId");
                 sqlCount.append(" AND cust.districtId = :districtId");
-                vals.put("districtId", districtId);
+                params.put("districtId", districtId);
             }
             if (team != null && team != -1L) {
                 sql.append(" AND cust.team = :team");
                 sqlCount.append(" AND cust.team = :team");
-                vals.put("team", team);
+                params.put("team", team);
             }
 
             sql.append(" ORDER BY cust.id DESC");
 
             Query query = entityManager.createQuery(sql.toString());
             Query queryCount = entityManager.createQuery(sqlCount.toString());
-            for (String key : vals.keySet()) {
-                query.setParameter(key, vals.get(key));
-                queryCount.setParameter(key, vals.get(key));
+            for (String key : params.keySet()) {
+                query.setParameter(key, params.get(key));
+                queryCount.setParameter(key, params.get(key));
             }
 
             if (page.getPageNumber() > 0) {
