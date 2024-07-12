@@ -19,8 +19,8 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 /**
- *
- * @author Vu Van Lich
+ * @created_by hungnv
+ * @time 12/7/2024.
  */
 @Service
 public class ParameterServiceImpl implements ParameterService {

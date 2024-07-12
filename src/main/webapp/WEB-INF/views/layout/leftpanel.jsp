@@ -75,57 +75,71 @@
                         <span class="hide-menu">Trang chủ</span>
                     </a>
                 </li>
-                <li class="nav-small-cap">
-                    <i class="ti ti-dots nav-small-cap-icon fs-4"></i>
-                    <span class="hide-menu">Quản lý nhân viên</span>
-                </li>
-                <li class="sidebar-item">
-                    <a class="sidebar-link <%= (isActive(request.getContextPath() + "/customer", request)
+                <sec:authorize access="hasRole('ROLE_CUSTOMER_USER_VIEW')">
+                    <li class="nav-small-cap">
+                        <i class="ti ti-dots nav-small-cap-icon fs-4"></i>
+                        <span class="hide-menu">Quản lý nhân viên</span>
+                    </li>
+                    <li class="sidebar-item">
+                        <a class="sidebar-link <%= (isActive(request.getContextPath() + "/customer", request)
                         & isActive(request.getContextPath() + "/customer/", request)) ? "active" : "" %>"
-                       href="<%=request.getContextPath()%>/customer/quan-ly-dai-ly.html" aria-expanded="false">
+                           href="<%=request.getContextPath()%>/customer/quan-ly-dai-ly.html" aria-expanded="false">
                 <span>
                   <i class="ti ti-user"></i>
                 </span>
-                        <span class="hide-menu">Quản lý nhân viên</span>
-                    </a>
-                </li>
-                <li class="nav-small-cap">
-                    <i class="ti ti-dots nav-small-cap-icon fs-4"></i>
-                    <span class="hide-menu">Quản lý hệ thống</span>
-                </li>
-                <%--uSER--%>
-                <li class="sidebar-item">
-                    <a class="sidebar-link <%= isActive(request.getContextPath() + "/system/user/quan-ly-tai-khoan-he-thong.html", request)
+                            <span class="hide-menu">Quản lý nhân viên</span>
+                        </a>
+                    </li>
+                </sec:authorize>
+                <sec:authorize access="hasRole('ROLE_USER_CEO_KIMCUONG_VIEW' )">
+                    <li class="nav-small-cap">
+                        <i class="ti ti-dots nav-small-cap-icon fs-4"></i>
+                        <span class="hide-menu">Quản lý hệ thống</span>
+                    </li>
+                    <%--USER--%>
+                    <li class="sidebar-item">
+                        <a class="sidebar-link <%= isActive(request.getContextPath() + "/system/user/quan-ly-tai-khoan-he-thong.html", request)
                     ? "active" : "" %>"
-                       href="<%=request.getContextPath()%>/system/user/quan-ly-tai-khoan-he-thong.html"
-                       aria-expanded="false">
-                <span>
-                  <i class="ti ti-user-circle"></i>
-                </span>
-                        <span class="hide-menu">Người dùng hệ thống</span>
-                    </a>
-                </li>
-                <li class="nav-small-cap">
-                    <i class="ti ti-dots nav-small-cap-icon fs-4"></i>
-                    <span class="hide-menu">Hỗ trợ kỹ thuật</span>
-                </li>
-                <li class="sidebar-item">
-                    <a class="sidebar-link <%= isActive(request.getContextPath() + "/system/auth/quan-ly-nhom-quyen.html", request)? "active" : "" %>"
-                       href="<%=request.getContextPath()%>/system/group/quan-ly-nhom-quyen.html" aria-expanded="false">
-                <span>
-                  <i class="ti ti-crop"></i>
-                </span>
-                        <span class="hide-menu">Quản lý nhóm quyền</span>
-                    </a>
-                </li>
-                <li class="sidebar-item">
-                    <a class="sidebar-link" href="<%=request.getContextPath()%>/system/authority/quan-ly-chuc-nang-he-thong.html" aria-expanded="false">
-                <span>
-                  <i class="ti ti-crop"></i>
-                </span>
-                        <span class="hide-menu">Chức năng hệ thống</span>
-                    </a>
-                </li>
+                           href="<%=request.getContextPath()%>/system/user/quan-ly-tai-khoan-he-thong.html"
+                           aria-expanded="false">
+                    <span>
+                      <i class="ti ti-user-circle"></i>
+                    </span>
+                            <span class="hide-menu">Người dùng hệ thống</span>
+                        </a>
+                    </li>
+                </sec:authorize>
+                <sec:authorize access="hasAnyRole('ROLE_SYSTEM_GROUP_AUTHORITY_VIEW', 'ROLE_SYSTEM_AUTHORITIES_VIEW')">
+                    <li class="nav-small-cap">
+                        <i class="ti ti-dots nav-small-cap-icon fs-4"></i>
+                        <span class="hide-menu">Hỗ trợ kỹ thuật</span>
+                    </li>
+                    <sec:authorize access="hasRole('ROLE_SYSTEM_GROUP_AUTHORITY_VIEW')">
+                        <li class="sidebar-item">
+                            <a class="sidebar-link <%= isActive(request.getContextPath() + "/system/auth/quan-ly-nhom-quyen.html", request)? "active" : "" %>"
+                               href="<%=request.getContextPath()%>/system/group/quan-ly-nhom-quyen.html"
+                               aria-expanded="false">
+                            <span>
+                              <i class="ti ti-crop"></i>
+                            </span>
+                                <span class="hide-menu">Quản lý nhóm quyền</span>
+                            </a>
+                        </li>
+                    </sec:authorize>
+                    <sec:authorize
+                            access="hasRole('ROLE_SYSTEM_AUTHORITIES_VIEW')">
+                        <li class="sidebar-item">
+                            <a class="sidebar-link"
+                               href="<%=request.getContextPath()%>/system/authority/quan-ly-chuc-nang-he-thong.html"
+                               aria-expanded="false">
+                        <span>
+                          <i class="ti ti-crop"></i>
+                        </span>
+                                <span class="hide-menu">Chức năng hệ thống</span>
+                            </a>
+                        </li>
+                    </sec:authorize>
+                </sec:authorize>
             </ul>
         </nav>
         <!-- End Sidebar navigation -->

@@ -10,6 +10,10 @@ import javax.persistence.PersistenceContext;
 import javax.persistence.Query;
 import java.util.List;
 
+/**
+ * @created_by hungnv
+ * @time 12/7/2024.
+ */
 @Service
 @Transactional
 public class CommonDao extends EntityDAOImpl {

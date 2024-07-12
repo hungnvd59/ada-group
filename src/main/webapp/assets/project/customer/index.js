@@ -350,6 +350,46 @@ app.controller('customerUser', ['$scope', '$http', '$timeout', '$q', function ($
     }
 
 
+    $scope.preImport = function () {
+        $("#mdImportFile").modal("show");
+    }
+
+    $scope.importFile = function () {
+        $('#file-input').trigger('click');
+        $('#file-input').change(function () {
+            let file = document.getElementById('file-input').files[0], idxDot = file.name.lastIndexOf(".") + 1,
+                extFile = file.name.substr(idxDot, file.name.length).toLowerCase();
+            if (extFile === 'xls' || extFile === 'xlsx') {
+                if (file.size / 1024 > 25) {
+                    //check file size max 25mb
+                    toastr.error("Chỉ cho phép upload file có dung lượng nhỏ hơn 25MB!");
+                    $(this).val("");
+                    return false;
+                } else {
+                    $scope.file = file;
+                    $scope.fileName = file.name;
+                    $scope.fileSize = (file.size / 1024).toFixed(1)
+                    if ($scope.fileSize == 0.0) $scope.fileSize = 0.1;
+                    setTimeout(function () {
+                        $scope.$apply();
+                    }, 200)
+                }
+            }
+        })
+    }
+
+    $scope.formatFileName = function (text) {
+        if (text != null) {
+            var maxLength = 34;
+            if (text.length < maxLength) {
+                return text;
+            } else {
+                var result = text.substring(0, maxLength) + '...';
+                return result;
+            }
+        }
+    };
+
     $scope.changeCityAdd = function (id) {
         $http.get(preUrl + "/common/getDistrictByProvince", {
             params: {

@@ -17,6 +17,10 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
+/**
+ * @created_by hungnv
+ * @time 12/7/2024.
+ */
 @Repository
 @Transactional
 public class ActionLogDAOImpl implements ActionLogDAO {

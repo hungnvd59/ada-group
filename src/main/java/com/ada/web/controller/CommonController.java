@@ -29,6 +29,10 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
+/**
+ * @created_by hungnv
+ * @time 12/7/2024.
+ */
 @Controller
 @RequestMapping("/common")
 public class CommonController {

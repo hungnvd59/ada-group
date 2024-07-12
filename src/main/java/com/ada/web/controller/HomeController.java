@@ -16,6 +16,10 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import javax.servlet.http.HttpServletRequest;
 
+/**
+ * @created_by hungnv
+ * @time 12/7/2024.
+ */
 @Controller
 @RequestMapping("/")
 public class HomeController {

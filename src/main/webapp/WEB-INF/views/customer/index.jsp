@@ -18,16 +18,18 @@
     }
 
     /*Ipad ngang(1024 x 768)*/
-    @media screen and (max-width: 1024px){
-        .mobile-hide{
+    @media screen and (max-width: 1024px) {
+        .mobile-hide {
             display: none;
         }
-        .mobile-col{
+
+        .mobile-col {
             margin-top: 1rem;
         }
     }
-    @media screen and (min-width: 1024px){
-        .mobile-show{
+
+    @media screen and (min-width: 1024px) {
+        .mobile-show {
             display: none;
         }
     }
@@ -122,7 +124,7 @@
                                                     style="width: 100% ;border-radius: 6px"
                                                     class="form-control"
                                                     ng-model="districtId">
-                                                <option ng-value="-1" >Quận/ Huyện
+                                                <option ng-value="-1">Quận/ Huyện
                                                 </option>
                                                 <option ng-repeat="district in districtList track by $index"
                                                         ng-value="{{district.id}}">
@@ -173,14 +175,13 @@
                                     <h5 class="fw-semibold mb-0">Danh sách nhân viên</h5>
                                 </div>
                                 <div class="col-md-6">
-                                    <%--                    <sec:authorize--%>
-                                    <%--                            access="hasAnyRole('ROLE_CTV_USER_EXPORT_EXCEL')">--%>
-                                    <a class="btn btn-success m-1 mobile-hide" ng-click="export()"
+                                    <a ng-show="listData.items.length > 0" class="btn btn-success m-1 mobile-hide"
+                                       ng-click="export()"
                                        style="margin-right: 2rem; float: right"><i
                                             class="ti ti-download"></i>&nbsp;Xuất excel</a>
-                                    <%--<a class="btn btn-primary m-1" ng-click="import()"
+                                    <a class="btn btn-primary m-1" ng-click="preImport()"
                                        style="float:right;margin-right: .5rem;">
-                                        <i class="ti ti-file-upload"></i>&nbsp;Tải lên danh sách nhân viên</a>--%>
+                                        <i class="ti ti-upload"></i>&nbsp;Tải lên danh sách nhân viên</a>
                                 </div>
                             </div>
 
@@ -295,7 +296,8 @@
                                                    style="background-color: #FFF;"
                                                    ng-if="item != listData.pageNumber"> {{item}}</a>
                                             </li>
-                                            <li class="page-item mobile-hide" ng-if="listData.pageNumber < listData.pageCount">
+                                            <li class="page-item mobile-hide"
+                                                ng-if="listData.pageNumber < listData.pageCount">
                                                 <a class="page-link link" href="javascript:void(0)"
                                                    style="background-color: #FFF;border-top-right-radius: 7px;border-bottom-right-radius: 7px"
                                                    ng-click="loadPageData(listData.pageCount)" aria-label="Next">
@@ -304,7 +306,8 @@
                                                       </span>
                                                 </a>
                                             </li>
-                                            <li class="page-item mobile-show" ng-if="listData.pageNumber + 1 <= listData.pageCount">
+                                            <li class="page-item mobile-show"
+                                                ng-if="listData.pageNumber + 1 <= listData.pageCount">
                                                 <a class="page-link link" href="javascript:void(0)"
                                                    style="background-color: #FFF;border-top-right-radius: 7px;border-bottom-right-radius: 7px"
                                                    ng-click="loadPageData(listData.pageNumber + 1)" aria-label="Next">
@@ -330,7 +333,8 @@
                 </div>
             </div>
         </div>
-        <div class="modal fade" id="mdAddCustomer" tabindex="-1" data-bs-backdrop="static" aria-labelledby="bs-example-modal-lg"
+        <div class="modal fade" id="mdAddCustomer" tabindex="-1" data-bs-backdrop="static"
+             aria-labelledby="bs-example-modal-lg"
              aria-hidden="true">
             <div class="modal-dialog modal-xl">
                 <div class="modal-content">
@@ -574,7 +578,8 @@
             <!-- /.modal-dialog -->
         </div>
 
-        <div class="modal fade" id="mdDetailCustomer" tabindex="-1" data-bs-backdrop="static" aria-labelledby="bs-example-modal-lg"
+        <div class="modal fade" id="mdDetailCustomer" tabindex="-1" data-bs-backdrop="static"
+             aria-labelledby="bs-example-modal-lg"
              aria-hidden="true">
             <div class="modal-dialog modal-xl">
                 <div class="modal-content">
@@ -809,7 +814,8 @@
             </div>
             <!-- /.modal-dialog -->
         </div>
-        <div class="modal fade" id="mdConfirmDelete" tabindex="-1" data-bs-backdrop="static" aria-labelledby="danger-header-modalLabel"
+        <div class="modal fade" id="mdConfirmDelete" tabindex="-1" data-bs-backdrop="static"
+             aria-labelledby="danger-header-modalLabel"
              aria-hidden="true">
             <div class="modal-dialog modal-dialog-scrollable modal-lg">
                 <div class="modal-content">
@@ -837,6 +843,58 @@
                 <!-- /.modal-content -->
             </div>
             <!-- /.modal-dialog -->
+        </div>
+        <div class="modal fade" id="mdImportFile" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1"
+             aria-labelledby="staticBackdropLabel" aria-modal="true" role="dialog">
+            <div class="modal-dialog modal-dialog-scrollable modal-lg">
+                <div class="modal-content">
+                    <div class="modal-header d-flex align-items-center">
+                        <h4 class="modal-title" id="myLargeModalLabel">
+                            Tải lên danh sách nhân viên
+                        </h4>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                    </div>
+                    <div class="modal-body">
+                        <div class="row">
+                            <div class="col-lg-12 d-flex align-items-stretch">
+                                <div class="card w-100 position-relative overflow-hidden">
+                                    <div class="card-body p-4">
+                                        <h5 class="card-title fw-semibold">Chọn file</h5>
+                                        <p class="card-subtitle mb-4">Chỉ chấp nhận định dạng xlsx. Kích cỡ không quá 5
+                                            MB</p>
+                                        <div class="text-center">
+                                            <input type="file" name="file" id="file-input" style="display: none">
+                                            <a type="button" class="btn btn-primary" ng-click="importFile()" fdprocessedid="7tofno"><i
+                                                    class="ti ti-upload"></i> Chọn file từ thiết bị
+                                            </a>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row" style="text-align: left;" ng-show="file != null">
+                                <div class="col-sm-12"
+                                     style="background-color: #F4F4F5;border-radius: 10px;padding-top: 10px;padding-bottom: 10px;margin-left: 4rem;margin-top: 2rem;width: 87%;">
+                                    <img style="width: 40px;height: 40px;border-radius: 5px;float: left;margin-right: 15px;"
+                                         src="<%=request.getContextPath()%>/assets/images/icon/logoFileExcel.jpg">
+                                    <div style="float: left;text-align: left;">
+                                        <p style="font-weight: bold; display: inline;">{{formatFileName(fileName)}}</p>
+                                        <br/>
+                                        <p style="color: #6B7280;display: inline;">{{fileSize}} MB</p>
+                                    </div>
+                                    <a class="btn text-center" ng-click="removeFile()" style="float: right">
+                                        <img style="width: 13px; height: 15px;"
+                                             src="<%=request.getContextPath() %>/assets/images/icon/iconDelete1.jpg"/>
+                                    </a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <%--<button type="button" class="btn bg-danger-subtle text-danger  waves-effect text-start"
+                            data-bs-dismiss="modal">
+                        Close
+                    </button>--%>
+                </div>
+            </div>
         </div>
     </section>
 </div>

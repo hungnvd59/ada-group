@@ -25,7 +25,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.context.SecurityContextHolder;
 
 /**
- * Created by Admin on 12/27/2017.
+ * @created_by hungnv
+ * @time 12/7/2024.
  */
 @Repository
 @Transactional
